@@ -1,0 +1,3 @@
+[submodule "fc-export-node-client"]
+	path = fc-export-node-client
+	url = jimutdhali95@bitbucket.org:fusioncharts/fc-export-node-client.git
