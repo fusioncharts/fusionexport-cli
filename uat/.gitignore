@@ -1,0 +1,20 @@
+# Test files
+
+*
+!.gitignore
+
+!dashboards/
+!resources/
+!callbacks.js
+!chart.svg
+!fusioncharts_chart.js
+!fusioncharts_export_tmpl.json
+!fusioncharts_export_svg.json
+!fusioncharts_export.json
+!output_file_definition.js
+!template.html
+!20charts.js
+!template_20charts.html
+!fusioncharts_export_20charts.json
+!50charts.js
+!fusioncharts_export_50charts.json

@@ -1,0 +1,35 @@
+{
+  "chart-config": "uat/fusioncharts_chart.js",
+  "chart-config-options": {
+    "dataSource.chart.subCaption": "For last year - Edited",
+    "dataSource": {
+      "chart": {
+        "xAxisname": "Month - Edited"
+      }
+    }
+  },
+  "output-file": "uat/output",
+  "output-as-zip": false,
+  "template": "uat/template.html",
+  "resources": {
+    "images": [
+      "resources/owl.jpg"
+    ],
+    "stylesheets": [
+      "resources/style.css"
+    ],
+    "javascripts": [
+      "resources/script.js"
+    ]
+  },
+  "dashboard-logo": "uat/resources/owl.jpg",
+  "dashboard-heading": "I may Appear as a Heading",
+  "dashboard-subheading": "I am coming with you",
+  "type": "jpeg",
+  "width": 400,
+  "height": 300,
+  "log-dest": "uat/",
+  "log-file": "test.log",
+  "log-level": "silly",
+  "remote-export-enabled": false
+}

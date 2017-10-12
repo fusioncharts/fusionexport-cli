@@ -1,0 +1,13 @@
+{
+  "chart-config": "uat/20charts.js",
+  "output-file": "uat/20charts",
+  "output-as-zip": false,
+  "template": "uat/template_20charts.html",
+  "type": "jpeg",
+  "height": "300",
+  "width": "500",
+  "log-dest": "uat/",
+  "log-file": "test.log",
+  "log-level": "silly",
+  "remote-export-enabled": false
+}
