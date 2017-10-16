@@ -56,7 +56,7 @@ class RemoteExporter {
 
     const outputFileBag = [{
       realName,
-      tmpPath,
+      tmpPath: tmpPath.name,
     }];
 
     const fileSaver = new FileSaver({
