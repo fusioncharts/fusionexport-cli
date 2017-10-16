@@ -47,7 +47,7 @@ class RemoteExporter {
       _.matches(this.resp.headers['content-type']),
     );
 
-    const name = path.parse(this.options.outputFile).name;
+    const { name } = path.parse(this.options.outputFile);
 
     const realName = path.format({
       name,
@@ -80,7 +80,7 @@ class RemoteExporter {
           return;
         }
         if (resp.statusCode !== 200) {
-          reject(`${resp.statusCode} ${resp.statusMessage}`);
+          reject(new Error(`${resp.statusCode} ${resp.statusMessage}`));
         }
         resolve(resp);
       });
@@ -151,9 +151,8 @@ class RemoteExporter {
     }
 
     Object.keys(resources).forEach((key) => {
-      this.options.resources[key] = _.uniq(
-        resources[key].concat(this.options.resources[key]),
-      );
+      this.options.resources[key] =
+        _.uniq(resources[key].concat(this.options.resources[key] || []));
     });
   }
 
