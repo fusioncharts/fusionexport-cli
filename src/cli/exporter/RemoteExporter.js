@@ -40,7 +40,7 @@ class RemoteExporter {
     }
 
     const tmpPath = tmp.fileSync();
-    fs.fileWriteSync(tmpPath.name, this.resp.body);
+    fs.writeFileSync(tmpPath.name, this.resp.body);
 
     const ext = _.findKey(
       this.mimeTypes,
