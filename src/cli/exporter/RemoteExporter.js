@@ -60,7 +60,7 @@ class RemoteExporter {
     }];
 
     const fileSaver = new FileSaver({
-      outputFile: this.output.outputFile,
+      outputFile: this.options.outputFile,
       outputTo: this.options.outputTo,
       outputFileBag,
     });
