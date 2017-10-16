@@ -1,3 +1,4 @@
 [submodule "fc-export-node-client"]
 	path = fc-export-node-client
-	url = jimutdhali95@bitbucket.org:fusioncharts/fc-export-node-client.git
+	url = https://bitbucket.org/fusioncharts/fc-export-node-client.git
+	branch = feature/FTI-0-node-client-impl
