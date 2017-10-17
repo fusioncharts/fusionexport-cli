@@ -7,7 +7,7 @@ class LocalExporter {
   constructor() {
     this.exportManager = new ExportManager({
       workerCount: 1,
-    });
+    }).boot();
   }
 
   async render(options) {
@@ -20,8 +20,11 @@ class LocalExporter {
       this.outputFileBag = outputFileBag;
     } catch (err) {
       log.error(err);
+      this.exportManager.dispose();
       return;
     }
+
+    this.exportManager.dispose();
 
     const fileSaver = new FileSaver({
       outputTo: this.options.outputTo,
