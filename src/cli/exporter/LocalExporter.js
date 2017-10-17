@@ -1,15 +1,11 @@
 const fileUrl = require('file-url');
 const FileSaver = require('./FileSaver');
-const ExportManager = require('../../../fc-export-node-client');
+const FcExportNodeClient = require('../../../fc-export-node-client');
 const log = require('../log');
 
 class LocalExporter {
   constructor() {
-    this.exportManager = new ExportManager({
-      workerCount: 1,
-    });
-
-    this.exportManager.boot();
+    this.exportClient = new FcExportNodeClient();
   }
 
   async render(options) {
@@ -18,15 +14,12 @@ class LocalExporter {
     const exportOptions = this.buildExportOptions();
 
     try {
-      const outputFileBag = await this.exportManager.export(exportOptions);
+      const outputFileBag = await this.exportClient.export(exportOptions);
       this.outputFileBag = outputFileBag;
     } catch (err) {
       log.error(err);
-      this.exportManager.dispose();
       return;
     }
-
-    this.exportManager.dispose();
 
     const fileSaver = new FileSaver({
       outputTo: this.options.outputTo,
