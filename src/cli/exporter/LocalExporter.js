@@ -7,7 +7,9 @@ class LocalExporter {
   constructor() {
     this.exportManager = new ExportManager({
       workerCount: 1,
-    }).boot();
+    });
+
+    this.exportManager.boot();
   }
 
   async render(options) {
