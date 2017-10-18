@@ -4,6 +4,7 @@ const path = require('path');
 const tmp = require('tmp');
 const request = require('request');
 const JSZip = require('node-zip');
+const AdmZip = require('adm-zip');
 const jsdom = require('jsdom');
 const FileSaver = require('./FileSaver');
 const log = require('../log');
@@ -54,10 +55,38 @@ class RemoteExporter {
       ext: `.${ext}`,
     });
 
-    const outputFileBag = [{
-      realName,
-      tmpPath: tmpPath.name,
-    }];
+    const outputFileBag = [];
+
+    if (this.options.outputAsZip && ext !== 'zip') {
+      const zip = new JSZip();
+      zip.file(realName, fs.readFileSync(tmpPath.name));
+      const content = zip.generate({ type: 'nodebuffer', compression: 'DEFLATE' });
+      const zipFile = tmp.fileSync({ postfix: '.zip' });
+      fs.writeFileSync(zipFile.name, content, 'binary');
+      outputFileBag.push({
+        realName: `${realName}.zip`,
+        tmpPath: zipFile.name,
+      });
+    } else if (!this.options.outputAsZip && ext === 'zip') {
+      const zip = new AdmZip(tmpPath.name);
+      zip.getEntries().forEach((entry) => {
+        const tmpFile = tmp.fileSync();
+        fs.writeFileSync(tmpFile.name, entry.getData(), 'binary');
+        outputFileBag.push({
+          realName: entry.entryName,
+          tmpPath: tmpFile.name,
+        });
+      });
+    } else {
+      outputFileBag.push({
+        realName,
+        tmpPath: tmpPath.name,
+      });
+    }
+
+    if (outputFileBag.length && path.extname(outputFileBag[0].realName) === '.zip') {
+      outputFileBag[0].realName = 'fusioncharts_export.zip';
+    }
 
     const fileSaver = new FileSaver({
       outputFile: this.options.outputFile,

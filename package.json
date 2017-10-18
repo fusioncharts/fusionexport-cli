@@ -19,6 +19,7 @@
     "eslint-plugin-import": "^2.7.0"
   },
   "dependencies": {
+    "adm-zip": "^0.4.7",
     "app-root-path": "^2.0.1",
     "commander": "^2.11.0",
     "file-url": "^2.0.2",
