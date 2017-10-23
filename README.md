@@ -27,13 +27,13 @@ npm link
 ## Usage
 
 ```
-fcx <options>
+xf <options>
 ```
 
 Or
 
 ```
-fc-export-cli <options>
+export-fusion <options>
 ```
 
 ## Command Line Arguments
