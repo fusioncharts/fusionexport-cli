@@ -150,3 +150,17 @@ to upload files to S3 specify the filename as
 ```
 s3:export--<%= number(1) %>
 ```
+
+## Testing
+
+Some preconfigured test configs are present in the `uat` folder. You can pass those export config files to the `-e` or `--config` options to run a quick test, or take a look inside it to get an idea how options can be passed in different situations.
+
+Some example commands for running a quick test are
+
+```
+xf -e uat/fusioncharts_export.json
+xf -e uat/fusioncharts_export_svg.json
+xf -e uat/fusioncharts_export_tmpl.json
+xf -e uat/fusioncharts_export_20charts.json
+xf -e uat/fusioncharts_export_50charts.json
+```
