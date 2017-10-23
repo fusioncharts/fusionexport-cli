@@ -1,8 +1,7 @@
 {
   "name": "fc-export-cli",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "ExportFusion CLI",
   "scripts": {
     "preinstall": "cd fc-export-node-client && npm install",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,6 +9,10 @@
   "repository": {
     "type": "git",
     "url": "git+ssh://git@bitbucket.org/fusioncharts/fc-export-cli.git"
+  },
+  "bin": {
+    "fcx": "src/cli/index.js",
+    "fc-export-cli": "src/cli/index.js"
   },
   "license": "ISC",
   "homepage": "https://bitbucket.org/fusioncharts/fc-export-cli#readme",
