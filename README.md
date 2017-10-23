@@ -2,6 +2,13 @@
 
 It is a cli interface written on top of `fc-export-node-client` to provide an elegant command line tool to use the export service. It provides features like saving files to FTP or S3, doing export from remote server, easy configuration management etc.
 
+## Pre-requisites
+
+You need to have `node` and `npm` installed in your system to install this cli.
+
+You will need to download the export service installer from <link>.
+Install and start to service first to use this cli.
+
 ## Install
 
 To install this cli in your system run the following command
@@ -34,7 +41,7 @@ fc-export-cli <options>
 Option | Alias | Type | Description
 -------|-------|------|------------
 --config | -e | file, json | A JSON file that can contain any or all of the cli options.
---chart-config | -c | file, json | A JSON or JS file that will contain an array of json objects or just an object which can be passed to the chart constructor for rendering the chart. <br><br> If it's a JS file the object should be exported.
+--chart-config | -c | file, json | A JSON or JS file that will contain an array of json objects or just an object which can be passed to the chart constructor for rendering the chart. <br/><br/> If it's a JS file the object should be exported.
 --chart-config-options | -O | json | JSON object that provides an option to override the chart configuration passed through chart-config option. <br><br> In case of multiple charts all the charts will be effected.
 --input-file | -i | file | SVG file that needs to be converted. <br><br> Ignored if chart-config is provided. <br><br> Path will be taken into account if provided.
 --output-file | -o | string | Output files that need to be generated. A template can also be giving that will be resolved. For more information see below.
