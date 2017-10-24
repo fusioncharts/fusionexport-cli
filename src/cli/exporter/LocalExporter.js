@@ -1,6 +1,6 @@
 const fileUrl = require('file-url');
 const FileSaver = require('./FileSaver');
-const FcExportNodeClient = require('../../../fc-export-node-client');
+const FcExportNodeClient = require('fc-export-node-client');
 const log = require('../log');
 
 class LocalExporter {

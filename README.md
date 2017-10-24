@@ -146,7 +146,7 @@ _This will export the Column chart in PNG format in the current working director
 [
    {
       "type": "pie2d",
-      "renderAt": "chart-container",
+      "renderAt": "pie_chart",
       "width": "500",
       "height": "400",
       "dataFormat": "json",
@@ -190,7 +190,7 @@ _This will export the Column chart in PNG format in the current working director
    },
    {
       "type": "mscolumn2d",
-      "renderAt": "chart-container",
+      "renderAt": "column_chart",
       "width": "450",
       "height": "420",
       "dataFormat": "json",
@@ -242,7 +242,7 @@ _This will export the Column chart in PNG format in the current working director
 ```
 
 ```bash
-$ xf -c multiple_charts_config.json -t pdf -o ~/exported-charts/
+$ xf -c multiple_charts_config.json -t pdf -o ./exported-charts/
 ```
 
 ### Export entire Dashboard using CLI in PDF format.

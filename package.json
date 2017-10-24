@@ -3,7 +3,6 @@
   "version": "1.0.0-pre-alpha-1",
   "description": "ExportFusion CLI",
   "scripts": {
-    "preinstall": "cd fc-export-node-client && npm install",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -25,6 +24,7 @@
     "adm-zip": "^0.4.7",
     "app-root-path": "^2.0.1",
     "commander": "^2.11.0",
+    "fc-export-node-client": "file:fc-export-node-client/fc-export-node-client-1.0.0-pre-alpha-1.tgz",
     "file-url": "^2.0.2",
     "jsdom": "^11.3.0",
     "lodash": "^4.17.4",
@@ -35,5 +35,8 @@
     "s3fs": "^2.5.0",
     "tmp": "0.0.33",
     "winston": "^2.4.0"
-  }
+  },
+  "bundledDependencies": [
+    "fc-export-node-client"
+  ]
 }
