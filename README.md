@@ -29,7 +29,7 @@ Following screen will be presented once the ExportFusion application is installe
 
 ![GUI](https://user-images.githubusercontent.com/12299906/31943224-b5b4b03a-b8e5-11e7-92ed-585234b89ce2.png "GUI")
 
-Primary functionalities those can be performed on the screen are: 
+Primary functionalities those can be performed on the screen are:
   1. Service Start
   2. Service Stop
   3. Service Restart
@@ -92,7 +92,7 @@ Option | Alias | Type | Description
 --dashboard-subheading | -B | string | Subheading of the exported dashboard.
 --log-dest | -d | path | Log destination. Also enables logging.
 --log-file | -f | file | Log file.
---log-level | -l | level | Log level. <br><br> 0: disabled, 1: errors, 2: warnings, 3: notices, 4: verbose
+--log-level | -l | level | Log level. <br><br> 0: emerg, 1: alert, 2: crit, 3: error, 4: warning, 5: notice, 6: info, 7: debug
 --remote-export-enabled | -R | bool | If enabled, the cli will use the export server api to export the images.
 --export-url | -u | url | Export server url.
 
