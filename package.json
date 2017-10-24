@@ -1,6 +1,6 @@
 {
   "name": "fc-export-cli",
-  "version": "1.0.0",
+  "version": "1.0.0-pre-alpha-1",
   "description": "ExportFusion CLI",
   "scripts": {
     "preinstall": "cd fc-export-node-client && npm install",

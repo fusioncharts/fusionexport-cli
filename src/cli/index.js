@@ -8,7 +8,7 @@ const LocalExporter = require('./exporter/LocalExporter');
 const log = require('./log');
 
 program
-  .version('0.1.0')
+  .version('1.0.0-pre-alpha-1')
   .option('-e, --config <file|json>', 'JSON object that can contain any or all of the cli options.')
   .option('-c, --chart-config <file|json>', 'JSON or JS file that contains an array of chart configurations whose charts will be exported.')
   .option('-O, --chart-config-options <json>', 'JSON object that provides an option to override the chart configuration passed through chart-config option.')
