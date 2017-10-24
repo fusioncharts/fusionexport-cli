@@ -43,7 +43,7 @@ Logs can be saved by session as well as cleared when needed.
 
 To install the CLI in your system run the following command:
 ```
-npm i -g https://bitbucket.org/fusioncharts/fc-export-cli.git#feature/FTI-0-integration-with-node-client
+npm i -g https://s3.amazonaws.com/fusionimplementation/fc-export-cli-1.0.0-pre-alpha-1.tgz
 ```
 
 Or,
