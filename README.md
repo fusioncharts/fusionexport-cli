@@ -25,7 +25,7 @@ Install and start the Service beforehand to use the CLI following the instructio
 
 To install the CLI in your system run the following command:
 ```
-npm i -g git+ssh://git@bitbucket.org/fusioncharts/fc-export-cli.git#feature/FTI-0-integration-with-node-client
+npm i -g https://bitbucket.org/fusioncharts/fc-export-cli.git#feature/FTI-0-integration-with-node-client
 ```
 
 Or,
