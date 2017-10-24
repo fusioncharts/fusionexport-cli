@@ -23,6 +23,24 @@ Install and start the Service beforehand to use the CLI following the instructio
 
 ## Installation
 
+### ExportFusion Service Installation
+
+Following screen will be presented once the ExportFusion application is installed & opened.
+
+![GUI](https://user-images.githubusercontent.com/12299906/31943224-b5b4b03a-b8e5-11e7-92ed-585234b89ce2.png "GUI")
+
+Primary functionalities those can be performed on the screen are: 
+  1. Service Start
+  2. Service Stop
+  3. Service Restart
+
+Logging of the various operation can be viewed in the below panel.
+Some additional information like host, port and PID of the service can be viewed.
+
+Logs can be saved by session as well as cleared when needed.
+
+### CLI Installation
+
 To install the CLI in your system run the following command:
 ```
 npm i -g https://bitbucket.org/fusioncharts/fc-export-cli.git#feature/FTI-0-integration-with-node-client
