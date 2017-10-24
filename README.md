@@ -79,9 +79,9 @@ Option | Alias | Type | Description
 
 ## Use Cases
 
-### Export a very simple Column chart using a single config in PNG format.
+### Export a simple Column chart using a single config in PNG format.
 
-**fusioncharts.json** // contains fusioncharts bar chart config
+**column_chart_config.json** // contains fusioncharts column chart config
 ```json
 [
    {
@@ -115,7 +115,7 @@ Option | Alias | Type | Description
 ```
    
 ```bash
-jimut_ $ xf -c fusioncharts.json
+$ xf -c fusioncharts.json
 ```
 
 _This will export the Column chart in PNG format in the current working directory._
@@ -223,13 +223,15 @@ _This will export the Column chart in PNG format in the current working director
 ```
 
 ```bash
-jimut_ $ xf -c multiple_charts_config.json -t pdf -o ~/exported-charts/
+$ xf -c multiple_charts_config.json -t pdf -o ~/exported-charts/
 ```
 
 ### Export entire Dashboard using CLI in PDF format.
 
 To export Dashboard using CLI, a template file has to be provided with the layout and supporting static resource (JS, CSS, Images, Fonts).
+
 The template must contain placeholder elements (preferably divs) for the charts. The chart config array must contain the charts with the `renderAt` attributes that matches the id of the elements stated above.
+
 The resources option is optional and only needed when `remote-export-enabled` is `true`. Most resources that are stated in the template in link, script or img tags are found intelligently. If any additional fonts, links present in css or dynamic links in JS is present one has to specify them in resources option.
 
 The format of the resources option is as follows:
@@ -371,7 +373,7 @@ The format of the resources option is as follows:
 ```
 
 ```bash
-jimut_ $ xf -c chart_config.json -T template.html -t PDF -o ~/exported-dashboards/
+$ xf -c chart_config.json -T template.html -t PDF -o ~/exported-dashboards/
 ```
 
 # 
@@ -413,9 +415,9 @@ path/to/export--<%= number(2) %>__<%= caption() %>-<%= timestamp() %>
 # path/to/export--2__Some Caption-23423438788.png
 ```
 
-### FTP & S3 Export
+### Remote Export file saving in FTP & S3
 
-Output files can be uploaded to FTP and AWS S3 directly.
+Output files can be saved in **FTP** and **AWS S3** directly.
 
 First you need to provide the credentials in the configuration file. FTP configs are in `config/ftp.json` and S3 configs are in `config/s3.json`.
 
