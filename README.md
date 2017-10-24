@@ -392,7 +392,7 @@ The format of the resources option is as follows:
 ```
 
 ```bash
-$ xf -c multiple_charts_config.json -T template.html -t PDF -o ~/exported-dashboards/
+$ xf -c multiple_charts_config.json -T template.html -t PDF -o ./exported-dashboards/
 ```
 
 #
