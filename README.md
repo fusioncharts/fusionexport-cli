@@ -1,9 +1,9 @@
 # FusionCharts Export CLI
 
-The CLI interface written on top of `fc-export-node-client` provides an elegant command line tool to use the Export Service. 
+The CLI tool written on top of `fc-export-node-client` provides an elegant command line tool to use the Export Service.
 The major features this provides are:
 
-   1. Export FusionChart charts as PNG, JPEG, SVG, PDF, CSV, XLS and HTML files.
+   1. Export FusionCharts charts as PNG, JPEG, SVG, PDF, CSV, XLS and HTML files.
    1. Exporting of charts is done directly from backend without needing a browser.
    1. Multiple charts can be exported simultaneously with minimal configuration.
    1. Sharing, Scheduling etc. can be done as exporting is done from backend.
@@ -21,7 +21,7 @@ You will need to download the **Export Service** installer from here<link>.
 
 Install and start the Service beforehand to use the CLI following the instructions provided.
 
-## Install
+## Installation
 
 To install the CLI in your system run the following command:
 ```
@@ -32,12 +32,13 @@ Or,
 
 ```
 git clone https://bitbucket.org/fusioncharts/fc-export-cli
+cd fc-export-cli
 npm i
 npm link
 ```
 
 ## Usage
-
+After installing, you should have access to `export-fusion` command. `xf` is an alias to `export-fusion`
 
 ```
 export-fusion <options>
@@ -77,11 +78,11 @@ Option | Alias | Type | Description
 --remote-export-enabled | -R | bool | If enabled, the cli will use the export server api to export the images.
 --export-url | -u | url | Export server url.
 
-## Use Cases
+## Examples
 
 ### Export a simple Column chart using a single config in PNG format.
-
-**column_chart_config.json** // contains fusioncharts column chart config
+ `column_chart_config.json` contains a sample fusioncharts column chart config
+**column_chart_config.json**
 ```json
 [
    {
@@ -113,9 +114,9 @@ Option | Alias | Type | Description
    }
 ]
 ```
-   
+
 ```bash
-$ xf -c fusioncharts.json
+$ xf -c column_chart_config.json
 ```
 
 _This will export the Column chart in PNG format in the current working directory._
@@ -277,7 +278,7 @@ The format of the resources option is as follows:
 [
    {
       "type": "pie2d",
-      "renderAt": "chart-container",
+      "renderAt": "pie_chart",
       "width": "500",
       "height": "400",
       "dataFormat": "json",
@@ -321,7 +322,7 @@ The format of the resources option is as follows:
    },
    {
       "type": "mscolumn2d",
-      "renderAt": "chart-container",
+      "renderAt": "column_chart",
       "width": "450",
       "height": "420",
       "dataFormat": "json",
@@ -373,10 +374,10 @@ The format of the resources option is as follows:
 ```
 
 ```bash
-$ xf -c chart_config.json -T template.html -t PDF -o ~/exported-dashboards/
+$ xf -c multiple_charts_config.json -T template.html -t PDF -o ~/exported-dashboards/
 ```
 
-# 
+#
 ### Output File Naming
 
 The `output-file` option can take a template which is then resolved using ejs, so that the output filenames can be generated exactly as you wanted it to be.
