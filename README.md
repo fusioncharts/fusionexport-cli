@@ -17,13 +17,11 @@ The major features this provides are:
 
 You need to have `node >= 8.0.0` and `npm >= 5.0.0` installed in your system to install the CLI.
 
-You will need to download the **Export Service** installer from [here](https://s3.amazonaws.com/fusionimplementation/fc-export-cli-1.0.0-pre-alpha-1.tgz).
-
-Install and start the Service beforehand to use the CLI following the instructions provided.
-
 ## Installation
 
 ### ExportFusion Service Installation
+
+You will need to download the **ExportFusion Service** installer from [here](https://s3.amazonaws.com/fusionimplementation/fc-export-cli-1.0.0-pre-alpha-1.tgz).
 
 Following screen will be presented once the ExportFusion application is installed & opened.
 
@@ -39,7 +37,7 @@ Some additional information like host, port and PID of the service can be viewed
 
 Logs can be saved by session as well as cleared when needed.
 
-### CLI Installation
+### ExportFusion CLI Installation
 
 To install the CLI in your system run the following command:
 ```
