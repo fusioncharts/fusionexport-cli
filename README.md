@@ -1,7 +1,8 @@
-# ExportFusion CLI
+# ExportFusion
 
-The CLI tool written on top of `fc-export-node-client` provides an elegant command line tool to use the Export Service.
-The major features this provides are:
+ExportFusion is the FusionCharts's all purpose Export product which works across all OS and runtimes. The ExportFusion is primarily a CLI based system for easy exporting of Charts, Dashboards in many different image and data formats (PNG, JPEG, SVG, PDF, CSV, XLS and HTML). ExportFusion also comes packed with many language SDK’S (NodeJS, Python, GO, Java, iOS, Android) for easy integration and support across those technologies.
+
+Below are the major features of the product:
 
    1. Export FusionCharts charts as PNG, JPEG, SVG, PDF, CSV, XLS and HTML files.
    1. Exporting of charts is done directly from backend without needing a browser.
