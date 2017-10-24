@@ -115,11 +115,13 @@ function sanitizeOutputFile(options) {
 }
 
 function sanitizeType(options) {
-  if (options.type.substr(0, 1) === '.') {
-    return options.type;
+  const type = options.type.toLowerCase();
+
+  if (type.substr(0, 1) === '.') {
+    return type;
   }
 
-  return `.${options.type}`;
+  return `.${type}`;
 }
 
 function configureLogger(options) {
