@@ -2,15 +2,15 @@
 
 The CLI interface written on top of `fc-export-node-client` provides an elegant command line tool to use the Export Service. 
 The major features this provides are:
- * Export FusionChart charts as PNG, JPEG, SVG, PDF, CSV, XLS and HTML files.
- * Exporting of charts is done directly from backend without needing a browser.
- * Multiple charts can be exported simultaneously with minimal configuration.
- * Sharing, Scheduling etc. can be done as exporting is done from backend.
- * Dashboards exporting using user defined template.
- * Supports statistics logging of all charts exports in a private setup / central remote server.
- * Saving files to FTP or S3
- * Doing export from remote server
- * Easy configuration management
+ - Export FusionChart charts as PNG, JPEG, SVG, PDF, CSV, XLS and HTML files.
+ - Exporting of charts is done directly from backend without needing a browser.
+ - Multiple charts can be exported simultaneously with minimal configuration.
+ - Sharing, Scheduling etc. can be done as exporting is done from backend.
+ - Dashboards exporting using user defined template.
+ - Supports statistics logging of all charts exports in a private setup / central remote server.
+ - Saving files to FTP or S3
+ - Doing export from remote server
+ - Easy configuration management
 
 ## Pre-requisites
 
@@ -82,27 +82,40 @@ Option | Alias | Type | Description
 
 >> fusioncharts.json // contains fusioncharts bar chart config
 ```json
-[{
-        type: 'column2d',
-        renderAt: 'chart-container',
-        width: '550',
-        height: '350',
-        dataFormat: 'json',
-        dataSource: {
-            'chart': {
-                "caption": "Number of visitors last week",
-                "subCaption": "Bakersfield Central vs Los Angeles Topanga",            
+[
+   {
+      "type": "column2d",
+      "renderAt": "chart-container",
+      "width": "550",
+      "height": "350",
+      "dataFormat": "json",
+      "dataSource": {
+         "chart": {
+            "caption": "Number of visitors last week",
+            "subCaption": "Bakersfield Central vs Los Angeles Topanga"
+         },
+         "data": [
+            {
+               "label": "Mon",
+               "value": "15123"
             },
-          "data": [
-            { 'label': "Mon", "value": "15123" }, 
-            { "label": "Tue", "value": "14233" }, 
-            { "label": "Wed", "value": "25507" }
-          ]
-        }
-}]
+            {
+               "label": "Tue",
+               "value": "14233"
+            },
+            {
+               "label": "Wed",
+               "value": "25507"
+            }
+         ]
+      }
+   }
+]
 ```
-    
+   
+```bash
 jimut_ $ xf -c fusioncharts.json
+```
 
 _This will export the Column chart in PNG format in the current working directory.
 
@@ -112,92 +125,105 @@ _This will export the Column chart in PNG format in the current working director
 ```json
 [
    {
-        type: 'pie2d',
-        renderAt: 'chart-container',
-        width: '500',
-        height: '400',
-        dataFormat: 'json',
-        dataSource: {
-            "chart": {
-                "caption": "Number of visitors last week",
-                "subCaption": "Bakersfield Central vs Los Angeles Topanga"
+      "type": "pie2d",
+      "renderAt": "chart-container",
+      "width": "500",
+      "height": "400",
+      "dataFormat": "json",
+      "dataSource": {
+         "chart": {
+            "caption": "Number of visitors last week",
+            "subCaption": "Bakersfield Central vs Los Angeles Topanga"
+         },
+         "categories": [
+            {
+               "category": [
+                  {
+                     "label": "Mon"
+                  },
+                  {
+                     "label": "Tue"
+                  },
+                  {
+                     "label": "Wed"
+                  }
+               ]
+            }
+         ],
+         "dataset": [
+            {
+               "seriesname": "Los Angeles Topanga",
+               "data": [
+                  {
+                     "value": "13400"
+                  },
+                  {
+                     "value": "12800"
+                  },
+                  {
+                     "value": "22800"
+                  }
+               ]
+            }
+         ]
+      }
+   },
+   {
+      "type": "mscolumn2d",
+      "renderAt": "chart-container",
+      "width": "450",
+      "height": "420",
+      "dataFormat": "json",
+      "dataSource": {
+         "chart": {
+            "caption": "Split of Sales by Product Category",
+            "subCaption": "In top 5 stores last month",
+            "yAxisname": "Sales (In USD)"
+         },
+         "categories": [
+            {
+               "category": [
+                  {
+                     "label": "Bakersfield Central"
+                  },
+                  {
+                     "label": "Garden Groove harbour"
+                  }
+               ]
+            }
+         ],
+         "dataset": [
+            {
+               "seriesname": "Food Products",
+               "data": [
+                  {
+                     "value": "17000"
+                  },
+                  {
+                     "value": "19500"
+                  }
+               ]
             },
-            "categories": [
-                {
-                    "category": [
-                        { "label": "Mon" }, 
-                        { "label": "Tue" }, 
-                        { "label": "Wed" }
-                    ]
-                }
-            ],
-            
-            "dataset": [
-                {
-                    "seriesname": "Los Angeles Topanga",
-                    "data": [
-                        { "value": "13400" }, 
-                        { "value": "12800" }, 
-                        { "value": "22800" }
-                    ]
-                }
-            ]
-        }
-    },
-    {
-        type: 'mscolumn2d',
-        renderAt: 'chart-container',
-        width: '450',
-        height: '420',
-        dataFormat: 'json',
-        dataSource: {
-            "chart": {
-                "caption": "Split of Sales by Product Category",
-                "subCaption": "In top 5 stores last month",
-                "yAxisname": "Sales (In USD)"
-            },            
-            "categories": [
-                {
-                    "category": [
-                        {
-                            "label": "Bakersfield Central"
-                        }, 
-                        {
-                            "label": "Garden Groove harbour"
-                        }
-                    ]
-                }
-            ],            
-            "dataset": [
-                {
-                    "seriesname": "Food Products",
-                    "data": [
-                        {
-                            "value": "17000"
-                        }, 
-                        {
-                            "value": "19500"
-                        }
-                    ]
-                }, 
-                {
-                    "seriesname": "Non-Food Products",
-                    "data": [
-                        {
-                            "value": "25400"
-                        }, 
-                        {
-                            "value": "29800"
-                        }
-                    ]
-                }
-            ]
-        }
-    },
+            {
+               "seriesname": "Non-Food Products",
+               "data": [
+                  {
+                     "value": "25400"
+                  },
+                  {
+                     "value": "29800"
+                  }
+               ]
+            }
+         ]
+      }
+   }
 ]
 ```
 
+```bash
 jimut_ $ xf -c multiple_charts_config.json -t pdf -o ~/exported-charts/
+```
 
 ### Export entire Dashboard using CLI in PDF format.
 
@@ -247,93 +273,105 @@ The format of the resources option is as follows:
 ```json
 [
    {
-        type: 'pie2d',
-        renderAt: 'pie_chart',
-        width: '500',
-        height: '400',
-        dataFormat: 'json',
-        dataSource: {
-            "chart": {
-                "caption": "Number of visitors last week",
-                "subCaption": "Bakersfield Central vs Los Angeles Topanga"
+      "type": "pie2d",
+      "renderAt": "chart-container",
+      "width": "500",
+      "height": "400",
+      "dataFormat": "json",
+      "dataSource": {
+         "chart": {
+            "caption": "Number of visitors last week",
+            "subCaption": "Bakersfield Central vs Los Angeles Topanga"
+         },
+         "categories": [
+            {
+               "category": [
+                  {
+                     "label": "Mon"
+                  },
+                  {
+                     "label": "Tue"
+                  },
+                  {
+                     "label": "Wed"
+                  }
+               ]
+            }
+         ],
+         "dataset": [
+            {
+               "seriesname": "Los Angeles Topanga",
+               "data": [
+                  {
+                     "value": "13400"
+                  },
+                  {
+                     "value": "12800"
+                  },
+                  {
+                     "value": "22800"
+                  }
+               ]
+            }
+         ]
+      }
+   },
+   {
+      "type": "mscolumn2d",
+      "renderAt": "chart-container",
+      "width": "450",
+      "height": "420",
+      "dataFormat": "json",
+      "dataSource": {
+         "chart": {
+            "caption": "Split of Sales by Product Category",
+            "subCaption": "In top 5 stores last month",
+            "yAxisname": "Sales (In USD)"
+         },
+         "categories": [
+            {
+               "category": [
+                  {
+                     "label": "Bakersfield Central"
+                  },
+                  {
+                     "label": "Garden Groove harbour"
+                  }
+               ]
+            }
+         ],
+         "dataset": [
+            {
+               "seriesname": "Food Products",
+               "data": [
+                  {
+                     "value": "17000"
+                  },
+                  {
+                     "value": "19500"
+                  }
+               ]
             },
-            "categories": [
-                {
-                    "category": [
-                        { "label": "Mon" }, 
-                        { "label": "Tue" }, 
-                        { "label": "Wed" }
-                    ]
-                }
-            ],
-            
-            "dataset": [
-                {
-                    "seriesname": "Los Angeles Topanga",
-                    "data": [
-                        { "value": "13400" }, 
-                        { "value": "12800" }, 
-                        { "value": "22800" }
-                    ]
-                }
-            ]
-        }
-    },
-    {
-        type: 'mscolumn2d',
-        renderAt: 'column_chart',
-        width: '450',
-        height: '420',
-        dataFormat: 'json',
-        dataSource: {
-            "chart": {
-                "caption": "Split of Sales by Product Category",
-                "subCaption": "In top 5 stores last month",
-                "yAxisname": "Sales (In USD)"
-            },            
-            "categories": [
-                {
-                    "category": [
-                        {
-                            "label": "Bakersfield Central"
-                        }, 
-                        {
-                            "label": "Garden Groove harbour"
-                        }
-                    ]
-                }
-            ],            
-            "dataset": [
-                {
-                    "seriesname": "Food Products",
-                    "data": [
-                        {
-                            "value": "17000"
-                        }, 
-                        {
-                            "value": "19500"
-                        }
-                    ]
-                }, 
-                {
-                    "seriesname": "Non-Food Products",
-                    "data": [
-                        {
-                            "value": "25400"
-                        }, 
-                        {
-                            "value": "29800"
-                        }
-                    ]
-                }
-            ]
-        }
-    },
+            {
+               "seriesname": "Non-Food Products",
+               "data": [
+                  {
+                     "value": "25400"
+                  },
+                  {
+                     "value": "29800"
+                  }
+               ]
+            }
+         ]
+      }
+   }
 ]
 ```
 
+```bash
 jimut_ $ xf -c chart_config.json -T template.html -t PDF -o ~/exported-dashboards/
-
+```
 
 # 
 ### Output File Naming
