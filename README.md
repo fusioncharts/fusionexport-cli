@@ -1,22 +1,33 @@
 # FusionCharts Export CLI
 
-It is a cli interface written on top of `fc-export-node-client` to provide an elegant command line tool to use the export service. It provides features like saving files to FTP or S3, doing export from remote server, easy configuration management etc.
+The CLI interface written on top of `fc-export-node-client` provides an elegant command line tool to use the Export Service. 
+The major features this provides are:
+ * Export FusionChart charts as PNG, JPEG, SVG, PDF, CSV, XLS and HTML files.
+ * Exporting of charts is done directly from backend without needing a browser.
+ * Multiple charts can be exported simultaneously with minimal configuration.
+ * Sharing, Scheduling etc. can be done as exporting is done from backend.
+ * Dashboards exporting using user defined template.
+ * Supports statistics logging of all charts exports in a private setup / central remote server.
+ * Saving files to FTP or S3
+ * Doing export from remote server
+ * Easy configuration management
 
 ## Pre-requisites
 
-You need to have `node` and `npm` installed in your system to install this cli.
+You need to have `node >= 6.0` and `npm` installed in your system to install the CLI.
 
-You will need to download the export service installer from <link>.
-Install and start to service first to use this cli.
+You will need to download the **Export Service** installer from here<link>.
+
+Install and start the Service beforehand to use the CLI following the instructions provided.
 
 ## Install
 
-To install this cli in your system run the following command
+To install the CLI in your system run the following command:
 ```
 npm i -g git+ssh://git@bitbucket.org/fusioncharts/fc-export-cli.git#feature/FTI-0-integration-with-node-client
 ```
 
-Or
+Or,
 
 ```
 git clone https://bitbucket.org/fusioncharts/fc-export-cli
@@ -26,15 +37,17 @@ npm link
 
 ## Usage
 
-```
-xf <options>
-```
-
-Or
 
 ```
 export-fusion <options>
 ```
+
+Or,
+
+```
+xf <options>
+```
+
 
 ## Command Line Arguments
 
@@ -65,6 +78,264 @@ Option | Alias | Type | Description
 
 ## Use Cases
 
+### Export a very simple Column chart using a single config in PNG format.
+
+>> fusioncharts.json // contains fusioncharts bar chart config
+```json
+[{
+        type: 'column2d',
+        renderAt: 'chart-container',
+        width: '550',
+        height: '350',
+        dataFormat: 'json',
+        dataSource: {
+            'chart': {
+                "caption": "Number of visitors last week",
+                "subCaption": "Bakersfield Central vs Los Angeles Topanga",            
+            },
+          "data": [
+            { 'label': "Mon", "value": "15123" }, 
+            { "label": "Tue", "value": "14233" }, 
+            { "label": "Wed", "value": "25507" }
+          ]
+        }
+}]
+```
+    
+jimut_ $ xf -c fusioncharts.json
+
+_This will export the Column chart in PNG format in the current working directory.
+
+### Export multiple charts in PDF format.
+
+>> multiple_charts_config.json
+```json
+[
+   {
+        type: 'pie2d',
+        renderAt: 'chart-container',
+        width: '500',
+        height: '400',
+        dataFormat: 'json',
+        dataSource: {
+            "chart": {
+                "caption": "Number of visitors last week",
+                "subCaption": "Bakersfield Central vs Los Angeles Topanga"
+            },
+            "categories": [
+                {
+                    "category": [
+                        { "label": "Mon" }, 
+                        { "label": "Tue" }, 
+                        { "label": "Wed" }
+                    ]
+                }
+            ],
+            
+            "dataset": [
+                {
+                    "seriesname": "Los Angeles Topanga",
+                    "data": [
+                        { "value": "13400" }, 
+                        { "value": "12800" }, 
+                        { "value": "22800" }
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        type: 'mscolumn2d',
+        renderAt: 'chart-container',
+        width: '450',
+        height: '420',
+        dataFormat: 'json',
+        dataSource: {
+            "chart": {
+                "caption": "Split of Sales by Product Category",
+                "subCaption": "In top 5 stores last month",
+                "yAxisname": "Sales (In USD)"
+            },            
+            "categories": [
+                {
+                    "category": [
+                        {
+                            "label": "Bakersfield Central"
+                        }, 
+                        {
+                            "label": "Garden Groove harbour"
+                        }
+                    ]
+                }
+            ],            
+            "dataset": [
+                {
+                    "seriesname": "Food Products",
+                    "data": [
+                        {
+                            "value": "17000"
+                        }, 
+                        {
+                            "value": "19500"
+                        }
+                    ]
+                }, 
+                {
+                    "seriesname": "Non-Food Products",
+                    "data": [
+                        {
+                            "value": "25400"
+                        }, 
+                        {
+                            "value": "29800"
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+]
+```
+
+jimut_ $ xf -c multiple_charts_config.json -t pdf -o ~/exported-charts/
+
+### Export entire Dashboard using CLI in PDF format.
+
+To export Dashboard using CLI, a template file has to be provided with the layout and supporting static resource (JS, CSS, Images, Fonts).
+The template must contain placeholder elements (preferably divs) for the charts. The chart config array must contain the charts with the `renderAt` attributes that matches the id of the elements stated above.
+The resources option is optional and only needed when `remote-export-enabled` is `true`. Most resources that are stated in the template in link, script or img tags are found intelligently. If any additional fonts, links present in css or dynamic links in JS is present one has to specify them in resources option.
+
+The format of the resources option is as follows:
+
+```json
+{
+    "images": [
+        "filename.jpg",
+        "img/cat.png"
+    ],
+    "stylesheets": [
+        "",
+        ""
+    ],
+    "javascripts": [
+        "",
+        ""
+    ],
+    "fonts": [
+        "",
+        ""
+    ]
+}
+```
+
+>>template.html
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Chart</title>
+  </head>
+  <body>
+    <div id="pie_chart"></div>
+    <div id="column_chart"></div>
+  </body>
+</html>
+```
+
+>> multiple_charts_config.json
+```json
+[
+   {
+        type: 'pie2d',
+        renderAt: 'pie_chart',
+        width: '500',
+        height: '400',
+        dataFormat: 'json',
+        dataSource: {
+            "chart": {
+                "caption": "Number of visitors last week",
+                "subCaption": "Bakersfield Central vs Los Angeles Topanga"
+            },
+            "categories": [
+                {
+                    "category": [
+                        { "label": "Mon" }, 
+                        { "label": "Tue" }, 
+                        { "label": "Wed" }
+                    ]
+                }
+            ],
+            
+            "dataset": [
+                {
+                    "seriesname": "Los Angeles Topanga",
+                    "data": [
+                        { "value": "13400" }, 
+                        { "value": "12800" }, 
+                        { "value": "22800" }
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        type: 'mscolumn2d',
+        renderAt: 'column_chart',
+        width: '450',
+        height: '420',
+        dataFormat: 'json',
+        dataSource: {
+            "chart": {
+                "caption": "Split of Sales by Product Category",
+                "subCaption": "In top 5 stores last month",
+                "yAxisname": "Sales (In USD)"
+            },            
+            "categories": [
+                {
+                    "category": [
+                        {
+                            "label": "Bakersfield Central"
+                        }, 
+                        {
+                            "label": "Garden Groove harbour"
+                        }
+                    ]
+                }
+            ],            
+            "dataset": [
+                {
+                    "seriesname": "Food Products",
+                    "data": [
+                        {
+                            "value": "17000"
+                        }, 
+                        {
+                            "value": "19500"
+                        }
+                    ]
+                }, 
+                {
+                    "seriesname": "Non-Food Products",
+                    "data": [
+                        {
+                            "value": "25400"
+                        }, 
+                        {
+                            "value": "29800"
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+]
+```
+
+jimut_ $ xf -c chart_config.json -T template.html -t PDF -o ~/exported-dashboards/
+
+
+# 
 ### Output File Naming
 
 The `output-file` option can take a template which is then resolved using ejs, so that the output filenames can be generated exactly as you wanted it to be.
@@ -101,39 +372,6 @@ path/to/export--<%= number(1, 100) %>
 
 path/to/export--<%= number(2) %>__<%= caption() %>-<%= timestamp() %>
 # path/to/export--2__Some Caption-23423438788.png
-```
-
-### Dashboard Export
-
-When a HTML is provided in the template option dashboard export will be enabled.
-
-The template must contain placeholder elements (preferably divs) for the charts.
-
-The chart config array must contain the chart with a `renderAt` that matches the id of the elements stated above.
-
-The resources option is optional and only needed when `remote-export-enabled` is `true`. Most resources that are stated in the template in link, script or img tags are found automatically. If any additional font, links present in css or dynamic links in JS is present you have to specify it in resources option.
-
-The format of the resources option are as follows:
-
-```json
-{
-    "images": [
-        "filename.jpg",
-        "img/cat.png"
-    ],
-    "stylesheets": [
-        "",
-        ""
-    ],
-    "javascripts": [
-        "",
-        ""
-    ],
-    "fonts": [
-        "",
-        ""
-    ]
-}
 ```
 
 ### FTP & S3 Export
