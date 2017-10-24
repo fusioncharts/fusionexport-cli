@@ -2,15 +2,16 @@
 
 The CLI interface written on top of `fc-export-node-client` provides an elegant command line tool to use the Export Service. 
 The major features this provides are:
- - Export FusionChart charts as PNG, JPEG, SVG, PDF, CSV, XLS and HTML files.
- - Exporting of charts is done directly from backend without needing a browser.
- - Multiple charts can be exported simultaneously with minimal configuration.
- - Sharing, Scheduling etc. can be done as exporting is done from backend.
- - Dashboards exporting using user defined template.
- - Supports statistics logging of all charts exports in a private setup / central remote server.
- - Saving files to FTP or S3
- - Doing export from remote server
- - Easy configuration management
+
+   1. Export FusionChart charts as PNG, JPEG, SVG, PDF, CSV, XLS and HTML files.
+   1. Exporting of charts is done directly from backend without needing a browser.
+   1. Multiple charts can be exported simultaneously with minimal configuration.
+   1. Sharing, Scheduling etc. can be done as exporting is done from backend.
+   1. Dashboards exporting using user defined template.
+   1. Supports statistics logging of all charts exports in a private setup / central remote server.
+   1. Saving files to FTP or S3
+   1. Doing export from remote server
+   1. Easy configuration management
 
 ## Pre-requisites
 
@@ -80,7 +81,7 @@ Option | Alias | Type | Description
 
 ### Export a very simple Column chart using a single config in PNG format.
 
->> fusioncharts.json // contains fusioncharts bar chart config
+**fusioncharts.json** // contains fusioncharts bar chart config
 ```json
 [
    {
@@ -117,11 +118,11 @@ Option | Alias | Type | Description
 jimut_ $ xf -c fusioncharts.json
 ```
 
-_This will export the Column chart in PNG format in the current working directory.
+_This will export the Column chart in PNG format in the current working directory._
 
 ### Export multiple charts in PDF format.
 
->> multiple_charts_config.json
+**multiple_charts_config.json**
 ```json
 [
    {
@@ -254,7 +255,7 @@ The format of the resources option is as follows:
 }
 ```
 
->>template.html
+**template.html**
 ```html
 <!DOCTYPE html>
 <html>
@@ -269,7 +270,7 @@ The format of the resources option is as follows:
 </html>
 ```
 
->> multiple_charts_config.json
+**multiple_charts_config.json**
 ```json
 [
    {
