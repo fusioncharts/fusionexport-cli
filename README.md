@@ -1,4 +1,4 @@
-# FusionCharts Export CLI
+# ExportFusion CLI
 
 The CLI tool written on top of `fc-export-node-client` provides an elegant command line tool to use the Export Service.
 The major features this provides are:
@@ -13,11 +13,11 @@ The major features this provides are:
    1. Doing export from remote server
    1. Easy configuration management
 
-## Pre-requisites
+## Prerequisites
 
-You need to have `node >= 6.0` and `npm` installed in your system to install the CLI.
+You need to have `node >= 8.0.0` and `npm >= 5.0.0` installed in your system to install the CLI.
 
-You will need to download the **Export Service** installer from here<link>.
+You will need to download the **Export Service** installer from [here](https://s3.amazonaws.com/fusionimplementation/fc-export-cli-1.0.0-pre-alpha-1.tgz).
 
 Install and start the Service beforehand to use the CLI following the instructions provided.
 
