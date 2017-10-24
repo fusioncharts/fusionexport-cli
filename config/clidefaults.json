@@ -9,8 +9,9 @@
   "callbacks": "fusioncharts_export_callbacks.js",
   "template": "template.html",
   "resources": "resources.json",
+  "logDest": "/",
   "logFile": "fusioncharts_export.log",
-  "logLevel": 2,
+  "logLevel": 7,
   "remoteExportEnabled": "false",
   "exportUrl": "http://export.api3.fusioncharts.com",
   "exportLogUrl": "http://export.api3.fusioncharts.com/api/v1.0/logs"

@@ -1,11 +1,14 @@
 const winston = require('winston');
 
 const levelMap = {
-  0: 'disabled',
-  1: 'errors',
-  2: 'warnings',
-  3: 'notices',
-  4: 'verbose',
+  0: 'emerg',
+  1: 'alert',
+  2: 'crit',
+  3: 'error',
+  4: 'warning',
+  5: 'notice',
+  6: 'info',
+  7: 'debug',
 };
 
 winston.setLogLevel = (level) => {
