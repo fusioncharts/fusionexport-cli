@@ -10,6 +10,8 @@
 !fusioncharts_chart.js
 !fusioncharts_export_tmpl.json
 !fusioncharts_export_svg.json
+!fusioncharts_export_ftp.json
+!fusioncharts_export_s3.json
 !fusioncharts_export.json
 !output_file_definition.js
 !template.html
