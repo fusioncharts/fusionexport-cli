@@ -1,7 +1,8 @@
-# FusionCharts Export CLI
+# ExportFusion
 
-The CLI tool written on top of `fc-export-node-client` provides an elegant command line tool to use the Export Service.
-The major features this provides are:
+ExportFusion is the FusionCharts's all purpose Export product which works across all OS and runtimes. The ExportFusion is primarily a CLI based system for easy exporting of Charts, Dashboards in many different image and data formats (PNG, JPEG, SVG, PDF, CSV, XLS and HTML). ExportFusion also comes packed with many language SDK’S (NodeJS, Python, GO, Java, iOS, Android) for easy integration and support across those technologies.
+
+Below are the major features of the product:
 
    1. Export FusionCharts charts as PNG, JPEG, SVG, PDF, CSV, XLS and HTML files.
    1. Exporting of charts is done directly from backend without needing a browser.
@@ -13,17 +14,15 @@ The major features this provides are:
    1. Doing export from remote server
    1. Easy configuration management
 
-## Pre-requisites
+## Prerequisites
 
-You need to have `node >= 6.0` and `npm` installed in your system to install the CLI.
-
-You will need to download the **Export Service** installer from here<link>.
-
-Install and start the Service beforehand to use the CLI following the instructions provided.
+You need to have `node >= 8.0.0` and `npm >= 5.0.0` installed in your system to install the CLI.
 
 ## Installation
 
 ### ExportFusion Service Installation
+
+You will need to download the **ExportFusion Service** installer from [here](https://s3.amazonaws.com/fusionimplementation/fc-export-cli-1.0.0-pre-alpha-1.tgz).
 
 Following screen will be presented once the ExportFusion application is installed & opened.
 
@@ -39,7 +38,7 @@ Some additional information like host, port and PID of the service can be viewed
 
 Logs can be saved by session as well as cleared when needed.
 
-### CLI Installation
+### ExportFusion CLI Installation
 
 To install the CLI in your system run the following command:
 ```
