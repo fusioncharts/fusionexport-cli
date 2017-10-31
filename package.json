@@ -37,6 +37,19 @@
     "winston": "^2.4.0"
   },
   "bundledDependencies": [
-    "fc-export-node-client"
+    "adm-zip",
+    "app-root-path",
+    "commander",
+    "fc-export-node-client",
+    "file-url",
+    "jsdom",
+    "lodash",
+    "mkdirp",
+    "node-zip",
+    "promise-ftp",
+    "request",
+    "s3fs",
+    "tmp",
+    "winston"
   ]
 }
