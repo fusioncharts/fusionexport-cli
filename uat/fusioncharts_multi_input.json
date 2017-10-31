@@ -1,0 +1,3 @@
+{
+  "chart-config": "uat/resources/charts/file_1.json uat/resources/charts/file_2.json uat/resources/charts/sub_1/* uat/resources/charts/sub_2/*"
+}

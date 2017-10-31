@@ -8,6 +8,7 @@
 !callbacks.js
 !chart.svg
 !fusioncharts_chart.js
+!fusioncharts_multi_input.json
 !fusioncharts_export_tmpl.json
 !fusioncharts_export_svg.json
 !fusioncharts_export_ftp.json

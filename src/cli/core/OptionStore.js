@@ -90,19 +90,19 @@ class OptionStore {
       return this.finalOptions.chartConfig;
     }
 
-    const cliChartConfig = helpers.parseObject(this.cliOptions.chartConfig);
+    const cliChartConfig = utils.parseChartConfig(this.cliOptions.chartConfig);
     if (cliChartConfig) {
       this.finalOptions.chartConfig = cliChartConfig;
       return this.finalOptions.chartConfig;
     }
 
-    const secChartConfig = helpers.parseObject(this.config.chartConfig);
+    const secChartConfig = utils.parseChartConfig(this.config.chartConfig);
     if (secChartConfig) {
       this.finalOptions.chartConfig = secChartConfig;
       return this.finalOptions.chartConfig;
     }
 
-    const defChartConfig = helpers.parseObject(this.defaultOptions.chartConfig, true);
+    const defChartConfig = utils.parseChartConfig(this.defaultOptions.chartConfig);
     if (defChartConfig) {
       this.finalOptions.chartConfig = defChartConfig;
       return this.finalOptions.chartConfig;

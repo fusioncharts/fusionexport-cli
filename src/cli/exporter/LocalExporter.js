@@ -1,3 +1,4 @@
+const path = require('path');
 const fileUrl = require('file-url');
 const FileSaver = require('./FileSaver');
 const FcExportNodeClient = require('fc-export-node-client');
@@ -32,7 +33,7 @@ class LocalExporter {
 
   buildExportOptions() {
     const exportOptions = {
-      libraryDirectoryPath: this.options.libraryPath,
+      libraryDirectoryPath: this.options.libraryPath && path.resolve(this.options.libraryPath),
       resources: this.options.resources,
       dashboardLogo: this.options.dashboardLogo ? fileUrl(this.options.dashboardLogo) : null,
       dashboardHeading: this.options.dashboardHeading,

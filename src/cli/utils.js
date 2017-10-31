@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const path = require('path');
 const mkdirp = require('mkdirp');
+const glob = require('glob');
 const helpers = require('./helpers');
 const log = require('./log');
 
@@ -20,12 +21,77 @@ function convertKeysToLowercase(obj) {
   return _.deeply(_.mapKeys)(obj, (val, key) => key.toLowerCase());
 }
 
+function makeArray(ob) {
+  if (!ob) {
+    return ob;
+  }
+
+  if (!Array.isArray(ob)) {
+    return [ob];
+  }
+
+  return ob;
+}
+
+function parseChartConfig(chartConfig) {
+  if (typeof chartConfig !== 'string') {
+    return chartConfig;
+  }
+
+  const ob = helpers.parseObject(chartConfig, true);
+  if (ob === 'object') {
+    return makeArray(ob);
+  }
+
+  const pattern = `{${chartConfig.split(' ').join(',')}}`;
+  const fileList = glob.sync(pattern);
+
+  const confList = [];
+  fileList.forEach((file) => {
+    let confs;
+
+    try {
+      confs = makeArray(helpers.parseObject(file));
+    } catch (e) {
+      log.warn(e);
+    }
+
+    if (confs === 'object') {
+      confs = makeArray(confs);
+    }
+
+    let group = '';
+    if (confs.length > 1) {
+      group = path.parse(file).name;
+
+      const predicate = conf => conf.group === group;
+      let start = 1;
+      let index = _.findIndex(confList, predicate);
+      while (index > -1) {
+        start += 1;
+        group = `${group}_${start}`;
+        index = _.findIndex(confList, predicate);
+      }
+    }
+
+    confs = confs.map((con) => {
+      const fcon = con;
+      fcon.group = group;
+      return fcon;
+    });
+
+    confList.push(...confs);
+  });
+
+  return confList;
+}
+
 function sanitizeConfig(options) {
   if (!options.config) {
     return {};
   }
 
-  let config = options.config;
+  let { config } = options;
 
   config = helpers.renameProperty(config, 'chart-config', 'chartConfig');
   config = helpers.renameProperty(config, 'chart-config-options', 'chartConfigOptions');
@@ -137,6 +203,7 @@ function configureLogger(options) {
 }
 
 module.exports = {
+  parseChartConfig,
   sanitizeConfig,
   sanitizeChartConfig,
   sanitizeOutputFile,
