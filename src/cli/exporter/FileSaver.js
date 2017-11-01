@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs');
+const util = require('util');
 const mkdirp = require('mkdirp');
 const S3FS = require('s3fs');
 const Ftp = require('promise-ftp');
@@ -27,30 +28,25 @@ class FileSaver {
     }
   }
 
-  saveToLocal() {
+  async saveToLocal() {
     log.info('Saving file to local file system');
 
-    return new Promise((resolve, reject) => {
-      const outputFileDir = path.dirname(this.options.outputFile);
+    const mkdirpPr = util.promisify(mkdirp);
+    const outputFileDir = path.dirname(this.options.outputFile);
 
-      mkdirp(outputFileDir, (err) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        this.options.outputFileBag.forEach((file) => {
-          const outPath = path.format({
-            dir: outputFileDir,
-            base: file.realName,
-          });
-          fs.createReadStream(file.tmpPath).pipe(fs.createWriteStream(outPath));
-          log.info(`Output file: ${outPath}`);
-        });
-
-        resolve();
+    const promiseBag = this.options.outputFileBag.map(async (file) => {
+      const outPath = path.format({
+        dir: outputFileDir,
+        base: file.realName,
       });
+
+      await mkdirpPr(path.dirname(outPath));
+
+      fs.createReadStream(file.tmpPath).pipe(fs.createWriteStream(outPath));
+      log.info(`Output file: ${outPath}`);
     });
+
+    await Promise.all(promiseBag);
   }
 
   async saveToS3() {
@@ -65,9 +61,7 @@ class FileSaver {
 
     const promiseBag = [];
     this.options.outputFileBag.forEach((file) => {
-      promiseBag.push(
-        s3fs.writeFile(file.realName, fs.readFileSync(file.tmpPath)),
-      );
+      promiseBag.push(s3fs.writeFile(file.realName, fs.readFileSync(file.tmpPath)));
       log.info(`Output file: ${file.realName}`);
     });
 
