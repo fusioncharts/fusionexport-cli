@@ -10,6 +10,7 @@ const config = require('../config');
 class FileSaver {
   constructor(options) {
     this.options = options;
+    this.mkdirp = util.promisify(mkdirp);
   }
 
   async saveOutputFiles() {
@@ -31,7 +32,6 @@ class FileSaver {
   async saveToLocal() {
     log.info('Saving file to local file system');
 
-    const mkdirpPr = util.promisify(mkdirp);
     const outputFileDir = path.dirname(this.options.outputFile);
 
     const promiseBag = this.options.outputFileBag.map(async (file) => {
@@ -40,8 +40,7 @@ class FileSaver {
         base: file.realName,
       });
 
-      await mkdirpPr(path.dirname(outPath));
-
+      await this.mkdirp(path.dirname(outPath));
       fs.createReadStream(file.tmpPath).pipe(fs.createWriteStream(outPath));
       log.info(`Output file: ${outPath}`);
     });
@@ -59,10 +58,17 @@ class FileSaver {
       secretAccessKey: s3Config.secretAccessKey,
     });
 
-    const promiseBag = [];
-    this.options.outputFileBag.forEach((file) => {
-      promiseBag.push(s3fs.writeFile(file.realName, fs.readFileSync(file.tmpPath)));
-      log.info(`Output file: ${file.realName}`);
+    const outputFileDir = path.dirname(this.options.outputFile);
+
+    const promiseBag = this.options.outputFileBag.map(async (file) => {
+      const outPath = path.format({
+        dir: outputFileDir,
+        base: file.realName,
+      });
+
+      await s3fs.mkdirp(path.dirname(outPath));
+      await s3fs.writeFile(outPath, fs.readFileSync(file.tmpPath));
+      log.info(`Output file: ${outPath}`);
     });
 
     await Promise.all(promiseBag);
@@ -82,16 +88,15 @@ class FileSaver {
     });
 
     const outputFileDir = path.dirname(this.options.outputFile);
-    await ftp.mkdir(outputFileDir, true);
 
-    const promiseBag = [];
-    this.options.outputFileBag.forEach((file) => {
+    const promiseBag = this.options.outputFileBag.map(async (file) => {
       const outPath = path.format({
         dir: outputFileDir,
         base: file.realName,
       });
 
-      promiseBag.push(ftp.put(file.tmpPath, outPath));
+      await ftp.mkdir(path.dirname(outPath), true);
+      await ftp.put(file.tmpPath, outPath);
       log.info(`Output file: ${outPath}`);
     });
 
