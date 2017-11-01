@@ -60,22 +60,6 @@ class LocalExporter {
 
     return exportOptions;
   }
-
-  async saveOutputFiles() {
-    if (this.options.outputTo === 'local') {
-      await this.saveToLocal();
-      return;
-    }
-
-    if (this.options.outputTo === 's3') {
-      await this.saveToS3();
-      return;
-    }
-
-    if (this.options.outputTo === 'ftp') {
-      await this.saveToFTP();
-    }
-  }
 }
 
 module.exports = LocalExporter;

@@ -39,7 +39,7 @@ function parseChartConfig(chartConfig) {
   }
 
   const ob = helpers.parseObject(chartConfig, true);
-  if (ob === 'object') {
+  if (typeof ob === 'object') {
     return makeArray(ob);
   }
 
@@ -51,12 +51,12 @@ function parseChartConfig(chartConfig) {
     let confs;
 
     try {
-      confs = makeArray(helpers.parseObject(file));
+      confs = helpers.parseObject(file);
     } catch (e) {
       log.warn(e);
     }
 
-    if (confs === 'object') {
+    if (typeof confs === 'object') {
       confs = makeArray(confs);
     }
 
