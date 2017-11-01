@@ -73,7 +73,7 @@ xf <options>
 Option | Alias | Type | Description
 -------|-------|------|------------
 --config | -e | file, json | A JSON file that can contain any or all of the cli options.
---chart-config | -c | file, json | A JSON or JS file that will contain an array of json objects or just an object which can be passed to the chart constructor for rendering the chart. <br/><br/> If it's a JS file the object should be exported.
+--chart-config | -c | file, json | A JSON or JS file that will contain an array of json objects or just an object which can be passed to the chart constructor for rendering the chart. <br/><br/> If it's a JS file the object should be exported. <br><br> It can also take multiple file, directory path or glob pattern in a space seprated format. For file containing single chart config it will create a single exported file. For file containing multiple chart config it will create a directory named after the respective filename, that will contain the individual exported file.
 --chart-config-options | -O | json | JSON object that provides an option to override the chart configuration passed through chart-config option. <br><br> In case of multiple charts all the charts will be effected.
 --input-file | -i | file | SVG file that needs to be converted. <br><br> Ignored if chart-config is provided. <br><br> Path will be taken into account if provided.
 --output-file | -o | string | Output files that need to be generated. A template can also be giving that will be resolved. For more information see below.
