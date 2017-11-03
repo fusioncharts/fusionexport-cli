@@ -30,8 +30,6 @@ class FileSaver {
   }
 
   async saveToLocal() {
-    log.info('Saving file to local file system');
-
     const outputFileDir = path.dirname(this.options.outputFile);
 
     const promiseBag = this.options.outputFileBag.map(async (file) => {
@@ -42,15 +40,13 @@ class FileSaver {
 
       await this.mkdirp(path.dirname(outPath));
       fs.createReadStream(file.tmpPath).pipe(fs.createWriteStream(outPath));
-      log.info(`Output file: ${outPath}`);
+      log.info(`Check files here ${outPath}`);
     });
 
     await Promise.all(promiseBag);
   }
 
   async saveToS3() {
-    log.info('Saving files to S3');
-
     const s3Config = config('s3');
 
     const s3fs = new S3FS(s3Config.bucket, {
@@ -68,15 +64,13 @@ class FileSaver {
 
       await s3fs.mkdirp(path.dirname(outPath));
       await s3fs.writeFile(outPath, fs.readFileSync(file.tmpPath));
-      log.info(`Output file: ${outPath}`);
+      log.info(`Check files here ${outPath}`);
     });
 
     await Promise.all(promiseBag);
   }
 
   async saveToFTP() {
-    log.info('Saving files to FTP');
-
     const ftpConfig = config('ftp');
     const ftp = new Ftp();
 
@@ -97,7 +91,7 @@ class FileSaver {
 
       await ftp.mkdir(path.dirname(outPath), true);
       await ftp.put(file.tmpPath, outPath);
-      log.info(`Output file: ${outPath}`);
+      log.info(`Check files here ${outPath}`);
     });
 
     await Promise.all(promiseBag);

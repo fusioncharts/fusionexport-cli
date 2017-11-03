@@ -42,7 +42,6 @@ utils.configureLogger({
   logLevel: options.logLevel,
 });
 
-log.info('Options parsing done.');
 
 if (options.remoteExportEnabled) {
   new RemoteExporter().render(options);

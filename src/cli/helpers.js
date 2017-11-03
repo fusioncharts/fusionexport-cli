@@ -135,10 +135,22 @@ function renameProperty(ob, oldName, newName) {
   return fob;
 }
 
+function calculateTotalUnits(finaloptions, start) {
+  if (finaloptions.chartConfig && !finaloptions.templateFilePath && !finaloptions.inputFile) {
+    return start + finaloptions.chartConfig.length;
+  } else if (finaloptions.chartConfig && finaloptions.templateFilePath && !finaloptions.inputFile) {
+    return start + 1;
+  } else if (!finaloptions.chartConfig && !finaloptions.templateFilePath && finaloptions.inputFile) {
+    return start + 1;
+  }
+  return start;
+}
+
 module.exports = {
   parseBool,
   parseObject,
   ifExists,
   findDotSeparated,
   renameProperty,
+  calculateTotalUnits,
 };

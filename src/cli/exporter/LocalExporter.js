@@ -1,18 +1,28 @@
 const path = require('path');
 const fileUrl = require('file-url');
+const ProgressBar = require('progress');
 const FileSaver = require('./FileSaver');
 const FcExportNodeClient = require('fc-export-node-client');
 const log = require('../log');
+const { calculateTotalUnits } = require('../helpers');
+
+const TOTAL_UNIT = 6;
 
 class LocalExporter {
   constructor() {
     this.exportClient = new FcExportNodeClient();
+    this.listenToStateChange();
   }
 
   async render(options) {
-    log.verbose('Starting export.');
     this.options = options;
     const exportOptions = this.buildExportOptions();
+    const actualTotal = calculateTotalUnits(exportOptions, TOTAL_UNIT);
+    this.progressBar = new ProgressBar('Exporting [:bar] :customMsg [:current/:total]', {
+      total: actualTotal,
+      width: 100,
+      incomplete: ' ',
+    });
 
     try {
       const outputFileBag = await this.exportClient.export(exportOptions);
@@ -59,6 +69,20 @@ class LocalExporter {
     }
 
     return exportOptions;
+  }
+
+  listenToStateChange() {
+    this.exportClient.on('exportStateChange', (meta) => {
+      if (meta.weight) {
+        if (meta.customMsg) {
+          this.progressBar.tick({
+            customMsg: meta.customMsg,
+          });
+        } else {
+          this.progressBar.tick();
+        }
+      }
+    });
   }
 }
 
