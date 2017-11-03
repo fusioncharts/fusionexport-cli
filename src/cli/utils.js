@@ -23,6 +23,7 @@ function convertKeysToLowercase(obj) {
 
 function findCommonPath(paths) {
   let p = paths.concat().sort();
+  if (p.length === 0) return undefined;
   p = p.map(pa => pa.split(path.sep));
   const p1 = p[0];
   const p2 = p[p.length - 1];
@@ -98,7 +99,7 @@ function parseChartConfig(chartConfig) {
     confList.push(...confs);
   });
 
-  return confList;
+  return confList.length > 0 ? confList : undefined;
 }
 
 function sanitizeConfig(options) {
