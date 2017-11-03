@@ -6,8 +6,6 @@ const FcExportNodeClient = require('fc-export-node-client');
 const log = require('../log');
 const { calculateTotalUnits } = require('../helpers');
 
-const TOTAL_UNIT = 6;
-
 class LocalExporter {
   constructor() {
     this.exportClient = new FcExportNodeClient();
@@ -17,10 +15,10 @@ class LocalExporter {
   async render(options) {
     this.options = options;
     const exportOptions = this.buildExportOptions();
-    const actualTotal = calculateTotalUnits(exportOptions, TOTAL_UNIT);
+    const actualTotal = calculateTotalUnits(exportOptions);
     // eslint-disable-next-line no-console
     console.log();
-    this.progressBar = new ProgressBar('Exporting |:bar | :percent :customMsg ', {
+    this.progressBar = new ProgressBar('Remaining [:current/:total] Exporting |:bar | :percent :customMsg ', {
       total: actualTotal,
       width: 60,
       complete: '⬜',
@@ -85,6 +83,9 @@ class LocalExporter {
         } else {
           this.progressBar.tick();
         }
+      }
+      if (meta.error) {
+        this.progressBar.interrupt(meta.error);
       }
       if (this.progressBar.complete) {
         // eslint-disable-next-line no-console
