@@ -24,6 +24,30 @@ class RemoteExporter {
     };
   }
 
+  zipOutputFiles(fileName, dataPath) {
+    const zip = new JSZip();
+    zip.file(fileName, fs.readFileSync(dataPath));
+    const content = zip.generate({ type: 'nodebuffer', compression: 'DEFLATE' });
+    const zipFile = tmp.fileSync({ postfix: '.zip' });
+    fs.writeFileSync(zipFile.name, content, 'binary');
+    this.outputFileBag.push({
+      realName: 'archive.zip',
+      tmpPath: zipFile.name,
+    });
+  }
+
+  unzipOutputFiles(dataPath) {
+    const zip = new AdmZip(dataPath);
+    zip.getEntries().forEach((entry) => {
+      const tmpFile = tmp.fileSync();
+      fs.writeFileSync(tmpFile.name, entry.getData(), 'binary');
+      this.outputFileBag.push({
+        realName: entry.entryName,
+        tmpPath: tmpFile.name,
+      });
+    });
+  }
+
   async render(options) {
     this.options = options;
 
@@ -48,50 +72,38 @@ class RemoteExporter {
       _.matches(this.resp.headers['content-type']),
     );
 
-    const { name } = path.parse(this.options.outputFile);
+    const contentDisposition = this.resp.headers['content-disposition'];
+    const searchString = 'filename=';
+    const nameStartIndex = contentDisposition.indexOf(searchString) + searchString.length;
+    const filename = contentDisposition.slice(nameStartIndex);
+    const { name } = path.parse(filename);
 
     const realName = path.format({
       name,
       ext: `.${ext}`,
     });
 
-    const outputFileBag = [];
+    this.outputFileBag = [];
 
     if (this.options.outputAsZip && ext !== 'zip') {
-      const zip = new JSZip();
-      zip.file(realName, fs.readFileSync(tmpPath.name));
-      const content = zip.generate({ type: 'nodebuffer', compression: 'DEFLATE' });
-      const zipFile = tmp.fileSync({ postfix: '.zip' });
-      fs.writeFileSync(zipFile.name, content, 'binary');
-      outputFileBag.push({
-        realName: `${realName}.zip`,
-        tmpPath: zipFile.name,
-      });
+      this.zipOutputFiles(realName, tmpPath.name);
     } else if (!this.options.outputAsZip && ext === 'zip') {
-      const zip = new AdmZip(tmpPath.name);
-      zip.getEntries().forEach((entry) => {
-        const tmpFile = tmp.fileSync();
-        fs.writeFileSync(tmpFile.name, entry.getData(), 'binary');
-        outputFileBag.push({
-          realName: entry.entryName,
-          tmpPath: tmpFile.name,
-        });
-      });
+      this.unzipOutputFiles(tmpPath.name);
     } else {
-      outputFileBag.push({
+      this.outputFileBag.push({
         realName,
         tmpPath: tmpPath.name,
       });
     }
 
-    if (outputFileBag.length && path.extname(outputFileBag[0].realName) === '.zip') {
-      outputFileBag[0].realName = 'fusioncharts_export.zip';
+    if (this.outputFileBag.length && path.extname(this.outputFileBag[0].realName) === '.zip') {
+      this.outputFileBag[0].realName = 'fusioncharts_export.zip';
     }
 
     const fileSaver = new FileSaver({
       outputFile: this.options.outputFile,
       outputTo: this.options.outputTo,
-      outputFileBag,
+      outputFileBag: this.outputFileBag,
     });
 
     await fileSaver.saveOutputFiles();

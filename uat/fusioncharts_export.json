@@ -8,7 +8,7 @@
       }
     }
   },
-  "output-file": "uat/fc-<%= number(2, 100, 3) %>--<%= cust() %>--<%= art() %>___<%= timestamp() %>",
+  "output-file": "uat/fc-<%= number(2, 100, 3) %>--<%= cust() %>--<%= art %>___<%= timestamp() %>",
   "output-file-definition": "uat/output_file_definition.js",
   "type": "png",
   "width": 1000,

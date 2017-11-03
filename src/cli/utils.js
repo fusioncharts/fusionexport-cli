@@ -21,6 +21,27 @@ function convertKeysToLowercase(obj) {
   return _.deeply(_.mapKeys)(obj, (val, key) => key.toLowerCase());
 }
 
+function findCommonPath(paths) {
+  let p = paths.concat().sort();
+  if (p.length === 0) return undefined;
+  p = p.map(pa => pa.split(path.sep));
+  const p1 = p[0];
+  const p2 = p[p.length - 1];
+  const l = p1.length;
+  let i = 0;
+  while (i < l && p1[i] === p2[i]) i += 1;
+  return path.join(path.sep, ...p1.slice(0, i));
+}
+
+function removeCommonPath(base, ref) {
+  const baseSpl = base.split(path.sep);
+  const refSpl = ref.split(path.sep);
+  const l = baseSpl.length;
+  let i = 0;
+  while (i < l && baseSpl[i] === refSpl[i]) i += 1;
+  return path.join(...baseSpl.slice(i));
+}
+
 function makeArray(ob) {
   if (!ob) {
     return ob;
@@ -43,9 +64,11 @@ function parseChartConfig(chartConfig) {
     return makeArray(ob);
   }
 
-  const pattern = `{${chartConfig.split(' ').join(',')}}`;
-  const fileList = glob.sync(pattern);
+  const pattern = `{,${chartConfig.split(' ').join(',')}}`;
+  let fileList = glob.sync(pattern);
+  fileList = fileList.map(file => path.resolve(file));
 
+  const commonPath = findCommonPath(fileList);
   const confList = [];
   fileList.forEach((file) => {
     let confs;
@@ -56,22 +79,15 @@ function parseChartConfig(chartConfig) {
       log.warn(e);
     }
 
-    if (typeof confs === 'object') {
-      confs = makeArray(confs);
+    if (typeof confs !== 'object') {
+      return;
     }
 
-    let group = '';
-    if (confs.length > 1) {
-      group = path.parse(file).name;
+    confs = makeArray(confs);
 
-      const predicate = conf => conf.group === group;
-      let start = 1;
-      let index = _.findIndex(confList, predicate);
-      while (index > -1) {
-        start += 1;
-        group = `${group}_${start}`;
-        index = _.findIndex(confList, predicate);
-      }
+    let group = path.dirname(removeCommonPath(file, commonPath));
+    if (confs.length > 1) {
+      group = path.join(group, path.parse(file).name);
     }
 
     confs = confs.map((con) => {
@@ -83,7 +99,7 @@ function parseChartConfig(chartConfig) {
     confList.push(...confs);
   });
 
-  return confList;
+  return confList.length > 0 ? confList : undefined;
 }
 
 function sanitizeConfig(options) {

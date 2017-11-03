@@ -62,7 +62,8 @@ class FileSaver {
         base: file.realName,
       });
 
-      await s3fs.mkdirp(path.dirname(outPath));
+      const dir = path.dirname(outPath);
+      if (dir !== '.') await s3fs.mkdirp(dir);
       await s3fs.writeFile(outPath, fs.readFileSync(file.tmpPath));
       log.info(`Check files here ${outPath}`);
     });
