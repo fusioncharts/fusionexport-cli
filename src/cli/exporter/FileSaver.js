@@ -40,7 +40,7 @@ class FileSaver {
 
       await this.mkdirp(path.dirname(outPath));
       fs.createReadStream(file.tmpPath).pipe(fs.createWriteStream(outPath));
-      log.info(`Check files here ${outPath}`);
+      log.info(`Exported files are saved here: ${outPath}`);
     });
 
     await Promise.all(promiseBag);
@@ -65,7 +65,7 @@ class FileSaver {
       const dir = path.dirname(outPath);
       if (dir !== '.') await s3fs.mkdirp(dir);
       await s3fs.writeFile(outPath, fs.readFileSync(file.tmpPath));
-      log.info(`Check files here ${outPath}`);
+      log.info(`Exported files are saved here: ${outPath}`);
     });
 
     await Promise.all(promiseBag);
@@ -92,7 +92,7 @@ class FileSaver {
 
       await ftp.mkdir(path.dirname(outPath), true);
       await ftp.put(file.tmpPath, outPath);
-      log.info(`Check files here ${outPath}`);
+      log.info(`Exported files are saved here: ${outPath}`);
     });
 
     await Promise.all(promiseBag);
