@@ -6,9 +6,13 @@ const request = require('request');
 const JSZip = require('node-zip');
 const AdmZip = require('adm-zip');
 const jsdom = require('jsdom');
+const ProgressBar = require('progress');
 const FileSaver = require('./FileSaver');
 const log = require('../log');
 
+const TotalUnit = 3;
+const FakeUnit = 60;
+const Total = TotalUnit + FakeUnit;
 class RemoteExporter {
   constructor() {
     this.mimeTypes = {
@@ -22,6 +26,14 @@ class RemoteExporter {
       csv: 'text/csv',
       html: 'text/html',
     };
+    // eslint-disable-next-line no-console
+    console.log();
+    this.progressBar = new ProgressBar('Completed |:bar | :percent :customMsg ', {
+      total: Total,
+      width: 60,
+      complete: '⬜',
+      incomplete: '-',
+    });
   }
 
   zipOutputFiles(fileName, dataPath) {
@@ -55,7 +67,9 @@ class RemoteExporter {
     this.generateResourceData();
     this.reReferenceTemplateUrls();
 
-    log.verbose('Sending http requests.');
+    this.progressBar.tick({
+      customMsg: 'Connecting to the remote',
+    });
 
     try {
       const resp = await this.sendRequest();
@@ -111,7 +125,7 @@ class RemoteExporter {
 
   sendRequest() {
     return new Promise((resolve, reject) => {
-      request.post({
+      const req = request.post({
         url: this.options.exportUrl,
         formData: this.buildParams(),
         encoding: null,
@@ -124,6 +138,35 @@ class RemoteExporter {
           reject(new Error(`${resp.statusCode} ${resp.statusMessage}`));
         }
         resolve(resp);
+      });
+
+      req.on('request', () => {
+        this.fakeCounter = 0;
+        this.timer = setInterval(() => {
+          this.fakeCounter += 1;
+          if (this.fakeCounter < FakeUnit) {
+            this.progressBar.tick({
+              customMsg: 'Waiting',
+            });
+          } else {
+            this.almostReached = true;
+            this.progressBar.update(0.9);
+          }
+        }, 500);
+      });
+
+      req.on('complete', () => {
+        clearInterval(this.timer);
+        const remaining = Total - this.fakeCounter;
+        if (this.almostReached) {
+          this.progressBar.update(1, {
+            customMsg: 'Export done',
+          });
+          return;
+        }
+        this.progressBar.tick(remaining, {
+          customMsg: 'Export done',
+        });
       });
     });
   }
@@ -204,8 +247,6 @@ class RemoteExporter {
       return;
     }
 
-    log.info('Generating resource data.');
-
     const resourceData = _.clone(this.options.resources);
 
     templateContext = '';
@@ -243,8 +284,6 @@ class RemoteExporter {
     if (!this.options.template) {
       return;
     }
-
-    log.info('Rereferencing template urls.');
 
     html = fs.readFileSync(this.options.template);
     Object.keys(this.options.resourceData).forEach((key) => {
@@ -293,7 +332,6 @@ class RemoteExporter {
       });
     }
 
-    log.verbose('Generating resource zip.');
 
     const content = zip.generate({ type: 'nodebuffer', compression: 'DEFLATE' });
 
@@ -316,8 +354,6 @@ class RemoteExporter {
   }
 
   deDuplicateResourceData() {
-    log.info('Deduplicating resource data.');
-
     Object.keys(this.options.resourceData).forEach((key) => {
       this.options.resourceData[key] = this.options.resourceData[key].map((val) => {
         const curr = val;
