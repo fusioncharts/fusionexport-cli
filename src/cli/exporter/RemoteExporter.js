@@ -167,6 +167,11 @@ class RemoteExporter {
         this.progressBar.tick(remaining, {
           customMsg: 'Export done',
         });
+
+        if (this.progressBar.complete) {
+          // eslint-disable-next-line no-console
+          console.log('\n');
+        }
       });
     });
   }

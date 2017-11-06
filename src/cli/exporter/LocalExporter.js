@@ -89,7 +89,7 @@ class LocalExporter {
       }
       if (this.progressBar.complete) {
         // eslint-disable-next-line no-console
-        // console.log('\n');
+        console.log('\n');
       }
     });
   }
