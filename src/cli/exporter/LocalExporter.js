@@ -18,12 +18,12 @@ class LocalExporter {
     const actualTotal = calculateTotalUnits(exportOptions);
     // eslint-disable-next-line no-console
     console.log();
-    this.progressBar = new ProgressBar('Remaining [:current/:total] Exporting |:bar | :percent :customMsg ', {
+    this.progressBar = new ProgressBar('Completed |:bar | :percent :customMsg ', {
       total: actualTotal,
       width: 60,
       complete: '⬜',
       incomplete: '-',
-      renderThrottle: 1,
+      // renderThrottle: 1,
     });
 
     try {
@@ -89,7 +89,7 @@ class LocalExporter {
       }
       if (this.progressBar.complete) {
         // eslint-disable-next-line no-console
-        console.log('\n');
+        // console.log('\n');
       }
     });
   }
