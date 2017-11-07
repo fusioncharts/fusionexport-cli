@@ -16,6 +16,7 @@ class LocalExporter {
     this.options = options;
     const exportOptions = this.buildExportOptions();
     const actualTotal = calculateTotalUnits(exportOptions);
+
     // eslint-disable-next-line no-console
     console.log();
     this.progressBar = new ProgressBar('Completed |:bar | :percent :customMsg ', {

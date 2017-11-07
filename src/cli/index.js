@@ -5,7 +5,6 @@ const CLIEngine = require('./core/CLIEngine');
 const utils = require('./utils');
 const RemoteExporter = require('./exporter/RemoteExporter');
 const LocalExporter = require('./exporter/LocalExporter');
-const log = require('./log');
 
 program
   .version('1.0.0-pre-alpha-1')
@@ -41,7 +40,6 @@ utils.configureLogger({
   logFile: options.logFile,
   logLevel: options.logLevel,
 });
-
 
 if (options.remoteExportEnabled) {
   new RemoteExporter().render(options);

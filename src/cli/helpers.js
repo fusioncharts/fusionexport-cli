@@ -138,23 +138,31 @@ function renameProperty(ob, oldName, newName) {
 function calculateTotalUnits(finaloptions) {
   const TOTAL_UNIT = 3;
   const CHART_CONFIG_LOAD_EVENT_COUNT = 3;
-  if (finaloptions.chartConfig &&
-  !finaloptions.templateFilePath &&
-  !finaloptions.inputFile) {
+  if (
+    finaloptions.chartConfig &&
+    !finaloptions.templateFilePath &&
+    !finaloptions.inputFile
+  ) {
     return TOTAL_UNIT + finaloptions.chartConfig.length + CHART_CONFIG_LOAD_EVENT_COUNT;
-  } else if (finaloptions.chartConfig &&
-  finaloptions.templateFilePath &&
-  !finaloptions.inputSVG &&
-  finaloptions.type !== 'html') {
+  } else if (
+    finaloptions.chartConfig &&
+    finaloptions.templateFilePath &&
+    !finaloptions.inputSVG &&
+    finaloptions.type !== 'html'
+  ) {
     return TOTAL_UNIT + 1 + CHART_CONFIG_LOAD_EVENT_COUNT;
-  } else if (finaloptions.chartConfig &&
-  finaloptions.templateFilePath &&
-  !finaloptions.inputSVG &&
-  finaloptions.type === 'html') {
+  } else if (
+    finaloptions.chartConfig &&
+    finaloptions.templateFilePath &&
+    !finaloptions.inputSVG &&
+    finaloptions.type === 'html'
+  ) {
     return TOTAL_UNIT + 1;
-  } else if (!finaloptions.chartConfig &&
-  !finaloptions.templateFilePath &&
-  finaloptions.inputSVG) {
+  } else if (
+    !finaloptions.chartConfig &&
+    !finaloptions.templateFilePath &&
+    finaloptions.inputSVG
+  ) {
     return TOTAL_UNIT + 2;
   }
   return TOTAL_UNIT;

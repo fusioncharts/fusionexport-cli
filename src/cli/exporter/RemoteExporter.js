@@ -26,6 +26,7 @@ class RemoteExporter {
       csv: 'text/csv',
       html: 'text/html',
     };
+
     // eslint-disable-next-line no-console
     console.log();
     this.progressBar = new ProgressBar('Completed |:bar | :percent :customMsg ', {
@@ -134,9 +135,11 @@ class RemoteExporter {
           reject(err);
           return;
         }
+
         if (resp.statusCode !== 200) {
           reject(new Error(`${resp.statusCode} ${resp.statusMessage}`));
         }
+
         resolve(resp);
       });
 
