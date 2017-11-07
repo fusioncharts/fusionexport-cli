@@ -19,11 +19,11 @@ class LocalExporter {
 
     // eslint-disable-next-line no-console
     console.log();
-    this.progressBar = new ProgressBar('Completed |:bar | :percent :customMsg ', {
+    this.progressBar = new ProgressBar('Completed |:bar| :percent :customMsg ', {
       total: actualTotal,
       width: 60,
-      complete: '⬜',
-      incomplete: '-',
+      complete: '█',
+      incomplete: '▃',
       // renderThrottle: 1,
     });
 

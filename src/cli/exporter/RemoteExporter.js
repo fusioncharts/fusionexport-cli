@@ -13,6 +13,7 @@ const log = require('../log');
 const TotalUnit = 3;
 const FakeUnit = 60;
 const Total = TotalUnit + FakeUnit;
+
 class RemoteExporter {
   constructor() {
     this.mimeTypes = {
@@ -32,8 +33,8 @@ class RemoteExporter {
     this.progressBar = new ProgressBar('Completed |:bar | :percent :customMsg ', {
       total: Total,
       width: 60,
-      complete: '⬜',
-      incomplete: '-',
+      complete: '█',
+      incomplete: '▃',
     });
   }
 
