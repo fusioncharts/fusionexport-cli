@@ -7,6 +7,7 @@ const JSZip = require('node-zip');
 const AdmZip = require('adm-zip');
 const jsdom = require('jsdom');
 const ProgressBar = require('progress');
+const helpers = require('../helpers');
 const FileSaver = require('./FileSaver');
 const log = require('../log');
 
@@ -199,9 +200,9 @@ class RemoteExporter {
     params.stream = JSON.stringify(this.options.chartConfig);
     params.is_single_export = this.options.chartConfig.length > 1 ? 'true' : 'false';
 
-    const zipFile = this.generateZip();
-    if (zipFile) {
-      params.files = fs.createReadStream(zipFile.name);
+    if (this.options.outputFileDefinition) {
+      params.output_file_definition =
+        helpers.stringifyWithFunctions(this.options.outputFileDefinition);
     }
 
     if (this.options.dashboardHeading) {
@@ -210,6 +211,11 @@ class RemoteExporter {
 
     if (this.options.dashboardSubheading) {
       params.dashboard_subheading = this.options.dashboardSubheading;
+    }
+
+    const zipFile = this.generateZip();
+    if (zipFile) {
+      params.files = fs.createReadStream(zipFile.name);
     }
 
     return params;

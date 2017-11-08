@@ -168,6 +168,15 @@ function calculateTotalUnits(finaloptions) {
   return TOTAL_UNIT;
 }
 
+function stringifyWithFunctions(object) {
+  return JSON.stringify(object, (key, val) => {
+    if (typeof val === 'function') {
+      return val.toString().replace(/\n/g, ' ');
+    }
+    return val;
+  });
+}
+
 module.exports = {
   parseBool,
   parseObject,
@@ -175,4 +184,5 @@ module.exports = {
   findDotSeparated,
   renameProperty,
   calculateTotalUnits,
+  stringifyWithFunctions,
 };
