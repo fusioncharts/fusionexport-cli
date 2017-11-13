@@ -23,7 +23,7 @@ class LocalExporter {
       total: actualTotal,
       width: 60,
       complete: '█',
-      incomplete: '▃',
+      incomplete: '-',
       // renderThrottle: 1,
     });
 

@@ -35,7 +35,7 @@ class RemoteExporter {
       total: Total,
       width: 60,
       complete: '█',
-      incomplete: '▃',
+      incomplete: '-',
     });
   }
 
