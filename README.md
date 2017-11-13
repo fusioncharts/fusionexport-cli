@@ -76,7 +76,7 @@ Option | Alias | Default |Type | Description
 --chart-config | -c | fusioncharts_chart.json | file, json | A JSON or JS file that will contain an array of json objects or just an object which can be passed to the chart constructor for rendering the chart. <br><br> If it's a JS file the object should be exported. <br><br> It can also take multiple file, directory path or glob pattern in a space seprated format. For file containing single chart config it will create a single exported file. For file containing multiple chart config it will create a directory named after the respective filename, that will contain the individual exported file.
 --chart-config-options | -O | {} | json | JSON object that provides an option to override the chart configuration passed through chart-config option. <br><br> In case of multiple charts all the charts will be effected.
 --input-file | -i | chart.svg | file | SVG file that needs to be converted. <br><br> Ignored if chart-config is provided. <br><br> Path will be taken into account if provided.
---output-file | -o | | string | Output files that need to be generated. A template can also be giving that will be resolved for multiple files. For more information see below.
+--output-file | -o | | string | Output files that need to be generated. A template can also be giving that will be resolved for multiple files. For more information see below. <br><br> Zipped output will always be named fusioncharts_export.zip
 --output-file-definition | -F | | file | JS or JSON file that contains methods and arrays to use in naming output files.
 --output-as-zip | -z | | bool | To export the output files as zip, or to export individual files.
 --type | -t | png | ext | Output file type.
@@ -91,7 +91,7 @@ Option | Alias | Default |Type | Description
 --dashboard-subheading | -B | | string | Subheading of the exported dashboard.
 --log-dest | -d | | path | Log destination. Also enables logging.
 --log-file | -f | fusioncharts_export.log | file | Log file.
---log-level | -l | 2 | level | Log level. <br><br> 0: emerg, 1: alert, 2: crit, 3: error, 4: warning, 5: notice, 6: info, 7: debug
+--log-level | -l | 2 | level | Log level. <br><br> 0: error, 1: warn, 2: info, 3: verbose, 4: debug, 5: silly
 --remote-export-enabled | -R | false | bool | If enabled, the cli will use the export server api to export the images.
 --export-url | -u | export.api3.fusioncharts.com | url | Export server url.
 
