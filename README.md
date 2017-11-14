@@ -394,7 +394,6 @@ The format of the resources option is as follows:
 $ xf -c multiple_charts_config.json -T template.html -t PDF -o ./exported-dashboards/
 ```
 
-#
 ### Output File Naming
 
 The `output-file` option can take a template which is then resolved using ejs, so that the output filenames can be generated exactly as you wanted it to be.
