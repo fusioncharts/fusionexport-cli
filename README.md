@@ -84,7 +84,7 @@ Option | Alias | Default |Type | Description
 --height | -H | 400 | value | Chart height in which all charts should be rendered.
 --callbacks | -b | fusioncharts_export_callbacks.js | file | JS file providing an option to bind custom methods to events fired by FusionCharts library.
 --template | -T | template.html | file | HTML file to use as template for rendering the chart.
---resources | -r | resources.json | file, json | JSON file containing all the resources which will injected into the template while rendering the charts.
+--resources | -r | resources.json | file, json | FusionExport automatically finds resources from link, script and img tags in the html template. <br><br> If any resource link is dynamically generated or present in files other than the template file, it should be explicitly added in this option. <br><br> This is a JSON file containing arrays of filename in their respective key. <br><br> Applicable only during remote exporting.
 --library-path | -L | | path | Path where FusionCharts library is present.
 --dashboard-logo | -G | | file | Logo path (Only for dashboard export)
 --dashboard-heading | -D | | string | Heading of the exported dashboard.
