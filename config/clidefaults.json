@@ -4,7 +4,7 @@
   "chartConfigOptions": {},
   "inputFile": "chart.svg",
   "outputFile": "export--<%= number(1) %>.png",
-  "outputAsZip": "true",
+  "outputAsZip": "false",
   "type": "png",
   "callbacks": "fusioncharts_export_callbacks.js",
   "template": "template.html",

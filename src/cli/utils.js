@@ -86,6 +86,7 @@ function parseChartConfig(chartConfig) {
     confs = makeArray(confs);
 
     let group = path.dirname(removeCommonPath(file, commonPath));
+    if (group === '.') group = '';
     if (confs.length > 1) {
       group = path.join(group, path.parse(file).name);
     }

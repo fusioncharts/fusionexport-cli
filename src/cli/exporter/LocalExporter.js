@@ -24,7 +24,6 @@ class LocalExporter {
       width: 60,
       complete: '█',
       incomplete: '-',
-      // renderThrottle: 1,
     });
 
     try {
@@ -33,6 +32,11 @@ class LocalExporter {
     } catch (err) {
       log.error(err);
       return;
+    }
+
+    if (this.outputFileBag.length > 1) {
+      const ofp = path.parse(this.options.outputFile);
+      this.options.outputFile = path.join(ofp.dir, 'fusioncharts_export', ofp.base);
     }
 
     const fileSaver = new FileSaver({
