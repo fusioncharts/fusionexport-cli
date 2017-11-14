@@ -3,19 +3,19 @@
 ## Intro on **FusionExport**
 
 ## Get FusionExport
- - Get **FusionExport Desktop** (Three Tabs for 3 Operating Systems)
- - Install ExportFusion Desktop
-	 - MAC OS Guide
-	 - Windows Guide
-	 - Linux Guide
- - Install **FusionExport CLI**
-	 - Prerequites
-	 - Guide for Installation
- - Installation of **FusionExport WebService**
-	 - Docker Distribution Guide
-	 - Without Docker Guide
-	 - Deploy at AWS (Good to have)
-	 - Deploy at DigitalOcean (Good to have)
+- Get **FusionExport Desktop** (Three Tabs for 3 Operating Systems)
+- Install ExportFusion Desktop
+  - MAC OS Guide
+  - Windows Guide
+  - Linux Guide
+- Install **FusionExport CLI**
+  - Prerequites
+  - Guide for Installation
+- Installation of **FusionExport WebService**
+  - Docker Distribution Guide
+  - Without Docker Guide
+  - Deploy at AWS (Good to have)
+  - Deploy at DigitalOcean (Good to have)
 
 ## Quick Start
 
@@ -62,7 +62,7 @@ You can even save the chart config into a javascript file. In that case, the who
 
 ```javascript
 module.exports = {
-// fusioncharts config
+  // fusioncharts config
 };
 ```
 
@@ -72,7 +72,7 @@ To use this newly created javascript file for the export, the following command 
 $ fe - c <chart-config-file.js>
 ```
 
-### Usage
+#### Usage
 
 `column_chart_config.json` contains a sample fusioncharts column chart config `column_chart_config.json`
 ```json
@@ -113,7 +113,7 @@ $ fe -c column_chart_config.json
 
 This will export the Column chart in PNG format in the current working directory.
 
-## Change the export type
+### Change the export type
 
 By default, FusionExport will export in `PNG` format. To export in `JPEG` or in other accepted type, we can ask the cli to do this via `-t` or `--type` argument.
 
@@ -128,14 +128,14 @@ FusionExport is able to export in the following formats
 - `XLS`
 - `XLSX`
 
-### Usage
+#### Usage
 
 Let's create one PDF for the previous column chart.
 ```bash
 $ fe -c column_chart_config.json -t pdf
 ```
 
-## Bulk export
+### Bulk export
 
 Bulk Export or doing multiple exports is now super easy. All we need to do is to save the multiple chart configs as an array. That means each item of the array should hold one single chart's config.
 
@@ -143,12 +143,12 @@ So if you are saving the chart configs in a json file. The file structure should
 
 ```json
 [
-	{
-		// fisrt chart
-	},
-	{
-		// second chart
-	}
+  {
+    "..."
+  },
+  {
+    "..."
+  }
 ]
 ```
 ```
@@ -158,19 +158,19 @@ If you prefer to save the file as javascript,
 
 ```javascript
 module.exports = [
-	{
-		// fisrt chart
-	},
-	{
-		// second chart
-	}
+  {
+    // fisrt chart
+  },
+  {
+    // second chart
+  }
 ];
 ```
 ```
 $ fe - c <chart-config-file.js>
 ```
 
-## Export a Dashboard
+### Export a Dashboard
 To export Dashboard using CLI, a template file has to be provided with the layout and supporting static resource (JS, CSS, Images, Fonts).
 
 The template must contain placeholder elements (preferably divs) for the charts. The chart config array must contain the charts with the renderAt attributes that matches the id of the elements stated above.
@@ -193,7 +193,8 @@ Following is the content of the `template.html`
 Following is the content of the `multiple_charts_config.json`. Special attention need to given to the `renderAt` attribute. As you can see that our template contains two divs with the id `pie_chart` and `column_chart`.
 
 In the config also, we need the same `renderAt` it. When we do export, FusionExport will replace those divs with the actual rendered charts.
-```
+
+```json
 [
    {
       "type": "pie2d",
@@ -291,7 +292,7 @@ In the config also, we need the same `renderAt` it. When we do export, FusionExp
    }
 ]
 ```
-So here we just need to provide the template,
+So here we just need to provide the template
 
 ```bash
 $ fe -c multiple_charts_config.json -T template.html
@@ -322,7 +323,7 @@ The format of the resources option is as follows:
 }
 ```
 
-## Convert a SVG image to PNG/JPEG
+### Convert a SVG image to PNG/JPEG
 
 If we have a svg image, all you need to convert it to PNG or JPEG or PDF. You can do that using FusionExport.
 Save the svg in a file. Let's name it `chart.svg`
@@ -333,7 +334,7 @@ Here we need to use `--input-file` or `-i` for providing the svg to the FusionEx
 $ fe -i chart.svg -t pdf
 ```
 
-## Customize width and height of the export
+### Customize width and height of the export
 
 We can manipulate the width or height of the exported images. For changing width, `--width` or `-W` option is used. Same goes for the height. `--height` or `-H` is used to change the height.
 
@@ -345,7 +346,7 @@ $ fe -c multiple_charts_config.json -W 800 -H 400
 
 It doesn't work with `--input-file` option.
 
-## Use licensed FusionCharts library for export
+### Use licensed FusionCharts library for export
 
 To use the licensed version of the fusioncharts libarary, we can provide the path to fusioncharts lib using `--library-path` or `-L`
 
@@ -353,7 +354,7 @@ To use the licensed version of the fusioncharts libarary, we can provide the pat
 $ fe -c multiple_charts_config.json -L "path/to/fusioncharts"
 ```
 
-## Including logo/heading in the Dashboard
+### Including logo/heading in the Dashboard
 
 You can add logo, heading and subheading to your exported dashboards. The logo and heading/subheading is included in the top of the Dashboard.
 
@@ -367,9 +368,9 @@ You can add logo, heading and subheading to your exported dashboards. The logo a
 $ fe -c multiple_charts_config.json -T template.html -G "path/to/logo.png" -D "FusionExport Dashboard" -B "Powerd by ExportFusion"
 ```
 
-## Manipulate output filename
+### Manipulate output filename
 
-## Inject extra javascript while exporting
+### Inject extra javascript while exporting
 
 You can even add a custom javascript file while exporting using `--callbacks` or `-b`
 This is our custom javascript that we need to include while the export is happening.
