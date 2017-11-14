@@ -383,6 +383,33 @@ document.body.style.transform = "rotate(-10deg)";
 ```bash
 $ fe -c chart.json -b custom.js
 ```
+
+### Remote export
+
+For remote export, you need to deploy the `FusionExport WebServie` and get the export url. The export now can be done remotely.
+So we need to enable `--remote-export-enabled` and pass the `--export-url`.
+
+```bash
+$ fe -c column_chart_config.json -R true -u http://localhost:3000/api/v1.0/export
+```
+
+### Output as Zip
+
+If you want the exported files as a zip, you can do setting `--output-as-zip` to `true`
+
+```bash
+$ fe -c multiple_charts_config.json -z false
+```
+
+### Bulk export using multiple js/json files
+
+
+### CLI options in a file
+
+### Overriding chart config
+
+### Enable logging
+
 ## Reference
 
 Option | Alias | Default |Type | Description
