@@ -10,8 +10,8 @@
     "url": "git+ssh://git@bitbucket.org/fusioncharts/fc-export-cli.git"
   },
   "bin": {
-    "xf": "src/cli/index.js",
-    "export-fusion": "src/cli/index.js"
+    "fe": "src/cli/index.js",
+    "fusion-export": "src/cli/index.js"
   },
   "license": "ISC",
   "homepage": "https://bitbucket.org/fusioncharts/fc-export-cli#readme",

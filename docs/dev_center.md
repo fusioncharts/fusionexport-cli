@@ -448,6 +448,34 @@ $ fe -c multiple_charts_config.json -z false
 
 ### Bulk export using multiple js/json files
 
+Multiple JS or JSON files can be supplied to the `--chart-config` option. You can give multiple files or directories or a combination of it in a space separated format or even a glob pattern.
+
+The cli will find the common path for all the files, use that as a reference, and create a similar folder structure that is easily recognizable.
+
+In case of files containing more than one chart config, it will create a folder named after that filename and put all the exported images in it.
+
+```bash
+$ fe -c 'uat/resources/charts/file_1.json uat/resources/charts/file_2.json uat/resources/charts/sub_1/* uat/resources/charts/sub_2/*'
+}
+```
+
+It will create folder structure as follows
+
+```
+fusioncharts_export
+  sub_1
+    mul_1
+      export--4.png
+      export--5.png
+    export--3.png
+  sub_2
+    mul_1
+      export--6.png
+      export--7.png
+  export--1.png
+  export--2.png
+```
+
 ### CLI options in a file
 
 All the cli options can be written in a JSON file. So all that you need to provide this JSON file as the cli arguments using `--config` or `-e`. Rest of the things will be autometically figured out from that file.
@@ -497,6 +525,15 @@ $ fe -e fusioncharts_config.json
 
 ### Enable logging
 
+Logging is disabled by default. It can be enabled by setting a log destination. 
+
+You can provide the log file path in the `--log-dest` option, log file name in the `--log-file` option and log level in the `--log-level` option.
+
+You can find the different log levels in the CLI reference section.
+
+```bash
+$ fe -c multiple_charts_config.json -d uat/ -f test.log -l 5
+```
 
 
 ## Reference
@@ -522,6 +559,6 @@ Option | Alias | Default |Type | Description
 --dashboard-subheading | -B | | string | Subheading of the exported dashboard.
 --log-dest | -d | | path | Log destination. Also enables logging.
 --log-file | -f | fusioncharts_export.log | file | Log file.
---log-level | -l | 2 | level | Log level. <br><br> 0: error, 1: warn, 2: info, 3: verbose, 4: debug, 5: silly
+--log-level | -l | 2 | level | Log level. This can be given as a number or it's corresponding string. <br><br> 0: error, 1: warn, 2: info, 3: verbose, 4: debug, 5: silly
 --remote-export-enabled | -R | false | bool | If enabled, the cli will use the export server api to export the images.
 --export-url | -u | export.api3.fusioncharts.com | url | Export server url.
