@@ -39,8 +39,6 @@
 
 - Inject extra javascript while exporting
 
-- Remote export using FusionExport WebService
-
 ## Export a chart
 
 FusionExport cli accecpts chart config with `-c` or `--chart-config`. For exporting a single chart from the cli, we need to save the chartconfig into a JSON file. Then we need to run the following command in the terminal to export.
@@ -120,7 +118,7 @@ FusionExport is able to export in the following formats
 
 ### Usage
 
-Let's create one PDF for the previous column chart. 
+Let's create one PDF for the previous column chart.
 ```bash
 $ fe -c column_chart_config.json -t pdf
 ```
@@ -180,7 +178,7 @@ Following is the content of the `template.html`
 </html>
 ```
 
-Following is the content of the `multiple_charts_config.json`. Special attention need to given to the `renderAt` attribute. As you can see that our template contains two divs with the id `pie_chart` and `column_chart`. 
+Following is the content of the `multiple_charts_config.json`. Special attention need to given to the `renderAt` attribute. As you can see that our template contains two divs with the id `pie_chart` and `column_chart`.
 
 In the config also, we need the same `renderAt` it. When we do export, FusionExport will replace those divs with the actual rendered charts.
 ```
@@ -345,13 +343,33 @@ $ fe -c multiple_charts_config.json -L "path/to/fusioncharts"
 
 ## Including logo/heading in the Dashboard
 
+You can add logo, heading and subheading to your exported dashboards. The logo and heading/subheading is included in the top of the Dashboard.
+
+`--dashboard-logo` or `-G` used for logo path.
+
+`--dashboard-heading` or `-D` used for heading of the exported dashboard.
+
+`--dashboard-subheading` or `-B` used for subheading of the exported dashboard.
+
+```bash
+$ fe -c multiple_charts_config.json -T template.html -G "path/to/logo.png" -D "FusionExport Dashboard" -B "Powerd by ExportFusion"
+```
+
 ## Manipulate output filename
 
 ## Inject extra javascript while exporting
 
-## Remote export using FusionExport WebService
+You can even add a custom javascript file while exporting using `--callbacks` or `-b`
+This is our custom javascript that we need to include while the export is happening.
 
+The content of the `custom.js` file is below.
+```javascript
+document.body.style.transform = "rotate(-10deg)";
+```
 
+```bash
+$ fe -c chart.json -b custom.js
+```
 ## Reference
 
 Option | Alias | Default |Type | Description
