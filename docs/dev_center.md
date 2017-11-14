@@ -346,13 +346,33 @@ $ fe -c multiple_charts_config.json -L "path/to/fusioncharts"
 
 ### Including logo/heading in the Dashboard
 
+You can add logo, heading and subheading to your exported dashboards. The logo and heading/subheading is included in the top of the Dashboard.
+
+`--dashboard-logo` or `-G` used for logo path.
+
+`--dashboard-heading` or `-D` used for heading of the exported dashboard.
+
+`--dashboard-subheading` or `-B` used for subheading of the exported dashboard.
+
+```bash
+$ fe -c multiple_charts_config.json -T template.html -G "path/to/logo.png" -D "FusionExport Dashboard" -B "Powerd by ExportFusion"
+```
+
 ### Manipulate output filename
 
 ### Inject extra javascript while exporting
 
-### Remote export using FusionExport WebService
+You can even add a custom javascript file while exporting using `--callbacks` or `-b`
+This is our custom javascript that we need to include while the export is happening.
 
+The content of the `custom.js` file is below.
+```javascript
+document.body.style.transform = "rotate(-10deg)";
+```
 
+```bash
+$ fe -c chart.json -b custom.js
+```
 ## Reference
 
 Option | Alias | Default |Type | Description
