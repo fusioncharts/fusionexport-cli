@@ -360,6 +360,51 @@ $ fe -c multiple_charts_config.json -T template.html -G "path/to/logo.png" -D "F
 
 ### Manipulate output filename
 
+The `output-file` option can take a template which is then resolved using ejs, so that the output filenames can be generated exactly as you wanted it to be.
+
+There are 2 inbuilt function and you can provide you own ones in another JS file and pass it in the option `output-file-definition`
+
+The 2 inbuilt functions are
+
+1. `number(start, end, step)`: It increments a number from `start` to `end` with `step` as provided. `end` and `step` are optional.
+
+2. `timestamp()`: It provides the current time is millisecond.
+
+You can provide custom functions or arrays in definition file. Example:
+
+```javascript
+module.exports = {
+  caption: (chartConfig, index) => {
+    const caption = chartConfig.dataSource.chart.caption;
+    return `${index}__${caption}`;
+  },
+  attr: ['S1', 'S2', 'S3', 'S4'],
+};
+```
+Let us save the above content in a file named `def.js`
+
+Functions will get 3 arguments the current chart config, the index and array of all the chart configs.
+
+Arrays will the iterated one by one and the last one will be repeated if more is needed.
+
+#### Usage
+
+A few ways you can pass `output-file` option now are:
+
+```shell
+path/to/export--<%= number(1, 100) %>
+# path/to/export--1.png
+
+path/to/export--<%= number(2) %>__<%= caption() %>-<%= timestamp() %>
+# path/to/export--2__Some Caption-23423438788.png
+```
+
+A complete command would look like This
+
+```shell
+$ fe -c multiple_charts_config.json -o 'path/to/export--<%= number(1, 100) %>' -F def.js
+```
+
 ### Inject extra javascript while exporting
 
 You can even add a custom javascript file while exporting using `--callbacks` or `-b`
