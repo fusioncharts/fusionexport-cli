@@ -448,12 +448,56 @@ $ fe -c multiple_charts_config.json -z false
 
 ### Bulk export using multiple js/json files
 
-
 ### CLI options in a file
+
+All the cli options can be written in a JSON file. So all that you need to provide this JSON file as the cli arguments using `--config` or `-e`. Rest of the things will be autometically figured out from that file.
+
+Below is the content of the `fusionexport_config.json`
+
+```json
+{
+  "chart-config": "uat/50charts.js",
+  "output-file": "uat/export-<%= number(1, 100) %>",
+  "type": "png",
+  "width": 1000,
+  "height": 500,
+  "log-dest": "uat/",
+  "log-file": "test.log",
+  "log-level": "silly",
+  "remote-export-enabled": false
+}
+```
+
+```
+$ fe -e fusioncharts_config.json
+```
 
 ### Overriding chart config
 
+By using `--chart-config-options`, we can overrride the chart config. 
+
+See the below example config. Here we are replacing all chart's subheading and adding new property theme.
+```json
+{
+  "chart-config": "uat/fusioncharts_chart.js",
+  "chart-config-options": {
+    "dataSource.chart.subCaption": "FusionExport",
+    "dataSource": {
+      "chart": {
+        "theme": "ocean"
+      }
+    }
+  }
+}
+```
+
+```
+$ fe -e fusioncharts_config.json
+```
+
 ### Enable logging
+
+
 
 ## Reference
 
