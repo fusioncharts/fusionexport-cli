@@ -314,9 +314,34 @@ The format of the resources option is as follows:
 
 ## Convert a SVG image to PNG/JPEG
 
+If we have a svg image, all you need to convert it to PNG or JPEG or PDF. You can do that using FusionExport.
+Save the svg in a file. Let's name it `chart.svg`
+
+Here we need to use `--input-file` or `-i` for providing the svg to the FusionExport
+
+```bash
+$ fe -i chart.svg -t pdf
+```
+
 ## Customize width and height of the export
 
+We can manipulate the width or height of the exported images. For changing width, `--width` or `-W` option is used. Same goes for the height. `--height` or `-H` is used to change the height.
+
+If you are doing bulk exports, then all the charts height and width will be overridden with this cli option.
+
+```bash
+$ fe -c multiple_charts_config.json -W 800 -H 400
+```
+
+It doesn't work with `--input-file` option.
+
 ## Use licensed FusionCharts library for export
+
+To use the licensed version of the fusioncharts libarary, we can provide the path to fusioncharts lib using `--library-path` or `-L`
+
+```bash
+$ fe -c multiple_charts_config.json -L "path/to/fusioncharts"
+```
 
 ## Including logo/heading in the Dashboard
 
