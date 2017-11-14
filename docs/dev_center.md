@@ -39,9 +39,19 @@
 
 - Inject extra javascript while exporting
 
-- Remote export using FusionExport WebService
+- Remote export
 
-### Export a chart
+- Bulk export using multiple js/json files
+
+- CLI options in a file
+
+- Overriding chart config
+
+- Output as Zip
+
+- Enable logging
+
+## Export a chart
 
 FusionExport cli accecpts chart config with `-c` or `--chart-config`. For exporting a single chart from the cli, we need to save the chartconfig into a JSON file. Then we need to run the following command in the terminal to export.
 
@@ -288,7 +298,7 @@ So here we just need to provide the template
 $ fe -c multiple_charts_config.json -T template.html
 ```
 
-The resources option is optional and only needed when `--remote-export-enabled` is `true`. Most resources that are stated in the template in link, script or img tags are found intelligently. If any additional fonts, links present in css or dynamic links in JS is present one has to specify them in resources option.
+The `--resources` option is optional and only needed when `--remote-export-enabled` is `true`. Most resources that are stated in the template in link, script or img tags are found intelligently. If any additional fonts, links present in css or dynamic links in JS is present one has to specify them in resources option.
 
 The format of the resources option is as follows:
 
