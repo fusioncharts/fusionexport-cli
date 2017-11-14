@@ -11,7 +11,7 @@
   "resources": "resources.json",
   "logDest": "/",
   "logFile": "fusioncharts_export.log",
-  "logLevel": 7,
+  "logLevel": 2,
   "remoteExportEnabled": "false",
   "exportUrl": "http://export.api3.fusioncharts.com",
   "exportLogUrl": "http://export.api3.fusioncharts.com/api/v1.0/logs"
