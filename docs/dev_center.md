@@ -2,7 +2,7 @@
 
 ## Intro on **FusionExport**
 
-### Get FusionExport
+## Get FusionExport
  - Get **FusionExport Desktop** (Three Tabs for 3 Operating Systems)
  - Install ExportFusion Desktop
 	 - MAC OS Guide
@@ -17,9 +17,11 @@
 	 - Deploy at AWS (Good to have)
 	 - Deploy at DigitalOcean (Good to have)
 
-### Quick Start
+## Quick Start
 
 - Export a chart
+
+- Change the export type
 
 - Bulk export
 
@@ -39,7 +41,293 @@
 
 - Remote export using FusionExport WebService
 
-### Reference
+## Export a chart
+
+FusionExport cli accecpts chart config with `-c` or `--chart-config`. For exporting a single chart from the cli, we need to save the chartconfig into a JSON file. Then we need to run the following command in the terminal to export.
+
+```bash
+$ fe -c <chart-config-file.json>
+```
+You can even save the chart config into a javascript file. In that case, the whole chart config object must have to be exported. That means, your chart config should look like below.
+
+```javascript
+module.exports = {
+// fusioncharts config
+};
+```
+
+To use this newly created javascript file for the export, the following command need to be executed.
+
+```
+$ fe - c <chart-config-file.js>
+```
+
+### Usage
+
+`column_chart_config.json` contains a sample fusioncharts column chart config `column_chart_config.json`
+```json
+[
+   {
+      "type": "column2d",
+      "renderAt": "chart-container",
+      "width": "550",
+      "height": "350",
+      "dataFormat": "json",
+      "dataSource": {
+         "chart": {
+            "caption": "Number of visitors last week",
+            "subCaption": "Bakersfield Central vs Los Angeles Topanga"
+         },
+         "data": [
+            {
+               "label": "Mon",
+               "value": "15123"
+            },
+            {
+               "label": "Tue",
+               "value": "14233"
+            },
+            {
+               "label": "Wed",
+               "value": "25507"
+            }
+         ]
+      }
+   }
+]
+```
+
+```bash
+$ fe -c column_chart_config.json
+```
+
+This will export the Column chart in PNG format in the current working directory.
+
+## Change the export type
+
+By default, FusionExport will export in `PNG` format. To export in `JPEG` or in other accepted type, we can ask the cli to do this via `-t` or `--type` argument.
+
+FusionExport is able to export in the following formats
+
+- `PNG`
+- `JPEG`
+- `PDF`
+- `SVG`
+- `HTML`
+- `CSV`
+- `XLS`
+- `XLSX`
+
+### Usage
+
+Let's create one PDF for the previous column chart. 
+```bash
+$ fe -c column_chart_config.json -t pdf
+```
+
+## Bulk export
+
+Bulk Export or doing multiple exports is now super easy. All we need to do is to save the multiple chart configs as an array. That means each item of the array should hold one single chart's config.
+
+So if you are saving the chart configs in a json file. The file structure should look like below
+
+```json
+[
+	{
+		// fisrt chart
+	},
+	{
+		// second chart
+	}
+]
+```
+```
+$ fe - c <chart-config-file.json>
+```
+If you prefer to save the file as javascript,
+
+```javascript
+module.exports = [
+	{
+		// fisrt chart
+	},
+	{
+		// second chart
+	}
+];
+```
+```
+$ fe - c <chart-config-file.js>
+```
+
+## Export a Dashboard
+To export Dashboard using CLI, a template file has to be provided with the layout and supporting static resource (JS, CSS, Images, Fonts).
+
+The template must contain placeholder elements (preferably divs) for the charts. The chart config array must contain the charts with the renderAt attributes that matches the id of the elements stated above.
+
+Following is the content of the `template.html`
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Chart</title>
+  </head>
+  <body>
+    <div id="pie_chart"></div>
+    <div id="column_chart"></div>
+  </body>
+</html>
+```
+
+Following is the content of the `multiple_charts_config.json`. Special attention need to given to the `renderAt` attribute. As you can see that our template contains two divs with the id `pie_chart` and `column_chart`. 
+
+In the config also, we need the same `renderAt` it. When we do export, FusionExport will replace those divs with the actual rendered charts.
+```
+[
+   {
+      "type": "pie2d",
+      "renderAt": "pie_chart",
+      "width": "500",
+      "height": "400",
+      "dataFormat": "json",
+      "dataSource": {
+         "chart": {
+            "caption": "Number of visitors last week",
+            "subCaption": "Bakersfield Central vs Los Angeles Topanga"
+         },
+         "categories": [
+            {
+               "category": [
+                  {
+                     "label": "Mon"
+                  },
+                  {
+                     "label": "Tue"
+                  },
+                  {
+                     "label": "Wed"
+                  }
+               ]
+            }
+         ],
+         "dataset": [
+            {
+               "seriesname": "Los Angeles Topanga",
+               "data": [
+                  {
+                     "value": "13400"
+                  },
+                  {
+                     "value": "12800"
+                  },
+                  {
+                     "value": "22800"
+                  }
+               ]
+            }
+         ]
+      }
+   },
+   {
+      "type": "mscolumn2d",
+      "renderAt": "column_chart",
+      "width": "450",
+      "height": "420",
+      "dataFormat": "json",
+      "dataSource": {
+         "chart": {
+            "caption": "Split of Sales by Product Category",
+            "subCaption": "In top 5 stores last month",
+            "yAxisname": "Sales (In USD)"
+         },
+         "categories": [
+            {
+               "category": [
+                  {
+                     "label": "Bakersfield Central"
+                  },
+                  {
+                     "label": "Garden Groove harbour"
+                  }
+               ]
+            }
+         ],
+         "dataset": [
+            {
+               "seriesname": "Food Products",
+               "data": [
+                  {
+                     "value": "17000"
+                  },
+                  {
+                     "value": "19500"
+                  }
+               ]
+            },
+            {
+               "seriesname": "Non-Food Products",
+               "data": [
+                  {
+                     "value": "25400"
+                  },
+                  {
+                     "value": "29800"
+                  }
+               ]
+            }
+         ]
+      }
+   }
+]
+```
+So here we just need to provide the template,
+
+```bash
+$ fe -c multiple_charts_config.json -T template.html
+```
+
+The resources option is optional and only needed when `--remote-export-enabled` is `true`. Most resources that are stated in the template in link, script or img tags are found intelligently. If any additional fonts, links present in css or dynamic links in JS is present one has to specify them in resources option.
+
+The format of the resources option is as follows:
+
+```json
+{
+    "images": [
+        "filename.jpg",
+        "img/cat.png"
+    ],
+    "stylesheets": [
+        "",
+        ""
+    ],
+    "javascripts": [
+        "",
+        ""
+    ],
+    "fonts": [
+        "",
+        ""
+    ]
+}
+```
+
+## Convert a SVG image to PNG/JPEG
+
+## Customize width and height of the export
+
+## Use licensed FusionCharts library for export
+
+## Including logo/heading in the Dashboard
+
+## Manipulate output filename
+
+## Inject extra javascript while exporting
+
+## Remote export using FusionExport WebService
+
+
+## Reference
 
 Option | Alias | Default |Type | Description
 -------|-------|---------|-----|------------
