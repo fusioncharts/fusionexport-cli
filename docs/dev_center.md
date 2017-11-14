@@ -18,17 +18,26 @@
 	 - Deploy at DigitalOcean (Good to have)
 
 ### Quick Start
-- Export a chart
-- Bulk export
-- Export a Dashboard
-- Convert a SVG image to PNG/JPEG
-- Customize width and height of the export
-- Use licensed FusionCharts library for export
-- Including logo/heading in the Dashboard
-- Manipulate output filename
-- Inject extra javascript while exporting
-- Remote export using FusionExport WebService
 
+- Export a chart
+
+- Bulk export
+
+- Export a Dashboard
+
+- Convert a SVG image to PNG/JPEG
+
+- Customize width and height of the export
+
+- Use licensed FusionCharts library for export
+
+- Including logo/heading in the Dashboard
+
+- Manipulate output filename
+
+- Inject extra javascript while exporting
+
+- Remote export using FusionExport WebService
 
 ### Reference
 
