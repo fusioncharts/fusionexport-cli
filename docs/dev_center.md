@@ -3,19 +3,19 @@
 ## Intro on **FusionExport**
 
 ## Get FusionExport
- - Get **FusionExport Desktop** (Three Tabs for 3 Operating Systems)
- - Install ExportFusion Desktop
-	 - MAC OS Guide
-	 - Windows Guide
-	 - Linux Guide
- - Install **FusionExport CLI**
-	 - Prerequites
-	 - Guide for Installation
- - Installation of **FusionExport WebService**
-	 - Docker Distribution Guide
-	 - Without Docker Guide
-	 - Deploy at AWS (Good to have)
-	 - Deploy at DigitalOcean (Good to have)
+- Get **FusionExport Desktop** (Three Tabs for 3 Operating Systems)
+- Install ExportFusion Desktop
+  - MAC OS Guide
+  - Windows Guide
+  - Linux Guide
+- Install **FusionExport CLI**
+  - Prerequites
+  - Guide for Installation
+- Installation of **FusionExport WebService**
+  - Docker Distribution Guide
+  - Without Docker Guide
+  - Deploy at AWS (Good to have)
+  - Deploy at DigitalOcean (Good to have)
 
 ## Quick Start
 
@@ -52,7 +52,7 @@ You can even save the chart config into a javascript file. In that case, the who
 
 ```javascript
 module.exports = {
-// fusioncharts config
+  // fusioncharts config
 };
 ```
 
@@ -133,12 +133,12 @@ So if you are saving the chart configs in a json file. The file structure should
 
 ```json
 [
-	{
-		// fisrt chart
-	},
-	{
-		// second chart
-	}
+  {
+    "..."
+  },
+  {
+    "..."
+  }
 ]
 ```
 ```
@@ -148,12 +148,12 @@ If you prefer to save the file as javascript,
 
 ```javascript
 module.exports = [
-	{
-		// fisrt chart
-	},
-	{
-		// second chart
-	}
+  {
+    // fisrt chart
+  },
+  {
+    // second chart
+  }
 ];
 ```
 ```
