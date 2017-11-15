@@ -91,6 +91,7 @@ class LocalExporter {
       }
       if (meta.error) {
         this.progressBar.interrupt(meta.error);
+        process.exit(1);
       }
       if (this.progressBar.complete) {
         // eslint-disable-next-line no-console
