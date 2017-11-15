@@ -160,6 +160,12 @@ class RemoteExporter {
         }, 500);
       });
 
+      req.on('error', (e) => {
+        clearInterval(this.timer);
+        this.progressBar.interrupt(e.toString());
+        process.exit(1);
+      });
+
       req.on('complete', () => {
         clearInterval(this.timer);
         const remaining = Total - this.fakeCounter;
