@@ -1,0 +1,6 @@
+{
+  "width": 60,
+  "complete": "█",
+  "incomplete": "-",
+  "bar": "Completed |:bar| :percent :customMsg"
+}
