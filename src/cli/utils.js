@@ -182,11 +182,13 @@ function sanitizeOutputFile(options) {
   if (lastChar === '/' || lastChar === '\\') {
     outputFile = path.join(options.outputFile, options.defaultOutputFile);
   } else {
+    // eslint-disable-next-line prefer-destructuring
     outputFile = options.outputFile;
   }
 
   const splitParts = outputFile.split(':');
   if (splitParts.length > 1) {
+    // eslint-disable-next-line prefer-destructuring
     outputFile = splitParts[1];
   }
 
