@@ -1,10 +1,10 @@
 {
-  "chart-config": "uat/50charts.js",
-  "output-file": "uat/export-<%= number(1, 100) %>",
+  "chart-config": "50charts.js",
+  "output-file": "export-<%= number(1, 100) %>",
   "type": "png",
   "width": 1000,
   "height": 500,
-  "log-dest": "uat/",
+  "log-dest": "",
   "log-file": "test.log",
   "log-level": "silly",
   "remote-export-enabled": false

@@ -1,11 +1,11 @@
 {
-  "input-file": "uat/chart.svg",
-  "output-file": "uat/",
+  "input-file": "chart.svg",
+  "output-file": "/",
   "output-as-zip": false,
   "type": "pdf",
   "width": 1000,
   "height": 500,
-  "log-dest": "uat/",
+  "log-dest": "",
   "log-file": "test.log",
   "log-level": "silly",
   "remote-export-enabled": false

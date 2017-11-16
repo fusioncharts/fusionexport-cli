@@ -34,10 +34,10 @@ class FileSaver {
     const outputFileDir = path.dirname(this.options.outputFile);
 
     const promiseBag = this.options.outputFileBag.map(async (file) => {
-      const outPath = path.format({
+      const outPath = path.resolve(path.format({
         dir: outputFileDir,
         base: file.realName,
-      });
+      }));
 
       await this.mkdirp(path.dirname(outPath));
       fs.createReadStream(file.tmpPath).pipe(fs.createWriteStream(outPath));

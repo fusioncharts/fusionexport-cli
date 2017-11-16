@@ -61,7 +61,6 @@ class OptionStore {
       logLevel: this.logLevel,
       remoteExportEnabled: this.remoteExportEnabled,
       exportUrl: this.exportUrl,
-      exportLogUrl: this.exportLogUrl,
     };
   }
 
@@ -70,13 +69,13 @@ class OptionStore {
       return this.finalOptions.config;
     }
 
-    const cliConfig = helpers.parseObject(this.cliOptions.config);
+    const cliConfig = utils.parseConfig(this.cliOptions.config);
     if (cliConfig) {
       this.finalOptions.config = cliConfig;
       return this.finalOptions.config;
     }
 
-    const defConfig = helpers.parseObject(this.defaultOptions.config, true);
+    const defConfig = utils.parseConfig(this.defaultOptions.config, true);
     if (defConfig) {
       this.finalOptions.config = defConfig;
       return this.finalOptions.config;
@@ -652,32 +651,6 @@ class OptionStore {
     if (defExportUrl) {
       this.finalOptions.exportUrl = defExportUrl;
       return this.finalOptions.exportUrl;
-    }
-
-    return undefined;
-  }
-
-  get exportLogUrl() {
-    if (this.finalOptions.exportLogUrl) {
-      return this.finalOptions.exportLogUrl;
-    }
-
-    const cliExportLogUrl = this.cliOptions.exportLogUrl;
-    if (cliExportLogUrl) {
-      this.finalOptions.exportLogUrl = cliExportLogUrl;
-      return this.finalOptions.exportLogUrl;
-    }
-
-    const secExportLogUrl = this.config.exportLogUrl;
-    if (secExportLogUrl) {
-      this.finalOptions.exportLogUrl = secExportLogUrl;
-      return this.finalOptions.exportLogUrl;
-    }
-
-    const defExportLogUrl = this.defaultOptions.exportLogUrl;
-    if (defExportLogUrl) {
-      this.finalOptions.exportLogUrl = defExportLogUrl;
-      return this.finalOptions.exportLogUrl;
     }
 
     return undefined;
