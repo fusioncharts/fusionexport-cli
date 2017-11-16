@@ -3,6 +3,7 @@ const fileUrl = require('file-url');
 const ProgressBar = require('progress');
 const FileSaver = require('./FileSaver');
 const FcExportNodeClient = require('fc-export-node-client');
+const config = require('../config');
 const log = require('../log');
 const { calculateTotalUnits } = require('../helpers');
 
@@ -12,19 +13,24 @@ class LocalExporter {
     this.listenToStateChange();
   }
 
+  createProgressBar(exportOptions) {
+    this.barOptions = config('progressbar');
+    const actualTotal = calculateTotalUnits(exportOptions);
+    // eslint-disable-next-line no-console
+    console.log();
+    this.progressBar = new ProgressBar(this.barOptions.bar, {
+      total: actualTotal,
+      width: this.barOptions.width,
+      complete: this.barOptions.complete,
+      incomplete: this.barOptions.incomplete,
+    });
+  }
+
   async render(options) {
     this.options = options;
     const exportOptions = this.buildExportOptions();
-    const actualTotal = calculateTotalUnits(exportOptions);
 
-    // eslint-disable-next-line no-console
-    console.log();
-    this.progressBar = new ProgressBar('Completed |:bar| :percent :customMsg ', {
-      total: actualTotal,
-      width: 60,
-      complete: '█',
-      incomplete: '-',
-    });
+    this.createProgressBar(exportOptions);
 
     try {
       const outputFileBag = await this.exportClient.export(exportOptions);

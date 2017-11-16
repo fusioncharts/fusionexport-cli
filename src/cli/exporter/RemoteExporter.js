@@ -10,6 +10,8 @@ const ProgressBar = require('progress');
 const helpers = require('../helpers');
 const FileSaver = require('./FileSaver');
 const log = require('../log');
+const config = require('../config');
+
 
 const TotalUnit = 3;
 const FakeUnit = 60;
@@ -28,14 +30,18 @@ class RemoteExporter {
       csv: 'text/csv',
       html: 'text/html',
     };
+    this.createProgressBar();
+  }
 
+  createProgressBar() {
+    this.barOptions = config('progressbar');
     // eslint-disable-next-line no-console
     console.log();
-    this.progressBar = new ProgressBar('Completed |:bar | :percent :customMsg ', {
+    this.progressBar = new ProgressBar(this.barOptions.bar, {
       total: Total,
-      width: 60,
-      complete: '█',
-      incomplete: '-',
+      width: this.barOptions.width,
+      complete: this.barOptions.complete,
+      incomplete: this.barOptions.incomplete,
     });
   }
 
@@ -134,11 +140,17 @@ class RemoteExporter {
         encoding: null,
       }, (err, resp) => {
         if (err) {
+          clearInterval(this.timer);
+          this.progressBar.interrupt('Error: Unable to reach FusionExport WebService.');
+          process.exit(1);
           reject(err);
           return;
         }
 
         if (resp.statusCode !== 200) {
+          clearInterval(this.timer);
+          this.progressBar.interrupt('Error: Unable to reach FusionExport WebService');
+          process.exit(1);
           reject(new Error(`${resp.statusCode} ${resp.statusMessage}`));
         }
 
