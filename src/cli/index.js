@@ -20,7 +20,7 @@ program
   .option('-H, --height <value>', 'Chart height in which it should be rendered.')
   .option('-b, --callbacks <file>', 'JS file containing codes to bind custom methods to events fired by FusionCharts library.')
   .option('-T, --template <file>', 'HTML file to use as template for rendering the chart.')
-  .option('-r, --resources <file|json>', 'JSON file containing all the resources which will injected into the template while rendering the charts')
+  .option('-r, --resources <file|json>', 'JSON file containing the resources which will be injected into the template. Applicable only during remote export.')
   .option('-L, --library-path <path>', 'Path to your FusionCharts library.')
   .option('-G, --dashboard-logo <file>', 'Logo file for dashboard export')
   .option('-D, --dashboard-heading <string>', 'Heading for dashboard export')
@@ -30,7 +30,6 @@ program
   .option('-l, --log-level <level>', 'Log level. 0: emerg, 1: alert, 2: crit, 3: error, 4: warning, 5: notice, 6: info, 7: debug.')
   .option('-R, --remote-export-enabled <bool>', 'If enabled, the cli must use the export server api to export the images.')
   .option('-u, --export-url <url>', 'Export url.')
-  .option('-g, --export-log-url <url>', 'Export logging url.')
   .parse(process.argv);
 
 const options = new CLIEngine().process(program);

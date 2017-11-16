@@ -61,7 +61,6 @@ class OptionStore {
       logLevel: this.logLevel,
       remoteExportEnabled: this.remoteExportEnabled,
       exportUrl: this.exportUrl,
-      exportLogUrl: this.exportLogUrl,
     };
   }
 
@@ -652,32 +651,6 @@ class OptionStore {
     if (defExportUrl) {
       this.finalOptions.exportUrl = defExportUrl;
       return this.finalOptions.exportUrl;
-    }
-
-    return undefined;
-  }
-
-  get exportLogUrl() {
-    if (this.finalOptions.exportLogUrl) {
-      return this.finalOptions.exportLogUrl;
-    }
-
-    const cliExportLogUrl = this.cliOptions.exportLogUrl;
-    if (cliExportLogUrl) {
-      this.finalOptions.exportLogUrl = cliExportLogUrl;
-      return this.finalOptions.exportLogUrl;
-    }
-
-    const secExportLogUrl = this.config.exportLogUrl;
-    if (secExportLogUrl) {
-      this.finalOptions.exportLogUrl = secExportLogUrl;
-      return this.finalOptions.exportLogUrl;
-    }
-
-    const defExportLogUrl = this.defaultOptions.exportLogUrl;
-    if (defExportLogUrl) {
-      this.finalOptions.exportLogUrl = defExportLogUrl;
-      return this.finalOptions.exportLogUrl;
     }
 
     return undefined;
