@@ -1,5 +1,5 @@
 {
-  "chart-config": "uat/fusioncharts_chart.js",
+  "chart-config": "fusioncharts_chart.js",
   "chart-config-options": {
     "dataSource.chart.subCaption": "For last year - Edited",
     "dataSource": {
@@ -8,12 +8,12 @@
       }
     }
   },
-  "output-file": "uat/fc-<%= number(2, 100, 3) %>--<%= cust() %>--<%= art %>___<%= timestamp() %>",
-  "output-file-definition": "uat/output_file_definition.js",
+  "output-file": "fc-<%= number(2, 100, 3) %>--<%= cust() %>--<%= art %>___<%= timestamp() %>",
+  "output-file-definition": "output_file_definition.js",
   "type": "png",
   "width": 1000,
   "height": 500,
-  "log-dest": "uat/",
+  "log-dest": "",
   "log-file": "test.log",
   "log-level": "silly",
   "remote-export-enabled": false

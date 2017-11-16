@@ -69,13 +69,13 @@ class OptionStore {
       return this.finalOptions.config;
     }
 
-    const cliConfig = helpers.parseObject(this.cliOptions.config);
+    const cliConfig = utils.parseConfig(this.cliOptions.config);
     if (cliConfig) {
       this.finalOptions.config = cliConfig;
       return this.finalOptions.config;
     }
 
-    const defConfig = helpers.parseObject(this.defaultOptions.config, true);
+    const defConfig = utils.parseConfig(this.defaultOptions.config, true);
     if (defConfig) {
       this.finalOptions.config = defConfig;
       return this.finalOptions.config;

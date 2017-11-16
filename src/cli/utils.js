@@ -1,9 +1,12 @@
 const _ = require('lodash');
+const fs = require('fs');
 const path = require('path');
 const mkdirp = require('mkdirp');
 const glob = require('glob');
 const helpers = require('./helpers');
 const log = require('./log');
+
+let configBasePath = '';
 
 _.mixin({
   deeply(map) {
@@ -54,6 +57,48 @@ function makeArray(ob) {
   return ob;
 }
 
+function parseConfig(config, iE = false) {
+  const configObj = helpers.parseObject(config, iE);
+  if (typeof configObj !== 'object') {
+    return configObj;
+  }
+
+  let basePath = '';
+  if (fs.existsSync(config)) {
+    basePath = path.dirname(path.resolve(config));
+  }
+  configBasePath = basePath;
+
+  const resolvedConfigObj = {};
+  Object.keys(configObj).forEach((key) => {
+    let val = configObj[key];
+
+    if (typeof val === 'string' && path.extname(val).length) {
+      val = path.resolve(basePath, val);
+    }
+
+    // This is an exception. Output file may not have an extension.
+    if (key === 'output-file') {
+      let isDir = false;
+      if ((val.length > 1 &&
+        val.slice(-1) === path.sep) ||
+        val.slice(-1) === '.' ||
+        val.slice(-1) === '') {
+        isDir = true;
+      }
+
+      val = path.resolve(basePath, val);
+      if (isDir) {
+        val += path.sep;
+      }
+    }
+
+    resolvedConfigObj[key] = val;
+  });
+
+  return resolvedConfigObj;
+}
+
 function parseChartConfig(chartConfig) {
   if (typeof chartConfig !== 'string') {
     return chartConfig;
@@ -65,8 +110,8 @@ function parseChartConfig(chartConfig) {
   }
 
   const pattern = `{,${chartConfig.split(' ').join(',')}}`;
-  let fileList = glob.sync(pattern);
-  fileList = fileList.map(file => path.resolve(file));
+  let fileList = glob.sync(pattern, { cwd: configBasePath });
+  fileList = fileList.map(file => path.resolve(configBasePath, file));
 
   const commonPath = findCommonPath(fileList);
   const confList = [];
@@ -179,7 +224,7 @@ function sanitizeOutputFile(options) {
   let outputFile;
 
   const lastChar = options.outputFile.slice(-1);
-  if (lastChar === '/' || lastChar === '\\') {
+  if (lastChar === path.sep) {
     outputFile = path.join(options.outputFile, options.defaultOutputFile);
   } else {
     // eslint-disable-next-line prefer-destructuring
@@ -192,11 +237,7 @@ function sanitizeOutputFile(options) {
     outputFile = splitParts[1];
   }
 
-  outputFile = path.parse(outputFile);
-  return path.format({
-    dir: outputFile.dir,
-    name: outputFile.name,
-  });
+  return outputFile;
 }
 
 function sanitizeType(options) {
@@ -222,6 +263,7 @@ function configureLogger(options) {
 }
 
 module.exports = {
+  parseConfig,
   parseChartConfig,
   sanitizeConfig,
   sanitizeChartConfig,
