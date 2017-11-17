@@ -99,12 +99,12 @@ function parseConfig(config, iE = false) {
   return resolvedConfigObj;
 }
 
-function parseChartConfig(chartConfig) {
+function parseChartConfig(chartConfig, iE) {
   if (typeof chartConfig !== 'string') {
     return chartConfig;
   }
 
-  const ob = helpers.parseObject(chartConfig, true);
+  const ob = helpers.parseObject(chartConfig, iE);
   if (typeof ob === 'object') {
     return makeArray(ob);
   }

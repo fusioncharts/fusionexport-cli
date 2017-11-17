@@ -101,7 +101,7 @@ class OptionStore {
       return this.finalOptions.chartConfig;
     }
 
-    const defChartConfig = utils.parseChartConfig(this.defaultOptions.chartConfig);
+    const defChartConfig = utils.parseChartConfig(this.defaultOptions.chartConfig, true);
     if (defChartConfig) {
       this.finalOptions.chartConfig = defChartConfig;
       return this.finalOptions.chartConfig;
