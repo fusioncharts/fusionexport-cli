@@ -27,7 +27,7 @@ function tryRequire(file, ignoreException = false) {
   } catch (e) {
     if (ignoreException) return undefined;
 
-    log.error('File not found:', file);
+    log.error(e);
     process.exit(1);
   }
 
@@ -42,7 +42,7 @@ function tryReadFile(file, ignoreException = false) {
   } catch (e) {
     if (ignoreException) return undefined;
 
-    log.error('File not found:', file);
+    log.error(e);
     process.exit(1);
   }
 
