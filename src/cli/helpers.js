@@ -66,23 +66,23 @@ function ifExists(file, ignoreException = false) {
   return undefined;
 }
 
-function parseObject(val, ignoreException = false) {
+function parseObject(val, iE = false) {
   if (typeof val !== 'string') {
     return val;
   }
 
-  const json = tryParseJSON(val, true);
-
-  if (json) {
-    return json;
-  }
-
   if (path.extname(val) === '.json') {
-    return tryParseJSON(tryReadFile(val, ignoreException), ignoreException);
+    return tryParseJSON(tryReadFile(val, iE), iE);
   }
 
   if (path.extname(val) === '.js') {
-    return tryRequire(val, ignoreException);
+    return tryRequire(val, iE);
+  }
+
+  const json = tryParseJSON(val, iE);
+
+  if (json) {
+    return json;
   }
 
   return val;
