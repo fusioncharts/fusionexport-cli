@@ -99,22 +99,24 @@ function parseConfig(config, iE = false) {
   return resolvedConfigObj;
 }
 
-function parseChartConfig(chartConfig, iE) {
+function parseChartConfig(chartConfig, iE = false) {
   if (typeof chartConfig !== 'string') {
     return chartConfig;
   }
 
+  let fileList = [];
+  let confList = [];
+
   const ob = helpers.parseObject(chartConfig, iE);
   if (typeof ob === 'object') {
-    return makeArray(ob);
+    confList = makeArray(ob);
+  } else {
+    const pattern = `{,${chartConfig.split(' ').join(',')}}`;
+    fileList = glob.sync(pattern, { cwd: configBasePath });
+    fileList = fileList.map(file => path.resolve(configBasePath, file));
   }
 
-  const pattern = `{,${chartConfig.split(' ').join(',')}}`;
-  let fileList = glob.sync(pattern, { cwd: configBasePath });
-  fileList = fileList.map(file => path.resolve(configBasePath, file));
-
   const commonPath = findCommonPath(fileList);
-  const confList = [];
   fileList.forEach((file) => {
     let confs;
 
@@ -145,7 +147,12 @@ function parseChartConfig(chartConfig, iE) {
     confList.push(...confs);
   });
 
-  return confList.length > 0 ? confList : undefined;
+  if (confList.length < 1 && !iE) {
+    log.error(`No chart config was found in ${chartConfig}`);
+    process.exit(1);
+  }
+
+  return confList;
 }
 
 function sanitizeConfig(options) {
