@@ -27,7 +27,7 @@ program
   .option('-B, --dashboard-subheading <string>', 'Subheading for dashboard export')
   .option('-d, --log-dest <path>', 'Log destination. Also enables logging.')
   .option('-f, --log-file <file>', 'Log filename.')
-  .option('-l, --log-level <level>', 'Log level. 0: emerg, 1: alert, 2: crit, 3: error, 4: warning, 5: notice, 6: info, 7: debug.')
+  .option('-l, --log-level <level>', 'Log level. error: 0, warn: 1, info: 2, verbose: 3, debug: 4, silly: 5')
   .option('-R, --remote-export-enabled <bool>', 'If enabled, the cli must use the export server api to export the images.')
   .option('-u, --export-url <url>', 'Export url.')
   .parse(process.argv);

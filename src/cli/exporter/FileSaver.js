@@ -1,17 +1,18 @@
-/* eslint-disable no-console */
-
 const path = require('path');
 const fs = require('fs');
 const util = require('util');
 const mkdirp = require('mkdirp');
 const S3FS = require('s3fs');
 const Ftp = require('promise-ftp');
+const log = require('../log');
 const config = require('../config');
+const MessageBus = require('./MessageBus');
 
 class FileSaver {
   constructor(options) {
     this.options = options;
     this.mkdirp = util.promisify(mkdirp);
+    this.messageBus = new MessageBus();
   }
 
   async saveOutputFiles() {
@@ -41,10 +42,11 @@ class FileSaver {
 
       await this.mkdirp(path.dirname(outPath));
       fs.createReadStream(file.tmpPath).pipe(fs.createWriteStream(outPath));
-      console.log(`Exported file is saved here: ${outPath}`);
+      this.messageBus.put(outPath);
     });
 
     await Promise.all(promiseBag);
+    this.messageBus.writeMessages();
   }
 
   async saveToS3() {
@@ -66,7 +68,7 @@ class FileSaver {
       const dir = path.dirname(outPath);
       if (dir !== '.') await s3fs.mkdirp(dir);
       await s3fs.writeFile(outPath, fs.readFileSync(file.tmpPath));
-      console.log(`Exported file is saved here: s3:${outPath}`);
+      log.info(`Exported file is saved here: s3:${outPath}`);
     });
 
     await Promise.all(promiseBag);
@@ -93,7 +95,7 @@ class FileSaver {
 
       await ftp.mkdir(path.dirname(outPath), true);
       await ftp.put(file.tmpPath, outPath);
-      console.log(`Exported file is saved here: ftp:${outPath}`);
+      log.info(`Exported file is saved here: ftp:${outPath}`);
     });
 
     await Promise.all(promiseBag);

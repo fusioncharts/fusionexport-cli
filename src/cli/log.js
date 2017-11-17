@@ -9,18 +9,32 @@ const levelMap = {
   5: 'silly',
 };
 
-winston.setLogLevel = (level) => {
+const logger = new (winston.Logger)({
+  transports: [
+    new winston.transports.Console({
+      formatter(options) {
+        return (options.message ? options.message : '');
+      },
+    }),
+  ],
+});
+
+logger.setLogLevel = (level) => {
   let levelVal = level;
 
   if (parseInt(level, 10)) {
     levelVal = levelMap[level];
   }
 
-  winston.level = levelVal;
+  if (levelVal) {
+    logger.transports.console.level = levelVal;
+  }
 };
 
-winston.setLogPath = (path) => {
-  winston.add(winston.transports.File, { filename: path });
+logger.setLogPath = (path) => {
+  logger.add(winston.transports.File, {
+    filename: path,
+  });
 };
 
-module.exports = winston;
+module.exports = logger;
