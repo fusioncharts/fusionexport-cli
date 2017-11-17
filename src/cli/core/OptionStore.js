@@ -47,8 +47,8 @@ class OptionStore {
       outputAsZip: this.outputAsZip,
       outputTo: this.outputTo,
       type: this.type,
-      width: this.width,
-      height: this.height,
+      width: this.finalOptions.width, // Exception, needs to be resolved
+      height: this.finalOptions.height, // Exception, needs to be resolved
       callbacks: this.callbacks,
       template: this.template,
       resources: this.resources,
@@ -101,7 +101,7 @@ class OptionStore {
       return this.finalOptions.chartConfig;
     }
 
-    const defChartConfig = utils.parseChartConfig(this.defaultOptions.chartConfig);
+    const defChartConfig = utils.parseChartConfig(this.defaultOptions.chartConfig, true);
     if (defChartConfig) {
       this.finalOptions.chartConfig = defChartConfig;
       return this.finalOptions.chartConfig;
@@ -297,21 +297,21 @@ class OptionStore {
       return this.finalOptions.width;
     }
 
-    const cliWidth = this.cliOptions.width;
+    const cliWidth = helpers.parseDimension(this.cliOptions.width);
     if (cliWidth) {
-      this.finalOptions.width = parseInt(cliWidth, 10);
+      this.finalOptions.width = cliWidth;
       return this.finalOptions.width;
     }
 
-    const secWidth = this.config.width;
+    const secWidth = helpers.parseDimension(this.config.width);
     if (secWidth) {
-      this.finalOptions.width = parseInt(secWidth, 10);
+      this.finalOptions.width = secWidth;
       return this.finalOptions.width;
     }
 
-    const defWidth = this.defaultOptions.width;
+    const defWidth = helpers.parseDimension(this.defaultOptions.width, true);
     if (defWidth) {
-      this.finalOptions.width = parseInt(defWidth, 10);
+      this.finalOptions.width = defWidth;
       return this.finalOptions.width;
     }
 
@@ -323,21 +323,21 @@ class OptionStore {
       return this.finalOptions.height;
     }
 
-    const cliHeight = this.cliOptions.height;
+    const cliHeight = helpers.parseDimension(this.cliOptions.height);
     if (cliHeight) {
-      this.finalOptions.height = parseInt(cliHeight, 10);
+      this.finalOptions.height = cliHeight;
       return this.finalOptions.height;
     }
 
-    const secHeight = this.config.height;
+    const secHeight = helpers.parseDimension(this.config.height);
     if (secHeight) {
-      this.finalOptions.height = parseInt(secHeight, 10);
+      this.finalOptions.height = secHeight;
       return this.finalOptions.height;
     }
 
-    const defHeight = this.defaultOptions.height;
+    const defHeight = helpers.parseDimension(this.defaultOptions.height, true);
     if (defHeight) {
-      this.finalOptions.height = parseInt(defHeight, 10);
+      this.finalOptions.height = defHeight;
       return this.finalOptions.height;
     }
 

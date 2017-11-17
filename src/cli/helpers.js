@@ -27,7 +27,7 @@ function tryRequire(file, ignoreException = false) {
   } catch (e) {
     if (ignoreException) return undefined;
 
-    log.error('File not found:', file);
+    log.error(e);
     process.exit(1);
   }
 
@@ -42,7 +42,7 @@ function tryReadFile(file, ignoreException = false) {
   } catch (e) {
     if (ignoreException) return undefined;
 
-    log.error('File not found:', file);
+    log.error(e);
     process.exit(1);
   }
 
@@ -66,26 +66,46 @@ function ifExists(file, ignoreException = false) {
   return undefined;
 }
 
-function parseObject(val, ignoreException = false) {
+function parseObject(val, iE = false) {
   if (typeof val !== 'string') {
     return val;
   }
 
-  const json = tryParseJSON(val, true);
+  if (path.extname(val) === '.json') {
+    return tryParseJSON(tryReadFile(val, iE), iE);
+  }
+
+  if (path.extname(val) === '.js') {
+    return tryRequire(val, iE);
+  }
+
+  const json = tryParseJSON(val, iE);
 
   if (json) {
     return json;
   }
 
-  if (path.extname(val) === '.json') {
-    return tryParseJSON(tryReadFile(val, ignoreException), ignoreException);
-  }
-
-  if (path.extname(val) === '.js') {
-    return tryRequire(val, ignoreException);
-  }
-
   return val;
+}
+
+function parseDimension(val) {
+  const parsedVal = parseInt(val, 10);
+
+  if (parsedVal < 0) {
+    log.warn('Dimension value must be positive. Using default value.');
+    return undefined;
+  }
+
+  if (parsedVal === 0) {
+    log.warn('Dimension value connot be zero. Using default value.');
+    return undefined;
+  }
+
+  if (Number.isNaN(parsedVal)) {
+    return undefined;
+  }
+
+  return parsedVal;
 }
 
 function parseBool(val) {
@@ -178,6 +198,7 @@ function stringifyWithFunctions(object) {
 }
 
 module.exports = {
+  parseDimension,
   parseBool,
   parseObject,
   ifExists,
