@@ -88,6 +88,26 @@ function parseObject(val, iE = false) {
   return val;
 }
 
+function parseDimension(val) {
+  const parsedVal = parseInt(val, 10);
+
+  if (parsedVal < 0) {
+    log.warn('Dimension value must be positive. Using default value.');
+    return undefined;
+  }
+
+  if (parsedVal === 0) {
+    log.warn('Dimension value connot be zero. Using default value.');
+    return undefined;
+  }
+
+  if (Number.isNaN(parsedVal)) {
+    return undefined;
+  }
+
+  return parsedVal;
+}
+
 function parseBool(val) {
   switch (val) {
     case true:
@@ -178,6 +198,7 @@ function stringifyWithFunctions(object) {
 }
 
 module.exports = {
+  parseDimension,
   parseBool,
   parseObject,
   ifExists,
