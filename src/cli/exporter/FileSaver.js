@@ -68,10 +68,11 @@ class FileSaver {
       const dir = path.dirname(outPath);
       if (dir !== '.') await s3fs.mkdirp(dir);
       await s3fs.writeFile(outPath, fs.readFileSync(file.tmpPath));
-      log.info(`Exported file is saved here: s3:${outPath}`);
+      this.messageBus.put(`s3:${outPath}`);
     });
 
     await Promise.all(promiseBag);
+    this.messageBus.writeMessages();
   }
 
   async saveToFTP() {
@@ -95,10 +96,11 @@ class FileSaver {
 
       await ftp.mkdir(path.dirname(outPath), true);
       await ftp.put(file.tmpPath, outPath);
-      log.info(`Exported file is saved here: ftp:${outPath}`);
+      this.messageBus.put(`ftp:${outPath}`);
     });
 
     await Promise.all(promiseBag);
+    this.messageBus.writeMessages();
     await ftp.end();
   }
 }
