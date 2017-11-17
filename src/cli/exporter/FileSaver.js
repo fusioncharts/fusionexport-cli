@@ -66,7 +66,7 @@ class FileSaver {
       const dir = path.dirname(outPath);
       if (dir !== '.') await s3fs.mkdirp(dir);
       await s3fs.writeFile(outPath, fs.readFileSync(file.tmpPath));
-      console.log(`Exported file is saved here: ${outPath}`);
+      console.log(`Exported file is saved here: s3:${outPath}`);
     });
 
     await Promise.all(promiseBag);
@@ -93,7 +93,7 @@ class FileSaver {
 
       await ftp.mkdir(path.dirname(outPath), true);
       await ftp.put(file.tmpPath, outPath);
-      console.log(`Exported file is saved here: ${outPath}`);
+      console.log(`Exported file is saved here: ftp:${outPath}`);
     });
 
     await Promise.all(promiseBag);
