@@ -15,7 +15,10 @@ class LocalExporter {
 
   createProgressBar(exportOptions) {
     this.barOptions = config('progressbar');
-    const actualTotal = calculateTotalUnits(exportOptions);
+    let actualTotal = calculateTotalUnits(exportOptions);
+    if (exportOptions.asyncCapture) {
+      actualTotal += 1;
+    }
     // eslint-disable-next-line no-console
     console.log();
     this.progressBar = new ProgressBar(this.barOptions.bar, {
