@@ -99,6 +99,17 @@ function parseConfig(config, iE = false) {
   return resolvedConfigObj;
 }
 
+function validateChartConfig(confList) {
+  return confList.filter((config) => {
+    if (!config.dataSource && !config.type) {
+      log.warn('Invalid chart config found: %j', config);
+      return false;
+    }
+
+    return true;
+  });
+}
+
 function parseChartConfig(chartConfig, iE = false) {
   if (typeof chartConfig !== 'string') {
     return chartConfig;
@@ -146,6 +157,8 @@ function parseChartConfig(chartConfig, iE = false) {
 
     confList.push(...confs);
   });
+
+  confList = validateChartConfig(confList);
 
   if (confList.length < 1 && !iE) {
     log.error(`No chart config was found in ${chartConfig}`);

@@ -2,6 +2,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const stackTraceParser = require('stacktrace-parser');
 const log = require('./log');
 
 function tryParseJSON(str, ignoreException = false) {
@@ -27,7 +28,8 @@ function tryRequire(file, ignoreException = false) {
   } catch (e) {
     if (ignoreException) return undefined;
 
-    log.error(e);
+    const eStack = stackTraceParser.parse(e.stack);
+    log.error(`${eStack[0].file}:${eStack[0].lineNumber} ${e.name}: ${e.message}`);
     process.exit(1);
   }
 
@@ -42,7 +44,8 @@ function tryReadFile(file, ignoreException = false) {
   } catch (e) {
     if (ignoreException) return undefined;
 
-    log.error(e);
+    const eStack = stackTraceParser.parse(e.stack);
+    log.error(`${eStack[0].file}:${eStack[0].lineNumber} ${e.name}: ${e.message}`);
     process.exit(1);
   }
 
@@ -60,7 +63,7 @@ function ifExists(file, ignoreException = false) {
 
   if (ignoreException) return undefined;
 
-  log.error('File does not exists:', file);
+  log.error('File does not exists: ', file);
   process.exit(1);
 
   return undefined;
