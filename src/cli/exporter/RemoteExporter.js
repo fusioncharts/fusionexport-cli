@@ -225,6 +225,10 @@ class RemoteExporter {
         helpers.stringifyWithFunctions(this.options.outputFileDefinition);
     }
 
+    if (this.options.asyncCapture) {
+      params.async_capture = this.options.asyncCapture ? 'true' : 'false';
+    }
+
     if (this.options.dashboardHeading) {
       params.dashboard_heading = this.options.dashboardHeading;
     }
@@ -275,12 +279,38 @@ class RemoteExporter {
     });
   }
 
+  removeRemoteResources() {
+    if (!this.options.resources) {
+      return;
+    }
+
+    Object.keys(this.options.resources).forEach((key) => {
+      this.options.resources[key] = this.options.resources[key].filter((v) => {
+        if (v === '') {
+          return false;
+        }
+
+        if (v.includes('https://')) {
+          return false;
+        }
+
+        if (v.includes('http://')) {
+          return false;
+        }
+
+        return true;
+      });
+    });
+  }
+
   generateResourceData() {
     let templateContext;
 
     if (!this.options.resources) {
       return;
     }
+
+    this.removeRemoteResources();
 
     const resourceData = _.clone(this.options.resources);
 
