@@ -84,7 +84,9 @@ class RemoteExporter {
       const resp = await this.sendRequest();
       this.resp = resp;
     } catch (err) {
-      log.error('HTTP request failed:', err);
+      clearInterval(this.timer);
+      this.progressBar.interrupt('Error: Unable to reach FusionExport WebService');
+      process.exit(1);
     }
 
     const tmpPath = tmp.fileSync();
