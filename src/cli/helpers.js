@@ -29,7 +29,7 @@ function tryRequire(file, ignoreException = false) {
     if (ignoreException) return undefined;
 
     const eStack = stackTraceParser.parse(e.stack);
-    log.error(`${eStack[0].file}:${eStack[0].lineNumber} ${e.name}: ${e.message}`);
+    log.error(`${e.name}: ${e.message} in file ${eStack[0].file} at line number ${eStack[0].lineNumber}`);
     process.exit(1);
   }
 
@@ -45,7 +45,7 @@ function tryReadFile(file, ignoreException = false) {
     if (ignoreException) return undefined;
 
     const eStack = stackTraceParser.parse(e.stack);
-    log.error(`${eStack[0].file}:${eStack[0].lineNumber} ${e.name}: ${e.message}`);
+    log.error(`${e.name}: ${e.message} in file ${eStack[0].file} at line number ${eStack[0].lineNumber}`);
     process.exit(1);
   }
 
