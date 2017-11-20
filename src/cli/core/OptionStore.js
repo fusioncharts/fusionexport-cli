@@ -52,6 +52,8 @@ class OptionStore {
       callbacks: this.callbacks,
       template: this.template,
       resources: this.resources,
+      asyncCapture: this.asyncCapture,
+      asyncCaptureTimeout: this.asyncCaptureTimeout,
       libraryPath: this.libraryPath,
       dashboardLogo: this.dashboardLogo,
       dashboardHeading: this.dashboardHeading,
@@ -417,6 +419,58 @@ class OptionStore {
     if (defResources) {
       this.finalOptions.resources = defResources;
       return this.finalOptions.resources;
+    }
+
+    return undefined;
+  }
+
+  get asyncCapture() {
+    if (this.finalOptions.asyncCapture) {
+      return this.finalOptions.asyncCapture;
+    }
+
+    const cliAsyncCapture = this.cliOptions.asyncCapture;
+    if (!_.isUndefined(cliAsyncCapture)) {
+      this.finalOptions.asyncCapture = helpers.parseBool(cliAsyncCapture);
+      return this.finalOptions.asyncCapture;
+    }
+
+    const secAsyncCapture = this.config.asyncCapture;
+    if (!_.isUndefined(secAsyncCapture)) {
+      this.finalOptions.asyncCapture = helpers.parseBool(secAsyncCapture);
+      return this.finalOptions.asyncCapture;
+    }
+
+    const defAsyncCapture = this.defaultOptions.asyncCapture;
+    if (!_.isUndefined(defAsyncCapture)) {
+      this.finalOptions.asyncCapture = helpers.parseBool(defAsyncCapture);
+      return this.finalOptions.asyncCapture;
+    }
+
+    return undefined;
+  }
+
+  get asyncCaptureTimeout() {
+    if (this.finalOptions.asyncCaptureTimeout) {
+      return this.finalOptions.asyncCaptureTimeout;
+    }
+
+    const cliAsTimeout = parseInt(this.cliOptions.asyncCaptureTimeout, 10);
+    if (cliAsTimeout) {
+      this.finalOptions.asyncCaptureTimeout = cliAsTimeout;
+      return this.finalOptions.asyncCaptureTimeout;
+    }
+
+    const secAsTimeout = parseInt(this.config.asyncCaptureTimeout, 10);
+    if (secAsTimeout) {
+      this.finalOptions.asyncCaptureTimeout = secAsTimeout;
+      return this.finalOptions.asyncCaptureTimeout;
+    }
+
+    const defAsyncCaptureTimeout = parseInt(this.defaultOptions.asyncCaptureTimeout, 10);
+    if (defAsyncCaptureTimeout) {
+      this.finalOptions.asyncCaptureTimeout = defAsyncCaptureTimeout;
+      return this.finalOptions.asyncCaptureTimeout;
     }
 
     return undefined;

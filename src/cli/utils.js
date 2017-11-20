@@ -168,6 +168,8 @@ function sanitizeConfig(options) {
   config = helpers.renameProperty(config, 'output-file', 'outputFile');
   config = helpers.renameProperty(config, 'output-file-definition', 'outputFileDefinition');
   config = helpers.renameProperty(config, 'output-as-zip', 'outputAsZip');
+  config = helpers.renameProperty(config, 'async-capture', 'asyncCapture');
+  config = helpers.renameProperty(config, 'async-capture-timeout', 'asyncCaptureTimeout');
   config = helpers.renameProperty(config, 'library-path', 'libraryPath');
   config = helpers.renameProperty(config, 'dashboard-logo', 'dashboardLogo');
   config = helpers.renameProperty(config, 'dashboard-heading', 'dashboardHeading');

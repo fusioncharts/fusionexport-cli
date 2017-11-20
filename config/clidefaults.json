@@ -9,10 +9,11 @@
   "callbacks": "fusioncharts_export_callbacks.js",
   "template": "template.html",
   "resources": "resources.json",
+  "asyncCapture": false,
+  "asyncCaptureTimeout": 6000,
   "logDest": "/",
   "logFile": "fusioncharts_export.log",
   "logLevel": 2,
-  "remoteExportEnabled": "false",
-  "exportUrl": "http://export.api3.fusioncharts.com",
-  "exportLogUrl": "http://export.api3.fusioncharts.com/api/v1.0/logs"
+  "remoteExportEnabled": false,
+  "exportUrl": "http://export.api3.fusioncharts.com"
 }

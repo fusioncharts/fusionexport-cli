@@ -21,6 +21,8 @@ program
   .option('-b, --callbacks <file>', 'JS file containing codes to bind custom methods to events fired by FusionCharts library.')
   .option('-T, --template <file>', 'HTML file to use as template for rendering the chart.')
   .option('-r, --resources <file|json>', 'JSON file containing the resources which will be injected into the template. Applicable only during remote export.')
+  .option('-a, --async-capture <bool>', 'Enable async capture.')
+  .option('-m, --async-capture-timeout <integer>', 'Maximum time that system will wait for async-capture event to trigger.')
   .option('-L, --library-path <path>', 'Path to your FusionCharts library.')
   .option('-G, --dashboard-logo <file>', 'Logo file for dashboard export')
   .option('-D, --dashboard-heading <string>', 'Heading for dashboard export')

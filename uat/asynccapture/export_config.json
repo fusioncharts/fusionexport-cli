@@ -1,0 +1,8 @@
+{
+  "chart-config": "scroll.js",
+  "callbacks": "callback.js",
+  "async-capture": "true",
+  "async-capture-timeout": "4000",
+  "output-file": "fc-<%= number(1, 10) %>",
+  "type": "jpeg"
+}

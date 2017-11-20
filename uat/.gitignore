@@ -5,6 +5,8 @@
 
 !dashboards/
 !resources/
+!asynccapture/
+!highcharts/
 !callbacks.js
 !chart.svg
 !fusioncharts_chart.js

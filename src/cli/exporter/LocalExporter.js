@@ -58,6 +58,8 @@ class LocalExporter {
     const exportOptions = {
       libraryDirectoryPath: this.options.libraryPath && path.resolve(this.options.libraryPath),
       resources: this.options.resources,
+      asyncCapture: this.options.asyncCapture,
+      maxWaitForCaptureExit: this.options.asyncCaptureTimeout,
       dashboardLogo: this.options.dashboardLogo ? fileUrl(this.options.dashboardLogo) : null,
       dashboardHeading: this.options.dashboardHeading,
       dashboardSubheading: this.options.dashboardSubheading,
