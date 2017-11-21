@@ -1,6 +1,6 @@
 {
   "input-file": "chart.svg",
-  "output-file": "/",
+  "output-file": "./",
   "output-as-zip": false,
   "type": "pdf",
   "width": 1000,
