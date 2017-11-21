@@ -160,7 +160,11 @@ function parseChartConfig(chartConfig, iE = false) {
 
   confList = validateChartConfig(confList);
 
-  if (confList.length < 1 && !iE) {
+  if (confList.length < 1) {
+    confList = undefined;
+  }
+
+  if (!confList && !iE) {
     log.error(`No chart config was found in ${chartConfig}`);
     process.exit(1);
   }

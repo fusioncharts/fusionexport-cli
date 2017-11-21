@@ -21,7 +21,8 @@ class CLIEngine {
     if (!this.optionStore.chartConfig
         && !this.optionStore.inputFile
         && !this.optionStore.template) {
-      log.error('Minimum requirements not satisfied. Need either a valid chart-config or input-file.');
+      log.error('Minimum requirements not satisfied. Need either a valid chart-config, input-file or template.\n');
+      log.error('Use \'fe --help\' to list all the options.');
       process.exit(1);
     }
   }
