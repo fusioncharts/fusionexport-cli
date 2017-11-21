@@ -1,8 +1,8 @@
 {
-  "chart-config": "uat/dashboards/education/chart_config.js",
-  "output-file": "uat/education",
+  "chart-config": "chart_config.js",
+  "output-file": "../../education",
   "output-as-zip": false,
-  "template": "uat/dashboards/education/template.html",
+  "template": "template.html",
   "resources": {
     "stylesheets": [
       "style.css"

@@ -1,8 +1,8 @@
 {
-  "chart-config": "uat/dashboards/telecommunication/chart_config.js",
-  "output-file": "uat/telecommunication",
+  "chart-config": "chart_config.js",
+  "output-file": "../../telecommunication",
   "output-as-zip": false,
-  "template": "uat/dashboards/telecommunication/template.html",
+  "template": "template.html",
   "type": "pdf",
   "resources": {
     "stylesheets": [
