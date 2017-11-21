@@ -11,6 +11,7 @@ class LocalExporter {
   constructor() {
     this.exportClient = new FcExportNodeClient();
     this.listenToStateChange();
+    this.listenForError();
   }
 
   createProgressBar(exportOptions) {
@@ -108,6 +109,13 @@ class LocalExporter {
         // eslint-disable-next-line no-console
         console.log('\n');
       }
+    });
+  }
+
+  listenForError() {
+    this.exportClient.on('error', (msg) => {
+      log.error(msg);
+      process.exit(-1);
     });
   }
 }
