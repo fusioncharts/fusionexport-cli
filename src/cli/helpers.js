@@ -187,6 +187,10 @@ function calculateTotalUnits(finaloptions) {
     finaloptions.inputSVG
   ) {
     return TOTAL_UNIT + 2;
+  } else if (!finaloptions.chartConfig &&
+    finaloptions.templateFilePath &&
+    !finaloptions.inputSVG) {
+    return TOTAL_UNIT + 2;
   }
   return TOTAL_UNIT;
 }

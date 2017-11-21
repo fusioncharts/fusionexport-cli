@@ -65,9 +65,7 @@
 
 			events: {
 				render() {
-					setTimeout(() => {
-						FusionExport.emit('CAPTURE_EXIT');
-					}, 100);
+					FusionExport.emit('CAPTURE_EXIT');
 				}
 			}
 
