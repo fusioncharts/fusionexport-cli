@@ -1,8 +1,8 @@
 {
-  "chart-config": "uat/dashboards/climatechange/chart_config.js",
-  "output-file": "uat/climatechange",
+  "chart-config": "chart_config.js",
+  "output-file": "../../climatechange",
   "output-as-zip": false,
-  "template": "uat/dashboards/climatechange/template.html",
+  "template": "template.html",
   "resources": {
     "stylesheets": [
       "style.css"
