@@ -1,21 +1,20 @@
 {
-  "name": "fc-export-cli",
+  "name": "fusionexport-cli",
   "version": "1.0.0-pre-alpha-1",
-  "description": "ExportFusion CLI",
+  "description": "FusionExport CLI",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "node postinstall.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@bitbucket.org/fusioncharts/fc-export-cli.git"
+    "url": "git+ssh://git@bitbucket.org/fusioncharts/fusionexport-cli.git"
   },
   "bin": {
     "fe": "src/cli/index.js",
     "fusion-export": "src/cli/index.js"
   },
   "license": "ISC",
-  "homepage": "https://bitbucket.org/fusioncharts/fc-export-cli#readme",
+  "homepage": "https://bitbucket.org/fusioncharts/fusionexport-cli#readme",
   "devDependencies": {
     "eslint": "^4.8.0",
     "eslint-config-airbnb-base": "^12.0.2",
@@ -25,7 +24,7 @@
     "adm-zip": "^0.4.7",
     "app-root-path": "^2.0.1",
     "commander": "^2.11.0",
-    "fc-export-node-client": "file:fc-export-node-client",
+    "fusionexport-node-client": "file:fusionexport-node-client",
     "file-url": "^2.0.2",
     "glob": "^7.1.2",
     "jsdom": "^11.3.0",
@@ -44,7 +43,7 @@
     "adm-zip",
     "app-root-path",
     "commander",
-    "fc-export-node-client",
+    "fusionexport-node-client",
     "file-url",
     "glob",
     "jsdom",
