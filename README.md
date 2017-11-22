@@ -1,6 +1,6 @@
-# ExportFusion
+# FusionExport
 
-ExportFusion is the FusionCharts's all purpose Export product which works across all OS and runtimes. The ExportFusion is primarily a CLI based system for easy exporting of Charts, Dashboards in many different image and data formats (PNG, JPEG, SVG, PDF, CSV, XLS and HTML). ExportFusion also comes packed with many language SDK’S (NodeJS, Python, GO, Java, iOS, Android) for easy integration and support across those technologies.
+FusionExport is the FusionCharts's all purpose Export product which works across all OS and runtimes. The FusionExport is primarily a CLI based system for easy exporting of Charts, Dashboards in many different image and data formats (PNG, JPEG, SVG, PDF, CSV, XLS and HTML). FusionExport also comes packed with many language SDK’S (NodeJS, Python, GO, Java, iOS, Android) for easy integration and support across those technologies.
 
 Below are the major features of the product:
 
@@ -20,11 +20,11 @@ You need to have `node >= 8.0.0` and `npm >= 5.0.0` installed in your system to 
 
 ## Installation
 
-### ExportFusion Service Installation
+### FusionExport Service Installation
 
-You will need to download the **ExportFusion Service** installer from [here](https://s3.amazonaws.com/fusionimplementation/fc-export-cli-1.0.0-pre-alpha-1.tgz).
+You will need to download the **FusionExport Service** installer from [here](https://s3.amazonaws.com/fusionimplementation/fusionexport-cli-1.0.0-pre-alpha-1.tgz).
 
-Following screen will be presented once the ExportFusion application is installed & opened.
+Following screen will be presented once the FusionExport application is installed & opened.
 
 ![GUI](https://user-images.githubusercontent.com/12299906/31943224-b5b4b03a-b8e5-11e7-92ed-585234b89ce2.png "GUI")
 
@@ -38,18 +38,18 @@ Some additional information like host, port and PID of the service can be viewed
 
 Logs can be saved by session as well as cleared when needed.
 
-### ExportFusion CLI Installation
+### FusionExport CLI Installation
 
 To install the CLI in your system run the following command:
 ```
-npm i -g https://s3.amazonaws.com/fusionimplementation/fc-export-cli-1.0.0-pre-alpha-1.tgz
+npm i -g https://s3.amazonaws.com/fusionimplementation/fusionexport-cli-1.0.0-pre-alpha-1.tgz
 ```
 
 Or,
 
 ```
-git clone https://bitbucket.org/fusioncharts/fc-export-cli
-cd fc-export-cli
+git clone https://bitbucket.org/fusioncharts/fusionexport-cli
+cd fusionexport-cli
 npm i
 npm link
 ```

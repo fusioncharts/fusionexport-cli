@@ -4,7 +4,7 @@
 
 ## Get FusionExport
 - Get **FusionExport Desktop** (Three Tabs for 3 Operating Systems)
-- Install ExportFusion Desktop
+- Install FusionExport Desktop
   - MAC OS Guide
   - Windows Guide
   - Linux Guide
@@ -365,7 +365,7 @@ You can add logo, heading and subheading to your exported dashboards. The logo a
 `--dashboard-subheading` or `-B` used for subheading of the exported dashboard.
 
 ```bash
-$ fe -c multiple_charts_config.json -T template.html -G "path/to/logo.png" -D "FusionExport Dashboard" -B "Powerd by ExportFusion"
+$ fe -c multiple_charts_config.json -T template.html -G "path/to/logo.png" -D "FusionExport Dashboard" -B "Powerd by FusionExport"
 ```
 
 ### Manipulate output filename
