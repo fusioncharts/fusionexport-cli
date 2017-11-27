@@ -525,7 +525,7 @@ $ fe -e fusioncharts_config.json
 
 ### Enable logging
 
-Logging is disabled by default. It can be enabled by setting a log destination. 
+Logging is disabled by default. It can be enabled by setting a log destination.
 
 You can provide the log file path in the `--log-dest` option, log file name in the `--log-file` option and log level in the `--log-level` option.
 
@@ -557,6 +557,8 @@ Option | Alias | Default |Type | Description
 --dashboard-logo | -G | | file | Logo path (Only for dashboard export)
 --dashboard-heading | -D | | string | Heading of the exported dashboard.
 --dashboard-subheading | -B | | string | Subheading of the exported dashboard.
+--async-capture | -a | false | bool | Enable async-capture.
+--async-capture-timeout | -m | 6000 | integer | Maximum time that system will wait for async-capture event to trigger.
 --log-dest | -d | | path | Log destination. Also enables logging.
 --log-file | -f | fusioncharts_export.log | file | Log file.
 --log-level | -l | 2 | level | Log level. This can be given as a number or it's corresponding string. <br><br> 0: error, 1: warn, 2: info, 3: verbose, 4: debug, 5: silly
