@@ -83,10 +83,8 @@ function parseObject(val, iE = false, basePath = '') {
     return tryRequire(val, iE, basePath);
   }
 
-  const json = tryParseJSON(val, iE);
-
-  if (json) {
-    return json;
+  if (val.startsWith('[') || val.startsWith('{')) {
+    return tryParseJSON(val, iE);
   }
 
   return val;
@@ -127,6 +125,12 @@ function parseBool(val) {
     default:
       return undefined;
   }
+}
+
+function resolvePath(val, basePath = '') {
+  if (typeof val !== 'string') return val;
+
+  return path.resolve(basePath, val);
 }
 
 function findDotSeparated(ob) {
@@ -209,6 +213,7 @@ module.exports = {
   parseDimension,
   parseBool,
   parseObject,
+  resolvePath,
   ifExists,
   findDotSeparated,
   renameProperty,

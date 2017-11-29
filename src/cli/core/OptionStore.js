@@ -593,7 +593,7 @@ class OptionStore {
       return this.finalOptions.logDest;
     }
 
-    const secLogDest = path.resolve(this.configBasePath, this.config.logDest);
+    const secLogDest = helpers.resolvePath(this.config.logDest, this.configBasePath);
     if (secLogDest) {
       this.finalOptions.logDest = secLogDest;
       return this.finalOptions.logDest;
