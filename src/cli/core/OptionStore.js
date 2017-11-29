@@ -255,7 +255,10 @@ class OptionStore {
     }
 
     const splitParts = this.outputFile.split(':');
-    if (splitParts.length > 1) {
+    if (
+      splitParts.length > 1 &&
+      (splitParts[0] === 's3' || splitParts[0] === 'ftp')
+    ) {
       this.finalOptions.outputTo = splitParts[0];
       return this.finalOptions.outputTo;
     }

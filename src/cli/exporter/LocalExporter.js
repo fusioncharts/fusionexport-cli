@@ -2,14 +2,14 @@ const path = require('path');
 const fileUrl = require('file-url');
 const ProgressBar = require('progress');
 const FileSaver = require('./FileSaver');
-const FusionExportClient = require('fusionexport-node-client');
+const FusionExport = require('fusionexport-node-client');
 const config = require('../config');
 const log = require('../log');
 const { calculateTotalUnits } = require('../helpers');
 
 class LocalExporter {
   constructor() {
-    this.exportClient = new FusionExportClient();
+    this.exportClient = new FusionExport();
     this.listenToStateChange();
     this.listenForError();
   }
