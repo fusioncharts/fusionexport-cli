@@ -20,11 +20,11 @@ function tryParseJSON(str, ignoreException = false) {
   return data;
 }
 
-function tryRequire(file, ignoreException = false) {
+function tryRequire(file, ignoreException = false, basePath = '') {
   let data;
 
   try {
-    data = require(path.resolve(file));
+    data = require(path.resolve(basePath, file));
   } catch (e) {
     if (ignoreException) return undefined;
 
@@ -36,11 +36,11 @@ function tryRequire(file, ignoreException = false) {
   return data;
 }
 
-function tryReadFile(file, ignoreException = false) {
+function tryReadFile(file, ignoreException = false, basePath = '') {
   let data;
 
   try {
-    data = fs.readFileSync(path.resolve(file));
+    data = fs.readFileSync(path.resolve(basePath, file));
   } catch (e) {
     if (ignoreException) return undefined;
 
@@ -52,34 +52,35 @@ function tryReadFile(file, ignoreException = false) {
   return data;
 }
 
-function ifExists(file, ignoreException = false) {
+function ifExists(file, ignoreException = false, basePath = '') {
   if (typeof file !== 'string') {
     return file;
   }
 
-  if (fs.existsSync(file)) {
-    return file;
+  const resolvedFile = path.resolve(basePath, file);
+  if (fs.existsSync(resolvedFile)) {
+    return resolvedFile;
   }
 
   if (ignoreException) return undefined;
 
-  log.error('File does not exists: ', file);
+  log.error('File does not exists: ', resolvedFile);
   process.exit(1);
 
   return undefined;
 }
 
-function parseObject(val, iE = false) {
+function parseObject(val, iE = false, basePath = '') {
   if (typeof val !== 'string') {
     return val;
   }
 
   if (path.extname(val) === '.json') {
-    return tryParseJSON(tryReadFile(val, iE), iE);
+    return tryParseJSON(tryReadFile(val, iE, basePath), iE);
   }
 
   if (path.extname(val) === '.js') {
-    return tryRequire(val, iE);
+    return tryRequire(val, iE, basePath);
   }
 
   const json = tryParseJSON(val, iE);

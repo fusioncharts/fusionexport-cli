@@ -6,8 +6,6 @@ const glob = require('glob');
 const helpers = require('./helpers');
 const log = require('./log');
 
-let configBasePath = '';
-
 _.mixin({
   deeply(map) {
     return (obj, fn) => map(
@@ -57,46 +55,23 @@ function makeArray(ob) {
   return ob;
 }
 
-function parseConfig(config, iE = false) {
-  const configObj = helpers.parseObject(config, iE);
-  if (typeof configObj !== 'object') {
-    return configObj;
+function resolveOutputFile(val, basePath) {
+  if (typeof val !== 'string') return val;
+
+  let isDir = false;
+  if ((val.length > 1 &&
+    val.slice(-1) === path.sep) ||
+    val.slice(-1) === '.' ||
+    val.slice(-1) === '') {
+    isDir = true;
   }
 
-  let basePath = '';
-  if (fs.existsSync(config)) {
-    basePath = path.dirname(path.resolve(config));
+  let resolvedPath = path.resolve(basePath, val);
+  if (isDir) {
+    resolvedPath += path.sep;
   }
-  configBasePath = basePath;
 
-  const resolvedConfigObj = {};
-  Object.keys(configObj).forEach((key) => {
-    let val = configObj[key];
-
-    if (typeof val === 'string' && path.extname(val).length) {
-      val = path.resolve(basePath, val);
-    }
-
-    // This is an exception. Output file may not have an extension.
-    if (key === 'output-file') {
-      let isDir = false;
-      if ((val.length > 1 &&
-        val.slice(-1) === path.sep) ||
-        val.slice(-1) === '.' ||
-        val.slice(-1) === '') {
-        isDir = true;
-      }
-
-      val = path.resolve(basePath, val);
-      if (isDir) {
-        val += path.sep;
-      }
-    }
-
-    resolvedConfigObj[key] = val;
-  });
-
-  return resolvedConfigObj;
+  return resolvedPath;
 }
 
 function validateChartConfig(confList) {
@@ -110,7 +85,7 @@ function validateChartConfig(confList) {
   });
 }
 
-function parseChartConfig(chartConfig, iE = false) {
+function parseChartConfig(chartConfig, iE = false, configBasePath = '') {
   if (typeof chartConfig !== 'string') {
     return chartConfig;
   }
@@ -118,7 +93,7 @@ function parseChartConfig(chartConfig, iE = false) {
   let fileList = [];
   let confList = [];
 
-  const ob = helpers.parseObject(chartConfig, iE);
+  const ob = helpers.parseObject(chartConfig, iE, configBasePath);
   if (typeof ob === 'object') {
     confList = makeArray(ob);
   } else {
@@ -289,7 +264,7 @@ function configureLogger(options) {
 }
 
 module.exports = {
-  parseConfig,
+  resolveOutputFile,
   parseChartConfig,
   sanitizeConfig,
   sanitizeChartConfig,
