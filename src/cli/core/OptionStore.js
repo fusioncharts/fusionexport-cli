@@ -254,12 +254,13 @@ class OptionStore {
       return this.finalOptions.outputTo;
     }
 
-    const splitParts = this.outputFile.split(':');
-    if (
-      splitParts.length > 1 &&
-      (splitParts[0] === 's3' || splitParts[0] === 'ftp')
-    ) {
-      this.finalOptions.outputTo = splitParts[0];
+    if (this.outputFile.startsWith('s3:')) {
+      this.finalOptions.outputTo = 's3';
+      return this.finalOptions.outputTo;
+    }
+
+    if (this.outputFile.startsWith('ftp:')) {
+      this.finalOptions.outputTo = 'ftp';
       return this.finalOptions.outputTo;
     }
 

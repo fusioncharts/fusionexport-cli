@@ -58,6 +58,8 @@ function makeArray(ob) {
 function resolveOutputFile(val, basePath) {
   if (typeof val !== 'string') return val;
 
+  if (val.startsWith('s3:') || val.startsWith('ftp:')) return val;
+
   let isDir = false;
   if ((val.length > 1 &&
     val.slice(-1) === path.sep) ||
