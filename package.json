@@ -2,6 +2,7 @@
   "name": "fusionexport-cli",
   "version": "1.0.0-pre-alpha-1",
   "description": "FusionExport CLI",
+  "keywords": ["export", "cli", "fusioncharts", "fusionexport"],
   "scripts": {
     "postinstall": "node postinstall.js"
   },
