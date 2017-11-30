@@ -20,11 +20,31 @@ function tryParseJSON(str, ignoreException = false) {
   return data;
 }
 
+function ifExists(file, ignoreException = false, basePath = '') {
+  if (typeof file !== 'string') {
+    return file;
+  }
+
+  const resolvedFile = path.resolve(basePath, file);
+  if (fs.existsSync(resolvedFile)) {
+    return resolvedFile;
+  }
+
+  if (ignoreException) return undefined;
+
+  log.error('File does not exist: ', resolvedFile);
+  process.exit(1);
+
+  return undefined;
+}
+
 function tryRequire(file, ignoreException = false, basePath = '') {
   let data;
 
+  const resolvedFile = ifExists(file, ignoreException, basePath);
+
   try {
-    data = require(path.resolve(basePath, file));
+    data = require(resolvedFile);
   } catch (e) {
     if (ignoreException) return undefined;
 
@@ -39,8 +59,10 @@ function tryRequire(file, ignoreException = false, basePath = '') {
 function tryReadFile(file, ignoreException = false, basePath = '') {
   let data;
 
+  const resolvedFile = ifExists(file, ignoreException, basePath);
+
   try {
-    data = fs.readFileSync(path.resolve(basePath, file));
+    data = fs.readFileSync(resolvedFile);
   } catch (e) {
     if (ignoreException) return undefined;
 
@@ -50,24 +72,6 @@ function tryReadFile(file, ignoreException = false, basePath = '') {
   }
 
   return data;
-}
-
-function ifExists(file, ignoreException = false, basePath = '') {
-  if (typeof file !== 'string') {
-    return file;
-  }
-
-  const resolvedFile = path.resolve(basePath, file);
-  if (fs.existsSync(resolvedFile)) {
-    return resolvedFile;
-  }
-
-  if (ignoreException) return undefined;
-
-  log.error('File does not exists: ', resolvedFile);
-  process.exit(1);
-
-  return undefined;
 }
 
 function parseObject(val, iE = false, basePath = '') {
