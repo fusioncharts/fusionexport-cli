@@ -91,6 +91,8 @@ function parseObject(val, iE = false, basePath = '') {
     return tryParseJSON(val, iE);
   }
 
+  ifExists(val, iE, basePath);
+
   return val;
 }
 
