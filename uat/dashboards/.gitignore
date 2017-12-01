@@ -1,0 +1,17 @@
+*
+!.gitignore
+
+!climatechange/
+!climatechange/*
+
+!cryptocurrency/
+!cryptocurrency/*
+
+!education/
+!education/*
+
+!politics/
+!politics/*
+
+!telecommunication/
+!telecommunication/*

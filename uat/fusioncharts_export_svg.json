@@ -1,0 +1,12 @@
+{
+  "input-file": "chart.svg",
+  "output-file": "./",
+  "output-as-zip": false,
+  "type": "pdf",
+  "width": 1000,
+  "height": 500,
+  "log-dest": "",
+  "log-file": "test.log",
+  "log-level": "silly",
+  "remote-export-enabled": false
+}

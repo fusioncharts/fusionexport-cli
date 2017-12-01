@@ -1,0 +1,19 @@
+{
+  "config": "fusioncharts_export.json",
+  "chartConfig": "fusioncharts_chart.json",
+  "chartConfigOptions": {},
+  "inputFile": "chart.svg",
+  "outputFile": "export--<%= number(1) %>.png",
+  "outputAsZip": "false",
+  "type": "png",
+  "callbacks": "fusioncharts_export_callbacks.js",
+  "template": "template.html",
+  "resources": "resources.json",
+  "asyncCapture": false,
+  "asyncCaptureTimeout": 6000,
+  "logDest": ".",
+  "logFile": "fusioncharts_export.log",
+  "logLevel": 2,
+  "remoteExportEnabled": false,
+  "exportUrl": "http://export.api3.fusioncharts.com"
+}

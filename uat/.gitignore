@@ -1,0 +1,25 @@
+# Test files
+
+*
+!.gitignore
+
+!dashboards/
+!resources/
+!asynccapture/
+!highcharts/
+!callbacks.js
+!chart.svg
+!fusioncharts_chart.js
+!fusioncharts_multi_input.json
+!fusioncharts_export_tmpl.json
+!fusioncharts_export_svg.json
+!fusioncharts_export_ftp.json
+!fusioncharts_export_s3.json
+!fusioncharts_export.json
+!output_file_definition.js
+!template.html
+!20charts.js
+!template_20charts.html
+!fusioncharts_export_20charts.json
+!50charts.js
+!fusioncharts_export_50charts.json

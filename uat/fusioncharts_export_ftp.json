@@ -1,0 +1,7 @@
+{
+  "chart-config": "fusioncharts_chart.js",
+  "output-file": "ftp:fc-<%= number(1) %>",
+  "log-dest": "",
+  "log-file": "test.log",
+  "log-level": "silly"
+}

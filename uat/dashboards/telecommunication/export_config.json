@@ -1,0 +1,24 @@
+{
+  "chart-config": "chart_config.js",
+  "output-file": "../../telecommunication",
+  "output-as-zip": false,
+  "template": "template.html",
+  "type": "pdf",
+  "resources": {
+    "stylesheets": [
+      "./production/vendors/bootstrap/dist/css/bootstrap.min.css",
+      "./production/vendors/font-awesome/css/font-awesome.min.css",
+      "./production/build/css/custom.css"
+    ],
+    "javascripts": [
+      "./production/vendors/jquery/dist/jquery.min.js",
+      "./production/vendors/bootstrap/dist/js/bootstrap.min.js",
+      "./production/vendors/fastclick/lib/fastclick.js",
+      "./production/vendors/nprogress/nprogress.js",
+      "./production/build/js/custom.js"
+    ]
+  },
+  "log-dest": "uat/",
+  "log-file": "test.log",
+  "log-level": "silly"
+}

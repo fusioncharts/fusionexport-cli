@@ -1,0 +1,13 @@
+{
+  "chart-config": "20charts.js",
+  "output-file": "20charts",
+  "output-as-zip": false,
+  "template": "template_20charts.html",
+  "type": "jpeg",
+  "height": "300",
+  "width": "500",
+  "log-dest": "",
+  "log-file": "test.log",
+  "log-level": "silly",
+  "remote-export-enabled": false
+}

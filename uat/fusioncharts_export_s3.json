@@ -1,0 +1,8 @@
+{
+  "chart-config": "fusioncharts_chart.js",
+  "output-file": "s3:fc-<%= number(1) %>",
+  "output-file-definition": "output_file_definition.js",
+  "log-dest": "",
+  "log-file": "test.log",
+  "log-level": "silly"
+}

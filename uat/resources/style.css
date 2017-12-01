@@ -1,0 +1,12 @@
+body {
+  background-color: #efefef;
+}
+
+.container {
+  
+}
+
+.container div {
+  display: inline-block;
+  margin: 2em;
+}
