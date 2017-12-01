@@ -91,7 +91,7 @@ You can find the full reference [here](https://www.fusioncharts.com/dev/exportin
 ## Examples
 
 ### Export a simple column chart using a single configuration in PNG format.
- `column_chart_config.json` contains a sample fusioncharts column chart config
+`column_chart_config.json` contains a sample fusioncharts column chart config
 **column_chart_config.json**
 ```json
 [
@@ -129,7 +129,7 @@ You can find the full reference [here](https://www.fusioncharts.com/dev/exportin
 $ fe -c column_chart_config.json
 ```
 
-_This will export the Column chart in PNG format in the current working directory._
+_This will export the column chart in PNG format in the current working directory._
 
 ### Export multiple charts in PDF format.
 
