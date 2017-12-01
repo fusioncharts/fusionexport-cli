@@ -20,13 +20,9 @@ You need to have `node >= 8.0.0` and `npm >= 5.0.0` installed in your system to 
 
 ## Installation
 
-### FusionExport Service Installation
+### FusionExport Installation
 
-You will need to download the **FusionExport Service** installer from [here](https://s3.amazonaws.com/fusionimplementation/fusionexport-cli-1.0.0-pre-alpha-1.tgz).
-
-Following screen will be presented once the FusionExport application is installed & opened.
-
-![GUI](https://user-images.githubusercontent.com/12299906/31943224-b5b4b03a-b8e5-11e7-92ed-585234b89ce2.png "GUI")
+You will need to download the **FusionExport** installer from [here](https://www.fusioncharts.com/dev/exporting-charts/using-fusionexport/installation/install-fusionexport-desktop.html).
 
 Primary functionalities those can be performed on the screen are:
   1. Service Start
@@ -42,16 +38,7 @@ Logs can be saved by session as well as cleared when needed.
 
 To install the CLI in your system run the following command:
 ```
-npm i -g https://s3.amazonaws.com/fusionimplementation/fusionexport-cli-1.0.0-pre-alpha-1.tgz
-```
-
-Or,
-
-```
-git clone https://bitbucket.org/fusioncharts/fusionexport-cli
-cd fusionexport-cli
-npm i
-npm link
+npm i -g fusionexport-cli
 ```
 
 ## Usage

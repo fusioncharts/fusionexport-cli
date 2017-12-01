@@ -11,20 +11,20 @@
   "scripts": {
     "postinstall": "node postinstall.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@bitbucket.org/fusioncharts/fusionexport-cli.git"
-  },
   "bin": {
     "fe": "src/cli/index.js",
     "fusion-export": "src/cli/index.js"
   },
-  "license": "MIT",
   "homepage": "https://www.fusioncharts.com/fusionexport",
-  "devDependencies": {
-    "eslint": "^4.8.0",
-    "eslint-config-airbnb-base": "^12.0.2",
-    "eslint-plugin-import": "^2.7.0"
+  "license": "MIT",
+  "author": {
+    "name": "FusionCharts",
+    "email": "buy@fusioncharts.com",
+    "url": "https://www.fusioncharts.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/fusioncharts/fusionexport-cli.git"
   },
   "dependencies": {
     "adm-zip": "^0.4.7",
@@ -44,6 +44,11 @@
     "stacktrace-parser": "^0.1.4",
     "tmp": "0.0.33",
     "winston": "^2.4.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.8.0",
+    "eslint-config-airbnb-base": "^12.0.2",
+    "eslint-plugin-import": "^2.7.0"
   },
   "bundledDependencies": [
     "adm-zip",
