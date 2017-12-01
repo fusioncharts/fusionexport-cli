@@ -1,18 +1,18 @@
 # FusionExport
 
-FusionExport is the FusionCharts's all purpose Export product which works across all OS and runtimes. The FusionExport is primarily a CLI based system for easy exporting of Charts, Dashboards in many different image and data formats (PNG, JPEG, SVG, PDF, CSV, XLS and HTML). FusionExport also comes packed with many language SDK’S (NodeJS, Python, GO, Java, iOS, Android) for easy integration and support across those technologies.
+FusionExport is FusionCharts' all purpose Export product which works across all OS. It is primarily a CLI based system for easy exporting of charts, dashboards in multiple image and data formats (PNG, JPEG, SVG, PDF, CSV, XLS and HTML). FusionExport comes with language SDKs (NodeJS, Java, C#, PHP, Python and Golang) for easy integration and support across technologies.
 
 Below are the major features of the product:
 
-   1. Export FusionCharts charts as PNG, JPEG, SVG, PDF, CSV, XLS and HTML files.
-   1. Exporting of charts is done directly from backend without needing a browser.
+   1. Export charts as PNG, JPEG, SVG, PDF, CSV, XLS and HTML files.
+   1. Export charts directly from backend without a browser.
    1. Multiple charts can be exported simultaneously with minimal configuration.
-   1. Sharing, Scheduling etc. can be done as exporting is done from backend.
-   1. Dashboards exporting using user defined template.
-   1. Supports statistics logging of all charts exports in a private setup / central remote server.
-   1. Saving files to FTP or S3
-   1. Doing export from remote server
-   1. Easy configuration management
+   1. Sharing, scheduling etc. can be done.
+   1. Export dashboards using user defined template.
+   1. Supports statistics logging of all chart exports in a private setup/central remote server.
+   1. Save files to FTP or S3.
+   1. Export from remote server.
+   1. Easy configuration management.
 
 ## Prerequisites
 
@@ -22,17 +22,17 @@ You need to have `node >= 8.0.0` and `npm >= 5.0.0` installed in your system to 
 
 ### FusionExport Installation
 
-You will need to download the **FusionExport** installer from [here](https://www.fusioncharts.com/dev/exporting-charts/using-fusionexport/installation/install-fusionexport-desktop.html).
+Download **FusionExport** installer from [here](https://www.fusioncharts.com/dev/exporting-charts/using-fusionexport/installation/install-fusionexport-desktop.html).
 
 Primary functionalities those can be performed on the screen are:
   1. Service Start
   2. Service Stop
   3. Service Restart
 
-Logging of the various operation can be viewed in the below panel.
-Some additional information like host, port and PID of the service can be viewed.
+Log various operation and view in the log panel.
+View additional information like host, port and PID of the service.
 
-Logs can be saved by session as well as cleared when needed.
+Save and clear logs as per requirement.
 
 ### FusionExport CLI Installation
 
@@ -83,6 +83,10 @@ Option | Alias | Default |Type | Description
 --log-level | -l | 2 | level | Log level. <br><br> 0: error, 1: warn, 2: info, 3: verbose, 4: debug, 5: silly
 --remote-export-enabled | -R | false | bool | If enabled, the CLI will use the export server API to export the images. <br><br> By default this option is set to false in which case it won’t export using export server.
 --export-url | -u | export.api3.fusioncharts.com | url | Export server url.
+
+## API Reference
+
+You can find the full reference [here](https://www.fusioncharts.com/dev/exporting-charts/using-fusionexport/cli-reference.html).
 
 ## Examples
 
@@ -235,11 +239,11 @@ $ fe -c multiple_charts_config.json -t pdf -o ./exported-charts/
 
 ### Export entire Dashboard using CLI in PDF format.
 
-To export Dashboard using CLI, a template file has to be provided with the layout and supporting static resource (JS, CSS, Images, Fonts).
+To export dashboards using CLI, provide a template file with the layout and supporting static resources (JS, CSS, images, fonts).
 
 The template must contain placeholder elements (preferably divs) for the charts. The chart config array must contain the charts with the `renderAt` attributes that matches the id of the elements stated above.
 
-The resources option is optional and only needed when `remote-export-enabled` is `true`. Most resources that are stated in the template in link, script or img tags are found intelligently. If any additional fonts, links present in css or dynamic links in JS is present one has to specify them in resources option.
+The resources option is optional and only needed when `remote-export-enabled` is `true`. Most resources that are stated in the template in link, script or image tags are found intelligently. If any additional fonts, links present in css or dynamic links in JS is present one has to specify them in resources option.
 
 The format of the resources option is as follows:
 
@@ -387,7 +391,7 @@ $ fe -c multiple_charts_config.json -T template.html -t PDF -o ./exported-dashbo
 
 The `output-file` option can take a template which is then resolved using ejs, so that the output filenames can be generated exactly as you wanted it to be.
 
-There are 2 inbuilt function and you can provide you own ones in another JS file and pass it in the option `output-file-definition`
+There are 2 inbuilt functions and you can also provide custom functions in another JS file and pass it in the option `output-file-definition`
 
 The 2 inbuilt functions are
 
@@ -407,9 +411,9 @@ module.exports = {
 };
 ```
 
-Functions will get 3 arguments the current chart config, the index and array of all the chart configs.
+Functions will get 3 arguments, current chart config, index and array of all the chart configs.
 
-Arrays will the iterated one by one and the last one will be repeated if more is needed.
+Arrays will the iterated one by one and the last one will be repeated if more output files are generated.
 
 Example filenames:
 
