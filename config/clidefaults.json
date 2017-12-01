@@ -11,7 +11,7 @@
   "resources": "resources.json",
   "asyncCapture": false,
   "asyncCaptureTimeout": 6000,
-  "logDest": "/",
+  "logDest": ".",
   "logFile": "fusioncharts_export.log",
   "logLevel": 2,
   "remoteExportEnabled": false,

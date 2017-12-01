@@ -12,7 +12,7 @@ program
   .option('-c, --chart-config <file|json>', 'JSON or JS file that contains an array of chart configurations whose charts will be exported.')
   .option('-O, --chart-config-options <json>', 'JSON object that provides an option to override the chart configuration passed through chart-config option.')
   .option('-i, --input-file <file>', 'SVG file that needs to be converted. Ignored if chart-config is provided.')
-  .option('-o, --output-file <string>', 'Output file that needs to be generated. Valid only for single export.')
+  .option('-o, --output-file <string>', 'Output file that needs to be generated. A template can also be provided.')
   .option('-F, --output-file-definition <file>', 'JSON or JS file that contains itereator for output filename template.')
   .option('-z, --output-as-zip <bool>', 'If enabled, multiple output files will be exported as zip')
   .option('-t, --type <ext>', 'Output file type.')

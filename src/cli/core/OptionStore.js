@@ -71,15 +71,17 @@ class OptionStore {
       return this.finalOptions.config;
     }
 
-    const cliConfig = utils.parseConfig(this.cliOptions.config);
+    const cliConfig = helpers.parseObject(this.cliOptions.config);
     if (cliConfig) {
       this.finalOptions.config = cliConfig;
+      this.configBasePath = path.dirname(path.resolve(this.cliOptions.config));
       return this.finalOptions.config;
     }
 
-    const defConfig = utils.parseConfig(this.defaultOptions.config, true);
+    const defConfig = helpers.parseObject(this.defaultOptions.config, true);
     if (defConfig) {
       this.finalOptions.config = defConfig;
+      this.configBasePath = path.dirname(path.resolve(this.defaultOptions.config));
       return this.finalOptions.config;
     }
 
@@ -97,7 +99,7 @@ class OptionStore {
       return this.finalOptions.chartConfig;
     }
 
-    const secChartConfig = utils.parseChartConfig(this.config.chartConfig);
+    const secChartConfig = utils.parseChartConfig(this.config.chartConfig, false, this.configBasePath);
     if (secChartConfig) {
       this.finalOptions.chartConfig = secChartConfig;
       return this.finalOptions.chartConfig;
@@ -123,7 +125,7 @@ class OptionStore {
       return this.finalOptions.chartConfigOptions;
     }
 
-    const secChartConfigOptions = helpers.parseObject(this.config.chartConfigOptions);
+    const secChartConfigOptions = helpers.parseObject(this.config.chartConfigOptions, false, this.configBasePath);
     if (secChartConfigOptions) {
       this.finalOptions.chartConfigOptions = secChartConfigOptions;
       return this.finalOptions.chartConfigOptions;
@@ -154,7 +156,7 @@ class OptionStore {
       return this.finalOptions.inputFile;
     }
 
-    const secInputFile = helpers.ifExists(this.config.inputFile);
+    const secInputFile = helpers.ifExists(this.config.inputFile, false, this.configBasePath);
     if (secInputFile) {
       this.finalOptions.inputFile = secInputFile;
       return this.finalOptions.inputFile;
@@ -180,7 +182,7 @@ class OptionStore {
       return this.finalOptions.outputFile;
     }
 
-    const secOutputFile = this.config.outputFile;
+    const secOutputFile = utils.resolveOutputFile(this.config.outputFile, this.configBasePath);
     if (secOutputFile) {
       this.finalOptions.outputFile = secOutputFile;
       return this.finalOptions.outputFile;
@@ -206,7 +208,7 @@ class OptionStore {
       return this.finalOptions.outputFileDefinition;
     }
 
-    const secOutputFileDefinition = helpers.parseObject(this.config.outputFileDefinition);
+    const secOutputFileDefinition = helpers.parseObject(this.config.outputFileDefinition, false, this.configBasePath);
     if (secOutputFileDefinition) {
       this.finalOptions.outputFileDefinition = secOutputFileDefinition;
       return this.finalOptions.outputFileDefinition;
@@ -252,12 +254,13 @@ class OptionStore {
       return this.finalOptions.outputTo;
     }
 
-    const splitParts = this.outputFile.split(':');
-    if (
-      splitParts.length > 1 &&
-      (splitParts[0] === 's3' || splitParts[0] === 'ftp')
-    ) {
-      this.finalOptions.outputTo = splitParts[0];
+    if (this.outputFile.startsWith('s3:')) {
+      this.finalOptions.outputTo = 's3';
+      return this.finalOptions.outputTo;
+    }
+
+    if (this.outputFile.startsWith('ftp:')) {
+      this.finalOptions.outputTo = 'ftp';
       return this.finalOptions.outputTo;
     }
 
@@ -360,7 +363,7 @@ class OptionStore {
       return this.finalOptions.callbacks;
     }
 
-    const secCallbacks = helpers.ifExists(this.config.callbacks);
+    const secCallbacks = helpers.ifExists(this.config.callbacks, false, this.configBasePath);
     if (secCallbacks) {
       this.finalOptions.callbacks = secCallbacks;
       return this.finalOptions.callbacks;
@@ -386,7 +389,7 @@ class OptionStore {
       return this.finalOptions.template;
     }
 
-    const secTemplate = helpers.ifExists(this.config.template);
+    const secTemplate = helpers.ifExists(this.config.template, false, this.configBasePath);
     if (secTemplate) {
       this.finalOptions.template = secTemplate;
       return this.finalOptions.template;
@@ -412,7 +415,7 @@ class OptionStore {
       return this.finalOptions.resources;
     }
 
-    const secResources = helpers.parseObject(this.config.resources);
+    const secResources = helpers.parseObject(this.config.resources, false, this.configBasePath);
     if (secResources) {
       this.finalOptions.resources = secResources;
       return this.finalOptions.resources;
@@ -516,7 +519,7 @@ class OptionStore {
       return this.finalOptions.dashboardLogo;
     }
 
-    const secDashboardLogo = helpers.ifExists(this.config.dashboardLogo);
+    const secDashboardLogo = helpers.ifExists(this.config.dashboardLogo, false, this.configBasePath);
     if (secDashboardLogo) {
       this.finalOptions.dashboardLogo = secDashboardLogo;
       return this.finalOptions.dashboardLogo;
@@ -594,7 +597,7 @@ class OptionStore {
       return this.finalOptions.logDest;
     }
 
-    const secLogDest = this.config.logDest;
+    const secLogDest = helpers.resolvePath(this.config.logDest, this.configBasePath);
     if (secLogDest) {
       this.finalOptions.logDest = secLogDest;
       return this.finalOptions.logDest;
