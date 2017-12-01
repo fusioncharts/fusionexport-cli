@@ -1,6 +1,6 @@
-# ExportFusion
+# FusionExport
 
-ExportFusion is the FusionCharts's all purpose Export product which works across all OS and runtimes. The ExportFusion is primarily a CLI based system for easy exporting of Charts, Dashboards in many different image and data formats (PNG, JPEG, SVG, PDF, CSV, XLS and HTML). ExportFusion also comes packed with many language SDK’S (NodeJS, Python, GO, Java, iOS, Android) for easy integration and support across those technologies.
+FusionExport is the FusionCharts's all purpose Export product which works across all OS and runtimes. The FusionExport is primarily a CLI based system for easy exporting of Charts, Dashboards in many different image and data formats (PNG, JPEG, SVG, PDF, CSV, XLS and HTML). FusionExport also comes packed with many language SDK’S (NodeJS, Python, GO, Java, iOS, Android) for easy integration and support across those technologies.
 
 Below are the major features of the product:
 
@@ -20,13 +20,9 @@ You need to have `node >= 8.0.0` and `npm >= 5.0.0` installed in your system to 
 
 ## Installation
 
-### ExportFusion Service Installation
+### FusionExport Installation
 
-You will need to download the **ExportFusion Service** installer from [here](https://s3.amazonaws.com/fusionimplementation/fc-export-cli-1.0.0-pre-alpha-1.tgz).
-
-Following screen will be presented once the ExportFusion application is installed & opened.
-
-![GUI](https://user-images.githubusercontent.com/12299906/31943224-b5b4b03a-b8e5-11e7-92ed-585234b89ce2.png "GUI")
+You will need to download the **FusionExport** installer from [here](https://www.fusioncharts.com/dev/exporting-charts/using-fusionexport/installation/install-fusionexport-desktop.html).
 
 Primary functionalities those can be performed on the screen are:
   1. Service Start
@@ -38,33 +34,24 @@ Some additional information like host, port and PID of the service can be viewed
 
 Logs can be saved by session as well as cleared when needed.
 
-### ExportFusion CLI Installation
+### FusionExport CLI Installation
 
 To install the CLI in your system run the following command:
 ```
-npm i -g https://s3.amazonaws.com/fusionimplementation/fc-export-cli-1.0.0-pre-alpha-1.tgz
-```
-
-Or,
-
-```
-git clone https://bitbucket.org/fusioncharts/fc-export-cli
-cd fc-export-cli
-npm i
-npm link
+npm i -g fusionexport-cli
 ```
 
 ## Usage
-After installing, you should have access to `export-fusion` command. `xf` is an alias to `export-fusion`
+After installing, you should have access to `fusion-export` command. `fe` is an alias to `fusion-export`
 
 ```
-export-fusion <options>
+fusion-export <options>
 ```
 
 Or,
 
 ```
-xf <options>
+fe <options>
 ```
 
 
@@ -72,27 +59,29 @@ xf <options>
 
 Option | Alias | Default |Type | Description
 -------|-------|---------|-----|------------
---config | -e | fusioncharts_export.json | file, json | A JSON file that can contain any or all of the cli options.
---chart-config | -c | fusioncharts_chart.json | file, json | A JSON or JS file that will contain an array of json objects or just an object which can be passed to the chart constructor for rendering the chart. <br><br> If it's a JS file the object should be exported. <br><br> It can also take multiple file, directory path or glob pattern in a space seprated format. For file containing single chart config it will create a single exported file. For file containing multiple chart config it will create a directory named after the respective filename, that will contain the individual exported file.
---chart-config-options | -O | {} | json | JSON object that provides an option to override the chart configuration passed through chart-config option. <br><br> In case of multiple charts all the charts will be effected.
---input-file | -i | chart.svg | file | SVG file that needs to be converted. <br><br> Ignored if chart-config is provided. <br><br> Path will be taken into account if provided.
---output-file | -o | | string | Output files that need to be generated. A template can also be giving that will be resolved for multiple files. For more information see below. <br><br> Zipped output will always be named fusioncharts_export.zip
---output-file-definition | -F | | file | JS or JSON file that contains methods and arrays to use in naming output files.
---output-as-zip | -z | | bool | To export the output files as zip, or to export individual files.
---type | -t | png | ext | Output file type.
---width | -W | 600 | value | Chart width in which all charts should be rendered.
---height | -H | 400 | value | Chart height in which all charts should be rendered.
---callbacks | -b | fusioncharts_export_callbacks.js | file | JS file providing an option to bind custom methods to events fired by FusionCharts library.
---template | -T | template.html | file | HTML file to use as template for rendering the chart.
---resources | -r | resources.json | file, json | FusionExport automatically finds resources from link, script and img tags in the html template. <br><br> If any resource link is dynamically generated or present in files other than the template file, it should be explicitly added in this option. <br><br> This is a JSON file containing arrays of filename in their respective key. <br><br> Applicable only during remote exporting.
---library-path | -L | | path | Path where FusionCharts library is present.
---dashboard-logo | -G | | file | Logo path (Only for dashboard export)
+--config | -e | fusioncharts_export.json | file, json | A JSON file that contains any or all of the CLI options.
+--chart-config | -c | fusioncharts_chart.json | file, json | A JSON or JS file that contains an array of json objects or just an object, which can be passed to the chart constructor for rendering the chart. <br><br> Note: If it's a JS file, the object should be exported. <br><br> It can also take multiple files, directory path or glob pattern in a space separated format. For files containing single chart config, it will create a single exported file. For files containing multiple chart config, it will create a directory named after the respective filename that will contain the individual exported file.
+--chart-config-options | -O | {} | json | JSON object that provides an option to override the chart configuration that has been passed through the chart-config option. <br><br> In case of multiple charts, all the charts will be affected.
+--input-file | -i | chart.svg | file | SVG file that needs to be converted. <br><br> It is ignored if chart-config is already provided. <br><br> The path will be taken into account if it is provided.
+--output-file | -o | | string | Output files that need to be generated. A template can also be given that will be resolved for multiple files. <br><br> The zipped output will always be named fusioncharts_export.zip. <br><br> If an extension is provided with the filename the output type will be inferred from that. <br><br> It can also take a directory path; in that case, it should end with a path separator respective to the os.
+--output-file-definition | -F | | file | JS or JSON file that contains methods and arrays to be used for naming the output files.
+--output-as-zip | -z | | bool | Exports the output files either as individual files or as a zip.
+--type | -t | png | ext | Specifies the output file type. This will override any extension provided in the output-file option.
+--width | -W | 600 | value | Specifies the chart width.
+--height | -H | 400 | value | Specifies the chart height.
+--callbacks | -b | fusioncharts_export_callbacks.js | file | JS file that provides an option for binding custom methods to events fired by the FusionCharts library.
+--template | -T | template.html | file | JS file that provides an option for binding custom methods to events fired by the FusionCharts library.
+--resources | -r | resources.json | file, json | JSON file that contains all the resources that will be injected into the template while rendering charts.
+--library-path | -L | | path | JSON file that contains all the resources that will be injected into the template while rendering charts.
+--dashboard-logo | -G | | file | Logo path (only for dashboard export)
 --dashboard-heading | -D | | string | Heading of the exported dashboard.
 --dashboard-subheading | -B | | string | Subheading of the exported dashboard.
---log-dest | -d | | path | Log destination. Also enables logging.
+--async-capture | -a | false | bool | Enable async-capture.
+--async-capture-timeout | -m | 6000 | integer | Maximum time that system will wait for async-capture event to trigger.
+--log-dest | -d | | path | Enables logging and sets the log destination.
 --log-file | -f | fusioncharts_export.log | file | Log file.
 --log-level | -l | 2 | level | Log level. <br><br> 0: error, 1: warn, 2: info, 3: verbose, 4: debug, 5: silly
---remote-export-enabled | -R | false | bool | If enabled, the cli will use the export server api to export the images.
+--remote-export-enabled | -R | false | bool | If enabled, the CLI will use the export server API to export the images. <br><br> By default this option is set to false in which case it won’t export using export server.
 --export-url | -u | export.api3.fusioncharts.com | url | Export server url.
 
 ## Examples
@@ -133,7 +122,7 @@ Option | Alias | Default |Type | Description
 ```
 
 ```bash
-$ xf -c column_chart_config.json
+$ fe -c column_chart_config.json
 ```
 
 _This will export the Column chart in PNG format in the current working directory._
@@ -241,7 +230,7 @@ _This will export the Column chart in PNG format in the current working director
 ```
 
 ```bash
-$ xf -c multiple_charts_config.json -t pdf -o ./exported-charts/
+$ fe -c multiple_charts_config.json -t pdf -o ./exported-charts/
 ```
 
 ### Export entire Dashboard using CLI in PDF format.
@@ -391,7 +380,7 @@ The format of the resources option is as follows:
 ```
 
 ```bash
-$ xf -c multiple_charts_config.json -T template.html -t PDF -o ./exported-dashboards/
+$ fe -c multiple_charts_config.json -T template.html -t PDF -o ./exported-dashboards/
 ```
 
 ### Output File Naming
@@ -454,9 +443,9 @@ Some preconfigured test configs are present in the `uat` folder. You can pass th
 Some example commands for running a quick test are
 
 ```
-xf -e uat/fusioncharts_export.json
-xf -e uat/fusioncharts_export_svg.json
-xf -e uat/fusioncharts_export_tmpl.json
-xf -e uat/fusioncharts_export_20charts.json
-xf -e uat/fusioncharts_export_50charts.json
+fe -e uat/fusioncharts_export.json
+fe -e uat/fusioncharts_export_svg.json
+fe -e uat/fusioncharts_export_tmpl.json
+fe -e uat/fusioncharts_export_20charts.json
+fe -e uat/fusioncharts_export_50charts.json
 ```

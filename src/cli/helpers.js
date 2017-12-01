@@ -20,73 +20,78 @@ function tryParseJSON(str, ignoreException = false) {
   return data;
 }
 
-function tryRequire(file, ignoreException = false) {
-  let data;
-
-  try {
-    data = require(path.resolve(file));
-  } catch (e) {
-    if (ignoreException) return undefined;
-
-    const eStack = stackTraceParser.parse(e.stack);
-    log.error(`${e.name}: ${e.message} in file ${eStack[0].file} at line number ${eStack[0].lineNumber}`);
-    process.exit(1);
-  }
-
-  return data;
-}
-
-function tryReadFile(file, ignoreException = false) {
-  let data;
-
-  try {
-    data = fs.readFileSync(path.resolve(file));
-  } catch (e) {
-    if (ignoreException) return undefined;
-
-    const eStack = stackTraceParser.parse(e.stack);
-    log.error(`${e.name}: ${e.message} in file ${eStack[0].file} at line number ${eStack[0].lineNumber}`);
-    process.exit(1);
-  }
-
-  return data;
-}
-
-function ifExists(file, ignoreException = false) {
+function ifExists(file, ignoreException = false, basePath = '') {
   if (typeof file !== 'string') {
     return file;
   }
 
-  if (fs.existsSync(file)) {
-    return file;
+  const resolvedFile = path.resolve(basePath, file);
+  if (fs.existsSync(resolvedFile)) {
+    return resolvedFile;
   }
 
   if (ignoreException) return undefined;
 
-  log.error('File does not exists: ', file);
+  log.error('File does not exist: ', resolvedFile);
   process.exit(1);
 
   return undefined;
 }
 
-function parseObject(val, iE = false) {
+function tryRequire(file, ignoreException = false, basePath = '') {
+  let data;
+
+  const resolvedFile = ifExists(file, ignoreException, basePath);
+
+  try {
+    data = require(resolvedFile);
+  } catch (e) {
+    if (ignoreException) return undefined;
+
+    const eStack = stackTraceParser.parse(e.stack);
+    log.error(`${e.name}: ${e.message} in file ${eStack[0].file} at line number ${eStack[0].lineNumber}`);
+    process.exit(1);
+  }
+
+  return data;
+}
+
+function tryReadFile(file, ignoreException = false, basePath = '') {
+  let data;
+
+  const resolvedFile = ifExists(file, ignoreException, basePath);
+
+  try {
+    data = fs.readFileSync(resolvedFile);
+  } catch (e) {
+    if (ignoreException) return undefined;
+
+    const eStack = stackTraceParser.parse(e.stack);
+    log.error(`${e.name}: ${e.message} in file ${eStack[0].file} at line number ${eStack[0].lineNumber}`);
+    process.exit(1);
+  }
+
+  return data;
+}
+
+function parseObject(val, iE = false, basePath = '') {
   if (typeof val !== 'string') {
     return val;
   }
 
   if (path.extname(val) === '.json') {
-    return tryParseJSON(tryReadFile(val, iE), iE);
+    return tryParseJSON(tryReadFile(val, iE, basePath), iE);
   }
 
   if (path.extname(val) === '.js') {
-    return tryRequire(val, iE);
+    return tryRequire(val, iE, basePath);
   }
 
-  const json = tryParseJSON(val, iE);
-
-  if (json) {
-    return json;
+  if (val.startsWith('[') || val.startsWith('{')) {
+    return tryParseJSON(val, iE);
   }
+
+  ifExists(val, iE, basePath);
 
   return val;
 }
@@ -126,6 +131,12 @@ function parseBool(val) {
     default:
       return undefined;
   }
+}
+
+function resolvePath(val, basePath = '') {
+  if (typeof val !== 'string') return val;
+
+  return path.resolve(basePath, val);
 }
 
 function findDotSeparated(ob) {
@@ -208,6 +219,7 @@ module.exports = {
   parseDimension,
   parseBool,
   parseObject,
+  resolvePath,
   ifExists,
   findDotSeparated,
   renameProperty,
