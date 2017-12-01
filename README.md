@@ -55,16 +55,16 @@ npm link
 ```
 
 ## Usage
-After installing, you should have access to `export-fusion` command. `xf` is an alias to `export-fusion`
+After installing, you should have access to `fusion-export` command. `fe` is an alias to `fusion-export`
 
 ```
-export-fusion <options>
+fusion-export <options>
 ```
 
 Or,
 
 ```
-xf <options>
+fe <options>
 ```
 
 
@@ -135,7 +135,7 @@ Option | Alias | Default |Type | Description
 ```
 
 ```bash
-$ xf -c column_chart_config.json
+$ fe -c column_chart_config.json
 ```
 
 _This will export the Column chart in PNG format in the current working directory._
@@ -243,7 +243,7 @@ _This will export the Column chart in PNG format in the current working director
 ```
 
 ```bash
-$ xf -c multiple_charts_config.json -t pdf -o ./exported-charts/
+$ fe -c multiple_charts_config.json -t pdf -o ./exported-charts/
 ```
 
 ### Export entire Dashboard using CLI in PDF format.
@@ -393,7 +393,7 @@ The format of the resources option is as follows:
 ```
 
 ```bash
-$ xf -c multiple_charts_config.json -T template.html -t PDF -o ./exported-dashboards/
+$ fe -c multiple_charts_config.json -T template.html -t PDF -o ./exported-dashboards/
 ```
 
 ### Output File Naming
@@ -456,9 +456,9 @@ Some preconfigured test configs are present in the `uat` folder. You can pass th
 Some example commands for running a quick test are
 
 ```
-xf -e uat/fusioncharts_export.json
-xf -e uat/fusioncharts_export_svg.json
-xf -e uat/fusioncharts_export_tmpl.json
-xf -e uat/fusioncharts_export_20charts.json
-xf -e uat/fusioncharts_export_50charts.json
+fe -e uat/fusioncharts_export.json
+fe -e uat/fusioncharts_export_svg.json
+fe -e uat/fusioncharts_export_tmpl.json
+fe -e uat/fusioncharts_export_20charts.json
+fe -e uat/fusioncharts_export_50charts.json
 ```

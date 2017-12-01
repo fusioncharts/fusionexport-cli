@@ -69,7 +69,7 @@ module.exports = {
 To use this newly created javascript file for the export, the following command need to be executed.
 
 ```
-$ fe - c <chart-config-file.js>
+$ fe -c <chart-config-file.js>
 ```
 
 #### Usage
@@ -152,7 +152,7 @@ So if you are saving the chart configs in a json file. The file structure should
 ]
 ```
 ```
-$ fe - c <chart-config-file.json>
+$ fe -c <chart-config-file.json>
 ```
 If you prefer to save the file as javascript,
 
@@ -167,7 +167,7 @@ module.exports = [
 ];
 ```
 ```
-$ fe - c <chart-config-file.js>
+$ fe -c <chart-config-file.js>
 ```
 
 ### Export a Dashboard
