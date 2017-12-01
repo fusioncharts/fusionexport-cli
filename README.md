@@ -42,10 +42,10 @@ npm i -g fusionexport-cli
 ```
 
 ## Usage
-After installing, you should have access to `fusion-export` command. `fe` is an alias to `fusion-export`
+After installing, you should have access to `fusionexport` command. `fe` is an alias to `fusionexport`
 
 ```
-fusion-export <options>
+fusionexport <options>
 ```
 
 Or,

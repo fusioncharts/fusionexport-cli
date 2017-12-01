@@ -13,7 +13,7 @@
   },
   "bin": {
     "fe": "src/cli/index.js",
-    "fusion-export": "src/cli/index.js"
+    "fusionexport": "src/cli/index.js"
   },
   "homepage": "https://www.fusioncharts.com/fusionexport",
   "license": "MIT",
