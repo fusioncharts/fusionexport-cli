@@ -1,7 +1,7 @@
 {
   "name": "fusionexport-cli",
   "version": "1.0.0-pre-alpha-1",
-  "description": "FusionExport CLI",
+  "description": "CLI for FusionExport. Enables exporting from FusionExport directly from command line.",
   "keywords": [
     "export",
     "cli",
@@ -19,8 +19,8 @@
     "fe": "src/cli/index.js",
     "fusion-export": "src/cli/index.js"
   },
-  "license": "ISC",
-  "homepage": "https://bitbucket.org/fusioncharts/fusionexport-cli#readme",
+  "license": "MIT",
+  "homepage": "https://www.fusioncharts.com/fusionexport",
   "devDependencies": {
     "eslint": "^4.8.0",
     "eslint-config-airbnb-base": "^12.0.2",
