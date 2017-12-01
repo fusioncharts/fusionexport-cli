@@ -90,7 +90,7 @@ You can find the full reference [here](https://www.fusioncharts.com/dev/exportin
 
 ## Examples
 
-### Export a simple Column chart using a single config in PNG format.
+### Export a simple column chart using a single configuration in PNG format.
  `column_chart_config.json` contains a sample fusioncharts column chart config
 **column_chart_config.json**
 ```json
@@ -241,7 +241,7 @@ $ fe -c multiple_charts_config.json -t pdf -o ./exported-charts/
 
 To export dashboards using CLI, provide a template file with the layout and supporting static resources (JS, CSS, images, fonts).
 
-The template must contain placeholder elements (preferably divs) for the charts. The chart config array must contain the charts with the `renderAt` attributes that matches the id of the elements stated above.
+The template must contain placeholder elements (preferably divs) for the charts. The chart configuration array must contain the charts with the `renderAt` attributes that matches the id of the elements stated above.
 
 The resources option is optional and only needed when `remote-export-enabled` is `true`. Most resources that are stated in the template in link, script or image tags are found intelligently. If any additional fonts, links present in css or dynamic links in JS is present one has to specify them in resources option.
 
@@ -442,7 +442,7 @@ s3:export--<%= number(1) %>
 
 ## Testing
 
-Some preconfigured test configs are present in the `uat` folder. You can pass those export config files to the `-e` or `--config` options to run a quick test, or take a look inside it to get an idea how options can be passed in different situations.
+Some preconfigured test configs are present in the `uat` folder. You can pass those export configuration files to the `-e` or `--config` options to run a quick test, or take a look inside it to get an idea how options can be passed in different situations.
 
 Some example commands for running a quick test are
 
