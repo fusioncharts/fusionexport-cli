@@ -13,7 +13,7 @@
   "type": "png",
   "width": 1000,
   "height": 500,
-  "log-dest": "",
+  "log-dest": "./",
   "log-file": "test.log",
   "log-level": "silly",
   "remote-export-enabled": false

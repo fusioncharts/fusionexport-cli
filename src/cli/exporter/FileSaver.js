@@ -4,7 +4,6 @@ const util = require('util');
 const mkdirp = require('mkdirp');
 const S3FS = require('s3fs');
 const Ftp = require('promise-ftp');
-const log = require('../log');
 const config = require('../config');
 const MessageBus = require('./MessageBus');
 
@@ -41,7 +40,8 @@ class FileSaver {
       }));
 
       await this.mkdirp(path.dirname(outPath));
-      fs.createReadStream(file.tmpPath).pipe(fs.createWriteStream(outPath));
+      const fileDecoded = Buffer.from(file.fileContent, 'base64');
+      fs.writeFileSync(outPath, fileDecoded);
       this.messageBus.put(outPath);
     });
 
@@ -67,7 +67,8 @@ class FileSaver {
 
       const dir = path.dirname(outPath);
       if (dir !== '.') await s3fs.mkdirp(dir);
-      await s3fs.writeFile(outPath, fs.readFileSync(file.tmpPath));
+      const fileDecoded = Buffer.from(file.fileContent, 'base64');
+      await s3fs.writeFile(outPath, fileDecoded);
       this.messageBus.put(`s3:${outPath}`);
     });
 
@@ -95,7 +96,8 @@ class FileSaver {
       });
 
       await ftp.mkdir(path.dirname(outPath), true);
-      await ftp.put(file.tmpPath, outPath);
+      const fileDecoded = Buffer.from(file.fileContent, 'base64');
+      await ftp.put(fileDecoded, outPath);
       this.messageBus.put(`ftp:${outPath}`);
     });
 
