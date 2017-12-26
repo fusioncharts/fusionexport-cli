@@ -2,14 +2,14 @@ const path = require('path');
 const fileUrl = require('file-url');
 const ProgressBar = require('progress');
 const FileSaver = require('./FileSaver');
-const FusionExport = require('fusionexport-node-client');
+const { ExportConfig, ExportManager } = require('../../../fusionexport-node-client');
 const config = require('../config');
 const log = require('../log');
 const { calculateTotalUnits } = require('../helpers');
 
 class LocalExporter {
   constructor() {
-    this.exportClient = new FusionExport();
+    this.exportClient = new ExportManager('ws://0.0.0.0:1337');
     this.listenToStateChange();
     this.listenForError();
   }
@@ -37,8 +37,9 @@ class LocalExporter {
     this.createProgressBar(exportOptions);
 
     try {
-      const outputFileBag = await this.exportClient.export(exportOptions);
-      this.outputFileBag = outputFileBag;
+      const exportConfig = LocalExporter.populateExportConfig(exportOptions);
+      const outputFileBag = await this.exportClient.export(exportConfig);
+      this.outputFileBag = outputFileBag.data;
     } catch (err) {
       log.error(err);
       return;
@@ -56,6 +57,17 @@ class LocalExporter {
     });
 
     await fileSaver.saveOutputFiles();
+  }
+
+  static populateExportConfig(exportOptions) {
+    const exportConfig = new ExportConfig();
+    Object.keys(exportOptions).forEach((keyName) => {
+      const value = exportOptions[keyName];
+      if (value) {
+        exportConfig.set(keyName, value);
+      }
+    });
+    return exportConfig;
   }
 
   buildExportOptions() {
@@ -86,6 +98,7 @@ class LocalExporter {
     if (this.options.callbacks) {
       exportOptions.callbackFilePath = this.options.callbacks;
     }
+
 
     return exportOptions;
   }
