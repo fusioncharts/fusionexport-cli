@@ -31,7 +31,6 @@
     "app-root-path": "^2.0.1",
     "commander": "^2.11.0",
     "file-url": "^2.0.2",
-    "fusionexport-node-client": "^1.0.0-beta.1",
     "glob": "^7.1.2",
     "jsdom": "^11.3.0",
     "lodash": "^4.17.4",

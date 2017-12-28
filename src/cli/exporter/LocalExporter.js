@@ -1,15 +1,14 @@
 const path = require('path');
-const fileUrl = require('file-url');
 const ProgressBar = require('progress');
+const { ExportConfig, ExportManager } = require('fusionexport-node-client'); // eslint-disable-line
 const FileSaver = require('./FileSaver');
-const { ExportConfig, ExportManager } = require('../../../fusionexport-node-client');
 const config = require('../config');
 const log = require('../log');
 const { calculateTotalUnits } = require('../helpers');
 
 class LocalExporter {
   constructor() {
-    this.exportClient = new ExportManager('ws://0.0.0.0:1337');
+    this.exportClient = new ExportManager();
     this.listenToStateChange();
     this.listenForError();
   }
@@ -20,8 +19,10 @@ class LocalExporter {
     if (exportOptions.asyncCapture) {
       actualTotal += 1;
     }
+
     // eslint-disable-next-line no-console
     console.log();
+
     this.progressBar = new ProgressBar(this.barOptions.bar, {
       total: actualTotal,
       width: this.barOptions.width,
