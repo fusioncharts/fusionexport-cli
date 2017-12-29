@@ -74,6 +74,18 @@ function tryReadFile(file, ignoreException = false, basePath = '') {
   return data;
 }
 
+function isGlob(val) {
+  if (typeof val !== 'string') {
+    return false;
+  }
+
+  if (val.includes(' ')) {
+    return true;
+  }
+
+  return false;
+}
+
 function parseObject(val, iE = false, basePath = '') {
   if (typeof val !== 'string') {
     return val;
@@ -91,7 +103,9 @@ function parseObject(val, iE = false, basePath = '') {
     return tryParseJSON(val, iE);
   }
 
-  ifExists(val, iE, basePath);
+  if (!isGlob(val)) {
+    ifExists(val, iE, basePath);
+  }
 
   return val;
 }
@@ -172,6 +186,7 @@ function renameProperty(ob, oldName, newName) {
 function calculateTotalUnits(finaloptions) {
   const TOTAL_UNIT = 3;
   const CHART_CONFIG_LOAD_EVENT_COUNT = 3;
+
   if (
     finaloptions.chartConfig &&
     !finaloptions.templateFilePath &&
@@ -181,28 +196,30 @@ function calculateTotalUnits(finaloptions) {
   } else if (
     finaloptions.chartConfig &&
     finaloptions.templateFilePath &&
-    !finaloptions.inputSVG &&
-    finaloptions.type !== 'html'
+    !finaloptions.inputSVG
   ) {
     return TOTAL_UNIT + 1 + CHART_CONFIG_LOAD_EVENT_COUNT;
   } else if (
-    finaloptions.chartConfig &&
-    finaloptions.templateFilePath &&
-    !finaloptions.inputSVG &&
-    finaloptions.type === 'html'
+    !finaloptions.chartConfig &&
+    !finaloptions.templateFilePath &&
+    finaloptions.inputSVG &&
+    finaloptions.type === 'svg'
   ) {
-    return TOTAL_UNIT + 1;
+    return TOTAL_UNIT - 1;
   } else if (
     !finaloptions.chartConfig &&
     !finaloptions.templateFilePath &&
     finaloptions.inputSVG
   ) {
     return TOTAL_UNIT + 2;
-  } else if (!finaloptions.chartConfig &&
+  } else if (
+    !finaloptions.chartConfig &&
     finaloptions.templateFilePath &&
-    !finaloptions.inputSVG) {
+    !finaloptions.inputSVG
+  ) {
     return TOTAL_UNIT + 2;
   }
+
   return TOTAL_UNIT;
 }
 

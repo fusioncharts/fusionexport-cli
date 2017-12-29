@@ -1,15 +1,14 @@
 const path = require('path');
-const fileUrl = require('file-url');
 const ProgressBar = require('progress');
+const { ExportConfig, ExportManager } = require('fusionexport-node-client'); // eslint-disable-line
 const FileSaver = require('./FileSaver');
-const FusionExport = require('fusionexport-node-client');
 const config = require('../config');
 const log = require('../log');
 const { calculateTotalUnits } = require('../helpers');
 
 class LocalExporter {
   constructor() {
-    this.exportClient = new FusionExport();
+    this.exportClient = new ExportManager();
     this.listenToStateChange();
     this.listenForError();
   }
@@ -20,8 +19,10 @@ class LocalExporter {
     if (exportOptions.asyncCapture) {
       actualTotal += 1;
     }
+
     // eslint-disable-next-line no-console
     console.log();
+
     this.progressBar = new ProgressBar(this.barOptions.bar, {
       total: actualTotal,
       width: this.barOptions.width,
@@ -37,8 +38,9 @@ class LocalExporter {
     this.createProgressBar(exportOptions);
 
     try {
-      const outputFileBag = await this.exportClient.export(exportOptions);
-      this.outputFileBag = outputFileBag;
+      const exportConfig = LocalExporter.populateExportConfig(exportOptions);
+      const outputFileBag = await this.exportClient.export(exportConfig);
+      this.outputFileBag = outputFileBag.data;
     } catch (err) {
       log.error(err);
       return;
@@ -58,13 +60,23 @@ class LocalExporter {
     await fileSaver.saveOutputFiles();
   }
 
+  static populateExportConfig(exportOptions) {
+    const exportConfig = new ExportConfig();
+    Object.keys(exportOptions).forEach((keyName) => {
+      const value = exportOptions[keyName];
+      if (value) {
+        exportConfig.set(keyName, value);
+      }
+    });
+    return exportConfig;
+  }
+
   buildExportOptions() {
     const exportOptions = {
       libraryDirectoryPath: this.options.libraryPath && path.resolve(this.options.libraryPath),
-      resources: this.options.resources,
       asyncCapture: this.options.asyncCapture,
       maxWaitForCaptureExit: this.options.asyncCaptureTimeout,
-      dashboardLogo: this.options.dashboardLogo ? fileUrl(this.options.dashboardLogo) : null,
+      dashboardLogo: this.options.dashboardLogo ? path.resolve(this.options.dashboardLogo) : null,
       dashboardHeading: this.options.dashboardHeading,
       dashboardSubheading: this.options.dashboardSubheading,
       type: this.options.type.substr(1),
@@ -72,6 +84,10 @@ class LocalExporter {
       exportAsZip: this.options.outputAsZip,
       outputFileDefinition: this.options.outputFileDefinition,
     };
+
+    if (this.options.resources) {
+      exportOptions.resourceFilePath = this.options.resources;
+    }
 
     if (this.options.chartConfig) {
       exportOptions.chartConfig = this.options.chartConfig;
@@ -86,6 +102,7 @@ class LocalExporter {
     if (this.options.callbacks) {
       exportOptions.callbackFilePath = this.options.callbacks;
     }
+
 
     return exportOptions;
   }
