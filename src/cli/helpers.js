@@ -181,26 +181,20 @@ function calculateTotalUnits(finaloptions) {
   } else if (
     finaloptions.chartConfig &&
     finaloptions.templateFilePath &&
-    !finaloptions.inputSVG &&
-    finaloptions.type !== 'html'
+    !finaloptions.inputSVG
   ) {
     return TOTAL_UNIT + 1 + CHART_CONFIG_LOAD_EVENT_COUNT;
-  } else if (
-    finaloptions.chartConfig &&
-    finaloptions.templateFilePath &&
-    !finaloptions.inputSVG &&
-    finaloptions.type === 'html'
-  ) {
-    return TOTAL_UNIT + 1;
   } else if (
     !finaloptions.chartConfig &&
     !finaloptions.templateFilePath &&
     finaloptions.inputSVG
   ) {
     return TOTAL_UNIT + 2;
-  } else if (!finaloptions.chartConfig &&
+  } else if (
+    !finaloptions.chartConfig &&
     finaloptions.templateFilePath &&
-    !finaloptions.inputSVG) {
+    !finaloptions.inputSVG
+  ) {
     return TOTAL_UNIT + 2;
   }
   return TOTAL_UNIT;
