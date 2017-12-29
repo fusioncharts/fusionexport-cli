@@ -74,6 +74,18 @@ function tryReadFile(file, ignoreException = false, basePath = '') {
   return data;
 }
 
+function isGlob(val) {
+  if (typeof val !== 'string') {
+    return false;
+  }
+
+  if (val.includes(' ')) {
+    return true;
+  }
+
+  return false;
+}
+
 function parseObject(val, iE = false, basePath = '') {
   if (typeof val !== 'string') {
     return val;
@@ -91,7 +103,9 @@ function parseObject(val, iE = false, basePath = '') {
     return tryParseJSON(val, iE);
   }
 
-  ifExists(val, iE, basePath);
+  if (!isGlob(val)) {
+    ifExists(val, iE, basePath);
+  }
 
   return val;
 }
