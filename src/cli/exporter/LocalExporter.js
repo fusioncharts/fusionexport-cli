@@ -1,9 +1,12 @@
 const path = require('path');
+const fs = require('fs');
+const tmp = require('tmp');
 const ProgressBar = require('progress');
 const { ExportConfig, ExportManager } = require('fusionexport-node-client'); // eslint-disable-line
 const FileSaver = require('./FileSaver');
 const config = require('../config');
 const log = require('../log');
+const utils = require('../utils');
 const { calculateTotalUnits } = require('../helpers');
 
 class LocalExporter {
@@ -42,14 +45,11 @@ class LocalExporter {
       const outputFileBag = await this.exportClient.export(exportConfig);
       this.outputFileBag = outputFileBag.data;
     } catch (err) {
-      log.error(err);
+      log.error(err.toString());
       return;
     }
 
-    if (this.outputFileBag.length > 1) {
-      const ofp = path.parse(this.options.outputFile);
-      this.options.outputFile = path.join(ofp.dir, 'fusioncharts_export', ofp.base);
-    }
+    this.encloseOutputFiles();
 
     const fileSaver = new FileSaver({
       outputTo: this.options.outputTo,
@@ -60,12 +60,40 @@ class LocalExporter {
     await fileSaver.saveOutputFiles();
   }
 
+  encloseOutputFiles() {
+    if (this.outputFileBag.length < 2) return;
+
+    const outputDir = path.dirname(this.options.outputFile);
+
+    this.outputFileBag = this.outputFileBag.map((opf) => {
+      const reOpf = opf;
+      const relPath = utils.removeCommonPath(reOpf.realName, outputDir);
+      const enclosedRelPath = path.join('fusioncharts_export', relPath);
+      reOpf.realName = enclosedRelPath;
+      return reOpf;
+    });
+  }
+
   static populateExportConfig(exportOptions) {
     const exportConfig = new ExportConfig();
     Object.keys(exportOptions).forEach((keyName) => {
       const value = exportOptions[keyName];
       if (value) {
-        exportConfig.set(keyName, value);
+        if (keyName === 'chartConfig') {
+          exportConfig.set(keyName, JSON.stringify(value));
+        }
+        // else if (keyName === 'resourceFilePath') {
+        //   if (typeof value === 'object') {
+        //     const tmpFile = tmp.fileSync();
+        //     fs.writeFileSync(tmpFile.name, JSON.stringify(value));
+        //     exportConfig.set(keyName, tmpFile.name);
+        //   } else {
+        //     throw new Error('resourceFilePath should be an object.');
+        //   }
+        // }
+        else {
+          exportConfig.set(keyName, value);
+        }
       }
     });
     return exportConfig;
@@ -80,7 +108,7 @@ class LocalExporter {
       dashboardHeading: this.options.dashboardHeading,
       dashboardSubheading: this.options.dashboardSubheading,
       type: this.options.type.substr(1),
-      exportFile: this.options.outputFile,
+      outputFile: this.options.outputFile,
       exportAsZip: this.options.outputAsZip,
       outputFileDefinition: this.options.outputFileDefinition,
     };

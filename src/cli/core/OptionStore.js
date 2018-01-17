@@ -202,19 +202,19 @@ class OptionStore {
       return this.finalOptions.outputFileDefinition;
     }
 
-    const cliOutputFileDefinition = helpers.parseObject(this.cliOptions.outputFileDefinition);
+    const cliOutputFileDefinition = helpers.ifExists(this.cliOptions.outputFileDefinition);
     if (cliOutputFileDefinition) {
       this.finalOptions.outputFileDefinition = cliOutputFileDefinition;
       return this.finalOptions.outputFileDefinition;
     }
 
-    const secOutputFileDefinition = helpers.parseObject(this.config.outputFileDefinition, false, this.configBasePath);
+    const secOutputFileDefinition = helpers.ifExists(this.config.outputFileDefinition, false, this.configBasePath);
     if (secOutputFileDefinition) {
       this.finalOptions.outputFileDefinition = secOutputFileDefinition;
       return this.finalOptions.outputFileDefinition;
     }
 
-    const defOutputFileDefinition = helpers.parseObject(this.defaultOptions.outputFileDefinition, true);
+    const defOutputFileDefinition = helpers.ifExists(this.defaultOptions.outputFileDefinition, true);
     if (defOutputFileDefinition) {
       this.finalOptions.outputFileDefinition = defOutputFileDefinition;
       return this.finalOptions.outputFileDefinition;

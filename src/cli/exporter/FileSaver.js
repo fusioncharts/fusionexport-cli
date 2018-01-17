@@ -57,14 +57,10 @@ class FileSaver {
       secretAccessKey: s3Config.secretAccessKey,
     });
 
-    const outputFileDir = path.dirname(this.options.outputFile);
+    // const outputFileDir = path.dirname(this.options.outputFile);
 
     const promiseBag = this.options.outputFileBag.map(async (file) => {
-      const outPath = path.format({
-        dir: outputFileDir,
-        base: file.realName,
-      });
-
+      const outPath = file.realName;
       const dir = path.dirname(outPath);
       if (dir !== '.') await s3fs.mkdirp(dir);
       const fileDecoded = Buffer.from(file.fileContent, 'base64');
@@ -87,14 +83,10 @@ class FileSaver {
       password: ftpConfig.password,
     });
 
-    const outputFileDir = path.dirname(this.options.outputFile);
+    // const outputFileDir = path.dirname(this.options.outputFile);
 
     const promiseBag = this.options.outputFileBag.map(async (file) => {
-      const outPath = path.format({
-        dir: outputFileDir,
-        base: file.realName,
-      });
-
+      const outPath = file.realName;
       await ftp.mkdir(path.dirname(outPath), true);
       const fileDecoded = Buffer.from(file.fileContent, 'base64');
       await ftp.put(fileDecoded, outPath);

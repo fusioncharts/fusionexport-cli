@@ -5,9 +5,10 @@ const CLIEngine = require('./core/CLIEngine');
 const utils = require('./utils');
 const RemoteExporter = require('./exporter/RemoteExporter');
 const LocalExporter = require('./exporter/LocalExporter');
+const packageData = require('../../package.json');
 
 program
-  .version('1.0.0-beta.1')
+  .version(packageData.version)
   .option('-e, --config <file|json>', 'JSON object that can contain any or all of the cli options.')
   .option('-c, --chart-config <file|json>', 'JSON or JS file that contains an array of chart configurations whose charts will be exported.')
   .option('-O, --chart-config-options <json>', 'JSON object that provides an option to override the chart configuration passed through chart-config option.')
@@ -30,7 +31,7 @@ program
   .option('-d, --log-dest <path>', 'Log destination. Also enables logging.')
   .option('-f, --log-file <file>', 'Log filename.')
   .option('-l, --log-level <level>', 'Log level. error: 0, warn: 1, info: 2, verbose: 3, debug: 4, silly: 5')
-  .option('-R, --remote-export-enabled <bool>', 'If enabled, the cli must use the export server api to export the images.')
+  .option('-R, --remote-export-enabled <bool>', 'If enabled, the cli will use the export server api to export the images.')
   .option('-u, --export-url <url>', 'Export url.')
   .parse(process.argv);
 

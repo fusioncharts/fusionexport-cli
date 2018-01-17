@@ -61,10 +61,11 @@ function resolveOutputFile(val, basePath) {
   if (val.startsWith('s3:') || val.startsWith('ftp:')) return val;
 
   let isDir = false;
-  if ((val.length > 1 &&
-    val.slice(-1) === path.sep) ||
+  if (
+    (val.length > 1 && val.slice(-1) === path.sep) ||
     val.slice(-1) === '.' ||
-    val.slice(-1) === '') {
+    val.slice(-1) === ''
+  ) {
     isDir = true;
   }
 
@@ -266,6 +267,8 @@ function configureLogger(options) {
 }
 
 module.exports = {
+  findCommonPath,
+  removeCommonPath,
   resolveOutputFile,
   parseChartConfig,
   sanitizeConfig,
