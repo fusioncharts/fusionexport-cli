@@ -150,6 +150,27 @@ function parseChartConfig(chartConfig, iE = false, configBasePath = '') {
   return confList;
 }
 
+function parseResources(resources, iE = false, configBasePath = '') {
+  const res = helpers.parseObject(resources, iE, configBasePath);
+  if (!res) return res;
+
+  if (
+    typeof resource === 'string' &&
+    (resources.endsWith('.json') || resources.endsWith('.js'))
+  ) {
+    res.resolvePath = path.resolve(path.dirname(resources));
+    return res;
+  }
+
+  if (typeof res === 'object' && configBasePath) {
+    res.resolvePath = path.resolve(configBasePath);
+    return res;
+  }
+
+  res.resolvedPath = process.cwd();
+  return res;
+}
+
 function sanitizeConfig(options) {
   if (!options.config) {
     return {};
@@ -271,6 +292,7 @@ module.exports = {
   removeCommonPath,
   resolveOutputFile,
   parseChartConfig,
+  parseResources,
   sanitizeConfig,
   sanitizeChartConfig,
   sanitizeOutputFile,

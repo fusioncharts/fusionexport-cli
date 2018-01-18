@@ -64,15 +64,14 @@ class LocalExporter {
   }
 
   encloseOutputFiles() {
-    if (this.outputFileBag.length < 2) return;
-
     const outputDir = path.dirname(this.options.outputFile);
-
     this.outputFileBag = this.outputFileBag.map((opf) => {
       const reOpf = opf;
-      const relPath = utils.removeCommonPath(reOpf.realName, outputDir);
-      const enclosedRelPath = path.join('fusioncharts_export', relPath);
-      reOpf.realName = enclosedRelPath;
+      let relPath = utils.removeCommonPath(reOpf.realName, outputDir);
+      if (this.outputFileBag.length > 1) {
+        relPath = path.join('fusioncharts_export', relPath);
+      }
+      reOpf.realName = relPath;
       return reOpf;
     });
   }

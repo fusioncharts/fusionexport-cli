@@ -410,19 +410,19 @@ class OptionStore {
       return this.finalOptions.resources;
     }
 
-    const cliResources = helpers.parseObject(this.cliOptions.resources);
+    const cliResources = utils.parseResources(this.cliOptions.resources);
     if (cliResources) {
       this.finalOptions.resources = cliResources;
       return this.finalOptions.resources;
     }
 
-    const secResources = helpers.parseObject(this.config.resources, false, this.configBasePath);
+    const secResources = utils.parseResources(this.config.resources, false, this.configBasePath);
     if (secResources) {
       this.finalOptions.resources = secResources;
       return this.finalOptions.resources;
     }
 
-    const defResources = helpers.parseObject(this.defaultOptions.resources, true);
+    const defResources = utils.parseResources(this.defaultOptions.resources, true);
     if (defResources) {
       this.finalOptions.resources = defResources;
       return this.finalOptions.resources;
