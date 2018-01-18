@@ -4,7 +4,6 @@ const util = require('util');
 const mkdirp = require('mkdirp');
 const S3FS = require('s3fs');
 const Ftp = require('promise-ftp');
-const config = require('../config');
 const MessageBus = require('./MessageBus');
 
 class FileSaver {
@@ -50,11 +49,9 @@ class FileSaver {
   }
 
   async saveToS3() {
-    const s3Config = config('s3');
-
-    const s3fs = new S3FS(s3Config.bucket, {
-      accessKeyId: s3Config.accessKey,
-      secretAccessKey: s3Config.secretAccessKey,
+    const s3fs = new S3FS(this.options.s3Config.bucket, {
+      accessKeyId: this.options.s3Config.accessKey,
+      secretAccessKey: this.options.s3Config.secretAccessKey,
     });
 
     // const outputFileDir = path.dirname(this.options.outputFile);
@@ -73,14 +70,13 @@ class FileSaver {
   }
 
   async saveToFTP() {
-    const ftpConfig = config('ftp');
     const ftp = new Ftp();
 
     await ftp.connect({
-      host: ftpConfig.host,
-      port: ftpConfig.port,
-      user: ftpConfig.user,
-      password: ftpConfig.password,
+      host: this.options.ftpConfig.host,
+      port: this.options.ftpConfig.port,
+      user: this.options.ftpConfig.user,
+      password: this.options.ftpConfig.password,
     });
 
     // const outputFileDir = path.dirname(this.options.outputFile);

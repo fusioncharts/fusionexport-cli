@@ -196,6 +196,8 @@ function sanitizeConfig(options) {
   config = helpers.renameProperty(config, 'remote-export-enabled', 'remoteExportEnabled');
   config = helpers.renameProperty(config, 'export-url', 'exportUrl');
   config = helpers.renameProperty(config, 'export-log-url', 'exportLogUrl');
+  config = helpers.renameProperty(config, 'ftp-config', 'ftpConfig');
+  config = helpers.renameProperty(config, 's3-config', 's3Config');
 
   return config;
 }

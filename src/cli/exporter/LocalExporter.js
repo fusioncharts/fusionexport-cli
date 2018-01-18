@@ -57,6 +57,8 @@ class LocalExporter {
     const fileSaver = new FileSaver({
       outputTo: this.options.outputTo,
       outputFile: this.options.outputFile,
+      ftpConfig: this.options.ftpConfig,
+      s3Config: this.options.s3Config,
       outputFileBag: this.outputFileBag,
     });
 

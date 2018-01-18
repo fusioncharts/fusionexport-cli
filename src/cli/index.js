@@ -34,6 +34,8 @@ program
   .option('-u, --export-url <url>', 'Export url.')
   .option('-S, --host', 'Host of fusionexport service')
   .option('-P, --port', 'Port of fusionexport service')
+  .option('-p, --ftp-config', 'FTP config for saving output files')
+  .option('-s, --s3-config', 'Amazon S3 config for saving output files')
   .parse(process.argv);
 
 const options = new CLIEngine().process(program);
