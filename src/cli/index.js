@@ -32,6 +32,8 @@ program
   .option('-l, --log-level <level>', 'Log level. error: 0, warn: 1, info: 2, verbose: 3, debug: 4, silly: 5')
   .option('-R, --remote-export-enabled <bool>', 'If enabled, the cli will use the export server api to export the images.')
   .option('-u, --export-url <url>', 'Export url.')
+  .option('-S, --host', 'Host of fusionexport service')
+  .option('-P, --port', 'Port of fusionexport service')
   .parse(process.argv);
 
 const options = new CLIEngine().process(program);
@@ -43,7 +45,7 @@ utils.configureLogger({
 });
 
 if (options.remoteExportEnabled) {
-  new RemoteExporter().render(options);
+  new RemoteExporter(options).render();
 } else {
-  new LocalExporter().render(options);
+  new LocalExporter(options).render();
 }

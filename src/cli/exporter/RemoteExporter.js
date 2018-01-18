@@ -18,7 +18,8 @@ const FakeUnit = 60;
 const Total = TotalUnit + FakeUnit;
 
 class RemoteExporter {
-  constructor() {
+  constructor(options) {
+    this.options = options;
     this.mimeTypes = {
       jpg: 'image/jpeg',
       jpeg: 'image/jpeg',
@@ -69,9 +70,7 @@ class RemoteExporter {
     });
   }
 
-  async render(options) {
-    this.options = options;
-
+  async render() {
     this.findResources();
     this.generateResourceData();
     this.reReferenceTemplateUrls();

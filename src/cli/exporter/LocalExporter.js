@@ -10,8 +10,12 @@ const utils = require('../utils');
 const { calculateTotalUnits } = require('../helpers');
 
 class LocalExporter {
-  constructor() {
-    this.exportClient = new ExportManager();
+  constructor(options) {
+    this.options = options;
+    this.exportClient = new ExportManager({
+      host: this.options.host,
+      port: this.options.port,
+    });
     this.listenToStateChange();
     this.listenForError();
   }
@@ -34,8 +38,7 @@ class LocalExporter {
     });
   }
 
-  async render(options) {
-    this.options = options;
+  async render() {
     const exportOptions = this.buildExportOptions();
 
     this.createProgressBar(exportOptions);
@@ -81,17 +84,15 @@ class LocalExporter {
       if (value) {
         if (keyName === 'chartConfig') {
           exportConfig.set(keyName, JSON.stringify(value));
-        }
-        // else if (keyName === 'resourceFilePath') {
-        //   if (typeof value === 'object') {
-        //     const tmpFile = tmp.fileSync();
-        //     fs.writeFileSync(tmpFile.name, JSON.stringify(value));
-        //     exportConfig.set(keyName, tmpFile.name);
-        //   } else {
-        //     throw new Error('resourceFilePath should be an object.');
-        //   }
-        // }
-        else {
+        } else if (keyName === 'resourceFilePath') {
+          if (typeof value === 'object') {
+            const tmpFile = tmp.fileSync();
+            fs.writeFileSync(tmpFile.name, JSON.stringify(value));
+            exportConfig.set(keyName, tmpFile.name);
+          } else {
+            throw new Error('resourceFilePath should be an object.');
+          }
+        } else {
           exportConfig.set(keyName, value);
         }
       }

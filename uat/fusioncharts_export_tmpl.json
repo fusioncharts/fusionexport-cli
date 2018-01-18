@@ -12,15 +12,7 @@
   "output-as-zip": false,
   "template": "template.html",
   "resources": {
-    "images": [
-      "resources/owl.jpg"
-    ],
-    "stylesheets": [
-      "resources/style.css"
-    ],
-    "javascripts": [
-      "resources/script.js"
-    ]
+    "basePath": ".."
   },
   "dashboard-logo": "resources/owl.jpg",
   "dashboard-heading": "I may Appear as a Heading",

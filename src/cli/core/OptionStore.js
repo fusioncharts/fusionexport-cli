@@ -62,6 +62,8 @@ class OptionStore {
       logLevel: this.logLevel,
       remoteExportEnabled: this.remoteExportEnabled,
       exportUrl: this.exportUrl,
+      host: this.host,
+      port: this.port,
     };
   }
 
@@ -684,6 +686,58 @@ class OptionStore {
     if (defExportUrl) {
       this.finalOptions.exportUrl = defExportUrl;
       return this.finalOptions.exportUrl;
+    }
+
+    return undefined;
+  }
+
+  get host() {
+    if (this.finalOptions.host) {
+      return this.finalOptions.host;
+    }
+
+    const cliHost = this.cliOptions.host;
+    if (cliHost) {
+      this.finalOptions.host = cliHost;
+      return this.finalOptions.host;
+    }
+
+    const secHost = this.config.host;
+    if (secHost) {
+      this.finalOptions.host = secHost;
+      return this.finalOptions.host;
+    }
+
+    const defHost = this.defaultOptions.host;
+    if (defHost) {
+      this.finalOptions.host = defHost;
+      return this.finalOptions.host;
+    }
+
+    return undefined;
+  }
+
+  get port() {
+    if (this.finalOptions.port) {
+      return this.finalOptions.port;
+    }
+
+    const cliPort = parseInt(this.cliOptions.port, 10);
+    if (cliPort) {
+      this.finalOptions.port = cliPort;
+      return this.finalOptions.port;
+    }
+
+    const secPort = parseInt(this.config.port, 10);
+    if (secPort) {
+      this.finalOptions.port = secPort;
+      return this.finalOptions.port;
+    }
+
+    const defPort = parseInt(this.defaultOptions.port, 10);
+    if (defPort) {
+      this.finalOptions.port = defPort;
+      return this.finalOptions.port;
     }
 
     return undefined;
