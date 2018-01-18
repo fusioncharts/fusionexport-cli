@@ -24,7 +24,6 @@ program
   .option('-r, --resources <file|json>', 'JSON file containing the resources which will be injected into the template. Applicable only during remote export.')
   .option('-a, --async-capture <bool>', 'Enable async capture.')
   .option('-m, --async-capture-timeout <integer>', 'Maximum time that system will wait for async-capture event to trigger.')
-  .option('-L, --library-path <path>', 'Path to your FusionCharts library.')
   .option('-G, --dashboard-logo <file>', 'Logo file for dashboard export')
   .option('-D, --dashboard-heading <string>', 'Heading for dashboard export')
   .option('-B, --dashboard-subheading <string>', 'Subheading for dashboard export')

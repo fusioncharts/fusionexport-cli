@@ -54,7 +54,6 @@ class OptionStore {
       resources: this.resources,
       asyncCapture: this.asyncCapture,
       asyncCaptureTimeout: this.asyncCaptureTimeout,
-      libraryPath: this.libraryPath,
       dashboardLogo: this.dashboardLogo,
       dashboardHeading: this.dashboardHeading,
       dashboardSubheading: this.dashboardSubheading,
@@ -477,32 +476,6 @@ class OptionStore {
     if (defAsyncCaptureTimeout) {
       this.finalOptions.asyncCaptureTimeout = defAsyncCaptureTimeout;
       return this.finalOptions.asyncCaptureTimeout;
-    }
-
-    return undefined;
-  }
-
-  get libraryPath() {
-    if (this.finalOptions.libraryPath) {
-      return this.finalOptions.libraryPath;
-    }
-
-    const cliLibraryPath = this.cliOptions.libraryPath;
-    if (cliLibraryPath) {
-      this.finalOptions.libraryPath = cliLibraryPath;
-      return this.finalOptions.libraryPath;
-    }
-
-    const secLibraryPath = this.config.libraryPath;
-    if (secLibraryPath) {
-      this.finalOptions.libraryPath = secLibraryPath;
-      return this.finalOptions.libraryPath;
-    }
-
-    const defLibraryPath = this.defaultOptions.libraryPath;
-    if (defLibraryPath) {
-      this.finalOptions.libraryPath = defLibraryPath;
-      return this.finalOptions.libraryPath;
     }
 
     return undefined;
