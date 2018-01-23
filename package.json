@@ -8,9 +8,6 @@
     "fusioncharts",
     "fusionexport"
   ],
-  "scripts": {
-    "postinstall": "node postinstall.js"
-  },
   "bin": {
     "fe": "src/cli/index.js",
     "fusionexport": "src/cli/index.js"
