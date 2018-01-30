@@ -16,6 +16,7 @@ class LocalExporter {
       host: this.options.host,
       port: this.options.port,
     });
+    this.exportClient.clientName = 'CLI';
     this.listenToStateChange();
     this.listenForError();
   }

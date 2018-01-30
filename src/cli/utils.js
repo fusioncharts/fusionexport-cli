@@ -258,10 +258,9 @@ function sanitizeOutputFile(options) {
     outputFile = options.outputFile;
   }
 
-  const splitParts = outputFile.split(':');
-  if (splitParts.length > 1) {
-    // eslint-disable-next-line prefer-destructuring
-    outputFile = splitParts[1];
+  if (outputFile.startsWith('s3:') || outputFile.startsWith('ftp:')) {
+    const splitParts = outputFile.split(':');
+    outputFile = splitParts.slice(1).join(':');
   }
 
   return outputFile;
