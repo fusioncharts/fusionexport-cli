@@ -6,8 +6,8 @@
   "log-file": "test.log",
   "log-level": "silly",
   "s3-config": {
-    "bucket": "fusionimplementation",
-    "accessKey": "AKIAJCJTB4XI7KUNGCDA",
-    "secretAccessKey": "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"
+    "bucket": "",
+    "accessKey": "",
+    "secretAccessKey": ""
   }
 }
