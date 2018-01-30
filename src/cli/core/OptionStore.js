@@ -64,6 +64,8 @@ class OptionStore {
       exportUrl: this.exportUrl,
       host: this.host,
       port: this.port,
+      ftpConfig: this.ftpConfig,
+      s3Config: this.s3Config,
     };
   }
 
@@ -738,6 +740,58 @@ class OptionStore {
     if (defPort) {
       this.finalOptions.port = defPort;
       return this.finalOptions.port;
+    }
+
+    return undefined;
+  }
+
+  get ftpConfig() {
+    if (this.finalOptions.ftpConfig) {
+      return this.finalOptions.ftpConfig;
+    }
+
+    const cliFtpConfig = helpers.parseObject(this.cliOptions.ftpConfig);
+    if (cliFtpConfig) {
+      this.finalOptions.ftpConfig = cliFtpConfig;
+      return this.finalOptions.ftpConfig;
+    }
+
+    const secFtpConfig = helpers.parseObject(this.config.ftpConfig, false, this.configBasePath);
+    if (secFtpConfig) {
+      this.finalOptions.ftpConfig = secFtpConfig;
+      return this.finalOptions.ftpConfig;
+    }
+
+    const defFtpConfig = helpers.parseObject(this.defaultOptions.ftpConfig, true);
+    if (defFtpConfig) {
+      this.finalOptions.ftpConfig = defFtpConfig;
+      return this.finalOptions.ftpConfig;
+    }
+
+    return undefined;
+  }
+
+  get s3Config() {
+    if (this.finalOptions.s3Config) {
+      return this.finalOptions.s3Config;
+    }
+
+    const cliS3Config = helpers.parseObject(this.cliOptions.s3Config);
+    if (cliS3Config) {
+      this.finalOptions.s3Config = cliS3Config;
+      return this.finalOptions.s3Config;
+    }
+
+    const secS3Config = helpers.parseObject(this.config.s3Config, false, this.configBasePath);
+    if (secS3Config) {
+      this.finalOptions.s3Config = secS3Config;
+      return this.finalOptions.s3Config;
+    }
+
+    const defS3Config = helpers.parseObject(this.defaultOptions.s3Config, true);
+    if (defS3Config) {
+      this.finalOptions.s3Config = defS3Config;
+      return this.finalOptions.s3Config;
     }
 
     return undefined;

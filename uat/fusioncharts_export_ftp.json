@@ -3,5 +3,11 @@
   "output-file": "ftp:fc-<%= number(1) %>",
   "log-dest": "",
   "log-file": "test.log",
-  "log-level": "silly"
+  "log-level": "silly",
+  "ftp-config": {
+    "host": "",
+    "port": "",
+    "user": "",
+    "password": ""
+  }
 }

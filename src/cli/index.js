@@ -8,7 +8,7 @@ const LocalExporter = require('./exporter/LocalExporter');
 const packageData = require('../../package.json');
 
 program
-  .version(packageData.version)
+  .version(packageData.version, '-v, --version')
   .option('-e, --config <file|json>', 'JSON object that can contain any or all of the cli options.')
   .option('-c, --chart-config <file|json>', 'JSON or JS file that contains an array of chart configurations whose charts will be exported.')
   .option('-O, --chart-config-options <json>', 'JSON object that provides an option to override the chart configuration passed through chart-config option.')
@@ -32,8 +32,10 @@ program
   .option('-l, --log-level <level>', 'Log level. error: 0, warn: 1, info: 2, verbose: 3, debug: 4, silly: 5')
   .option('-R, --remote-export-enabled <bool>', 'If enabled, the cli will use the export server api to export the images.')
   .option('-u, --export-url <url>', 'Export url.')
-  .option('-S, --host', 'Host of fusionexport service')
-  .option('-P, --port', 'Port of fusionexport service')
+  .option('-S, --host <string>', 'Host of fusionexport service')
+  .option('-P, --port <integer>', 'Port of fusionexport service')
+  .option('-p, --ftp-config <file>', 'FTP config for saving output files')
+  .option('-s, --s3-config <file>', 'Amazon S3 config for saving output files')
   .parse(process.argv);
 
 const options = new CLIEngine().process(program);
