@@ -5,9 +5,10 @@ const CLIEngine = require('./core/CLIEngine');
 const utils = require('./utils');
 const RemoteExporter = require('./exporter/RemoteExporter');
 const LocalExporter = require('./exporter/LocalExporter');
+const packageData = require('../../package.json');
 
 program
-  .version('1.0.0-beta.1')
+  .version(packageData.version, '-v, --version')
   .option('-e, --config <file|json>', 'JSON object that can contain any or all of the cli options.')
   .option('-c, --chart-config <file|json>', 'JSON or JS file that contains an array of chart configurations whose charts will be exported.')
   .option('-O, --chart-config-options <json>', 'JSON object that provides an option to override the chart configuration passed through chart-config option.')
@@ -23,15 +24,18 @@ program
   .option('-r, --resources <file|json>', 'JSON file containing the resources which will be injected into the template. Applicable only during remote export.')
   .option('-a, --async-capture <bool>', 'Enable async capture.')
   .option('-m, --async-capture-timeout <integer>', 'Maximum time that system will wait for async-capture event to trigger.')
-  .option('-L, --library-path <path>', 'Path to your FusionCharts library.')
   .option('-G, --dashboard-logo <file>', 'Logo file for dashboard export')
   .option('-D, --dashboard-heading <string>', 'Heading for dashboard export')
   .option('-B, --dashboard-subheading <string>', 'Subheading for dashboard export')
   .option('-d, --log-dest <path>', 'Log destination. Also enables logging.')
   .option('-f, --log-file <file>', 'Log filename.')
   .option('-l, --log-level <level>', 'Log level. error: 0, warn: 1, info: 2, verbose: 3, debug: 4, silly: 5')
-  .option('-R, --remote-export-enabled <bool>', 'If enabled, the cli must use the export server api to export the images.')
+  .option('-R, --remote-export-enabled <bool>', 'If enabled, the cli will use the export server api to export the images.')
   .option('-u, --export-url <url>', 'Export url.')
+  .option('-S, --host <string>', 'Host of fusionexport service')
+  .option('-P, --port <integer>', 'Port of fusionexport service')
+  .option('-p, --ftp-config <file>', 'FTP config for saving output files')
+  .option('-s, --s3-config <file>', 'Amazon S3 config for saving output files')
   .parse(process.argv);
 
 const options = new CLIEngine().process(program);
@@ -43,7 +47,7 @@ utils.configureLogger({
 });
 
 if (options.remoteExportEnabled) {
-  new RemoteExporter().render(options);
+  new RemoteExporter(options).render();
 } else {
-  new LocalExporter().render(options);
+  new LocalExporter(options).render();
 }

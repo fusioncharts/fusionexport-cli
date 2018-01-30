@@ -15,5 +15,7 @@
   "logFile": "fusioncharts_export.log",
   "logLevel": 2,
   "remoteExportEnabled": false,
-  "exportUrl": "http://export.api3.fusioncharts.com"
+  "exportUrl": "http://export.api3.fusioncharts.com",
+  "host": "0.0.0.0",
+  "port": 1337
 }

@@ -31,7 +31,7 @@ function findCommonPath(paths) {
   const l = p1.length;
   let i = 0;
   while (i < l && p1[i] === p2[i]) i += 1;
-  return path.join(path.sep, ...p1.slice(0, i));
+  return [...p1.slice(0, i)].join(path.sep);
 }
 
 function removeCommonPath(base, ref) {
@@ -61,10 +61,11 @@ function resolveOutputFile(val, basePath) {
   if (val.startsWith('s3:') || val.startsWith('ftp:')) return val;
 
   let isDir = false;
-  if ((val.length > 1 &&
-    val.slice(-1) === path.sep) ||
+  if (
+    (val.length > 1 && val.slice(-1) === path.sep) ||
     val.slice(-1) === '.' ||
-    val.slice(-1) === '') {
+    val.slice(-1) === ''
+  ) {
     isDir = true;
   }
 
@@ -149,6 +150,27 @@ function parseChartConfig(chartConfig, iE = false, configBasePath = '') {
   return confList;
 }
 
+function parseResources(resources, iE = false, configBasePath = '') {
+  const res = helpers.parseObject(resources, iE, configBasePath);
+  if (!res) return res;
+
+  if (
+    typeof resource === 'string' &&
+    (resources.endsWith('.json') || resources.endsWith('.js'))
+  ) {
+    res.resolvePath = path.resolve(path.dirname(resources));
+    return res;
+  }
+
+  if (typeof res === 'object' && configBasePath) {
+    res.resolvePath = path.resolve(configBasePath);
+    return res;
+  }
+
+  res.resolvedPath = process.cwd();
+  return res;
+}
+
 function sanitizeConfig(options) {
   if (!options.config) {
     return {};
@@ -174,6 +196,8 @@ function sanitizeConfig(options) {
   config = helpers.renameProperty(config, 'remote-export-enabled', 'remoteExportEnabled');
   config = helpers.renameProperty(config, 'export-url', 'exportUrl');
   config = helpers.renameProperty(config, 'export-log-url', 'exportLogUrl');
+  config = helpers.renameProperty(config, 'ftp-config', 'ftpConfig');
+  config = helpers.renameProperty(config, 's3-config', 's3Config');
 
   return config;
 }
@@ -266,8 +290,11 @@ function configureLogger(options) {
 }
 
 module.exports = {
+  findCommonPath,
+  removeCommonPath,
   resolveOutputFile,
   parseChartConfig,
+  parseResources,
   sanitizeConfig,
   sanitizeChartConfig,
   sanitizeOutputFile,

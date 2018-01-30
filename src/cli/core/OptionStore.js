@@ -54,7 +54,6 @@ class OptionStore {
       resources: this.resources,
       asyncCapture: this.asyncCapture,
       asyncCaptureTimeout: this.asyncCaptureTimeout,
-      libraryPath: this.libraryPath,
       dashboardLogo: this.dashboardLogo,
       dashboardHeading: this.dashboardHeading,
       dashboardSubheading: this.dashboardSubheading,
@@ -63,6 +62,10 @@ class OptionStore {
       logLevel: this.logLevel,
       remoteExportEnabled: this.remoteExportEnabled,
       exportUrl: this.exportUrl,
+      host: this.host,
+      port: this.port,
+      ftpConfig: this.ftpConfig,
+      s3Config: this.s3Config,
     };
   }
 
@@ -202,19 +205,19 @@ class OptionStore {
       return this.finalOptions.outputFileDefinition;
     }
 
-    const cliOutputFileDefinition = helpers.parseObject(this.cliOptions.outputFileDefinition);
+    const cliOutputFileDefinition = helpers.ifExists(this.cliOptions.outputFileDefinition);
     if (cliOutputFileDefinition) {
       this.finalOptions.outputFileDefinition = cliOutputFileDefinition;
       return this.finalOptions.outputFileDefinition;
     }
 
-    const secOutputFileDefinition = helpers.parseObject(this.config.outputFileDefinition, false, this.configBasePath);
+    const secOutputFileDefinition = helpers.ifExists(this.config.outputFileDefinition, false, this.configBasePath);
     if (secOutputFileDefinition) {
       this.finalOptions.outputFileDefinition = secOutputFileDefinition;
       return this.finalOptions.outputFileDefinition;
     }
 
-    const defOutputFileDefinition = helpers.parseObject(this.defaultOptions.outputFileDefinition, true);
+    const defOutputFileDefinition = helpers.ifExists(this.defaultOptions.outputFileDefinition, true);
     if (defOutputFileDefinition) {
       this.finalOptions.outputFileDefinition = defOutputFileDefinition;
       return this.finalOptions.outputFileDefinition;
@@ -409,19 +412,19 @@ class OptionStore {
       return this.finalOptions.resources;
     }
 
-    const cliResources = helpers.parseObject(this.cliOptions.resources);
+    const cliResources = utils.parseResources(this.cliOptions.resources);
     if (cliResources) {
       this.finalOptions.resources = cliResources;
       return this.finalOptions.resources;
     }
 
-    const secResources = helpers.parseObject(this.config.resources, false, this.configBasePath);
+    const secResources = utils.parseResources(this.config.resources, false, this.configBasePath);
     if (secResources) {
       this.finalOptions.resources = secResources;
       return this.finalOptions.resources;
     }
 
-    const defResources = helpers.parseObject(this.defaultOptions.resources, true);
+    const defResources = utils.parseResources(this.defaultOptions.resources, true);
     if (defResources) {
       this.finalOptions.resources = defResources;
       return this.finalOptions.resources;
@@ -477,32 +480,6 @@ class OptionStore {
     if (defAsyncCaptureTimeout) {
       this.finalOptions.asyncCaptureTimeout = defAsyncCaptureTimeout;
       return this.finalOptions.asyncCaptureTimeout;
-    }
-
-    return undefined;
-  }
-
-  get libraryPath() {
-    if (this.finalOptions.libraryPath) {
-      return this.finalOptions.libraryPath;
-    }
-
-    const cliLibraryPath = this.cliOptions.libraryPath;
-    if (cliLibraryPath) {
-      this.finalOptions.libraryPath = cliLibraryPath;
-      return this.finalOptions.libraryPath;
-    }
-
-    const secLibraryPath = this.config.libraryPath;
-    if (secLibraryPath) {
-      this.finalOptions.libraryPath = secLibraryPath;
-      return this.finalOptions.libraryPath;
-    }
-
-    const defLibraryPath = this.defaultOptions.libraryPath;
-    if (defLibraryPath) {
-      this.finalOptions.libraryPath = defLibraryPath;
-      return this.finalOptions.libraryPath;
     }
 
     return undefined;
@@ -711,6 +688,110 @@ class OptionStore {
     if (defExportUrl) {
       this.finalOptions.exportUrl = defExportUrl;
       return this.finalOptions.exportUrl;
+    }
+
+    return undefined;
+  }
+
+  get host() {
+    if (this.finalOptions.host) {
+      return this.finalOptions.host;
+    }
+
+    const cliHost = this.cliOptions.host;
+    if (cliHost) {
+      this.finalOptions.host = cliHost;
+      return this.finalOptions.host;
+    }
+
+    const secHost = this.config.host;
+    if (secHost) {
+      this.finalOptions.host = secHost;
+      return this.finalOptions.host;
+    }
+
+    const defHost = this.defaultOptions.host;
+    if (defHost) {
+      this.finalOptions.host = defHost;
+      return this.finalOptions.host;
+    }
+
+    return undefined;
+  }
+
+  get port() {
+    if (this.finalOptions.port) {
+      return this.finalOptions.port;
+    }
+
+    const cliPort = parseInt(this.cliOptions.port, 10);
+    if (cliPort) {
+      this.finalOptions.port = cliPort;
+      return this.finalOptions.port;
+    }
+
+    const secPort = parseInt(this.config.port, 10);
+    if (secPort) {
+      this.finalOptions.port = secPort;
+      return this.finalOptions.port;
+    }
+
+    const defPort = parseInt(this.defaultOptions.port, 10);
+    if (defPort) {
+      this.finalOptions.port = defPort;
+      return this.finalOptions.port;
+    }
+
+    return undefined;
+  }
+
+  get ftpConfig() {
+    if (this.finalOptions.ftpConfig) {
+      return this.finalOptions.ftpConfig;
+    }
+
+    const cliFtpConfig = helpers.parseObject(this.cliOptions.ftpConfig);
+    if (cliFtpConfig) {
+      this.finalOptions.ftpConfig = cliFtpConfig;
+      return this.finalOptions.ftpConfig;
+    }
+
+    const secFtpConfig = helpers.parseObject(this.config.ftpConfig, false, this.configBasePath);
+    if (secFtpConfig) {
+      this.finalOptions.ftpConfig = secFtpConfig;
+      return this.finalOptions.ftpConfig;
+    }
+
+    const defFtpConfig = helpers.parseObject(this.defaultOptions.ftpConfig, true);
+    if (defFtpConfig) {
+      this.finalOptions.ftpConfig = defFtpConfig;
+      return this.finalOptions.ftpConfig;
+    }
+
+    return undefined;
+  }
+
+  get s3Config() {
+    if (this.finalOptions.s3Config) {
+      return this.finalOptions.s3Config;
+    }
+
+    const cliS3Config = helpers.parseObject(this.cliOptions.s3Config);
+    if (cliS3Config) {
+      this.finalOptions.s3Config = cliS3Config;
+      return this.finalOptions.s3Config;
+    }
+
+    const secS3Config = helpers.parseObject(this.config.s3Config, false, this.configBasePath);
+    if (secS3Config) {
+      this.finalOptions.s3Config = secS3Config;
+      return this.finalOptions.s3Config;
+    }
+
+    const defS3Config = helpers.parseObject(this.defaultOptions.s3Config, true);
+    if (defS3Config) {
+      this.finalOptions.s3Config = defS3Config;
+      return this.finalOptions.s3Config;
     }
 
     return undefined;

@@ -4,7 +4,6 @@ const util = require('util');
 const mkdirp = require('mkdirp');
 const S3FS = require('s3fs');
 const Ftp = require('promise-ftp');
-const config = require('../config');
 const MessageBus = require('./MessageBus');
 
 class FileSaver {
@@ -50,21 +49,15 @@ class FileSaver {
   }
 
   async saveToS3() {
-    const s3Config = config('s3');
-
-    const s3fs = new S3FS(s3Config.bucket, {
-      accessKeyId: s3Config.accessKey,
-      secretAccessKey: s3Config.secretAccessKey,
+    const s3fs = new S3FS(this.options.s3Config.bucket, {
+      accessKeyId: this.options.s3Config.accessKey,
+      secretAccessKey: this.options.s3Config.secretAccessKey,
     });
 
-    const outputFileDir = path.dirname(this.options.outputFile);
+    // const outputFileDir = path.dirname(this.options.outputFile);
 
     const promiseBag = this.options.outputFileBag.map(async (file) => {
-      const outPath = path.format({
-        dir: outputFileDir,
-        base: file.realName,
-      });
-
+      const outPath = file.realName;
       const dir = path.dirname(outPath);
       if (dir !== '.') await s3fs.mkdirp(dir);
       const fileDecoded = Buffer.from(file.fileContent, 'base64');
@@ -77,24 +70,19 @@ class FileSaver {
   }
 
   async saveToFTP() {
-    const ftpConfig = config('ftp');
     const ftp = new Ftp();
 
     await ftp.connect({
-      host: ftpConfig.host,
-      port: ftpConfig.port,
-      user: ftpConfig.user,
-      password: ftpConfig.password,
+      host: this.options.ftpConfig.host,
+      port: this.options.ftpConfig.port,
+      user: this.options.ftpConfig.user,
+      password: this.options.ftpConfig.password,
     });
 
-    const outputFileDir = path.dirname(this.options.outputFile);
+    // const outputFileDir = path.dirname(this.options.outputFile);
 
     const promiseBag = this.options.outputFileBag.map(async (file) => {
-      const outPath = path.format({
-        dir: outputFileDir,
-        base: file.realName,
-      });
-
+      const outPath = file.realName;
       await ftp.mkdir(path.dirname(outPath), true);
       const fileDecoded = Buffer.from(file.fileContent, 'base64');
       await ftp.put(fileDecoded, outPath);
