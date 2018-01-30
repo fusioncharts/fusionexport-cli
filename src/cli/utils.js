@@ -31,7 +31,7 @@ function findCommonPath(paths) {
   const l = p1.length;
   let i = 0;
   while (i < l && p1[i] === p2[i]) i += 1;
-  return path.join(path.sep, ...p1.slice(0, i));
+  return [...p1.slice(0, i)].join(path.sep);
 }
 
 function removeCommonPath(base, ref) {
