@@ -61,8 +61,6 @@ class OptionStore {
       logDest: this.logDest,
       logFile: this.logFile,
       logLevel: this.logLevel,
-      remoteExportEnabled: this.remoteExportEnabled,
-      exportUrl: this.exportUrl,
       host: this.host,
       port: this.port,
       ftpConfig: this.ftpConfig,
@@ -668,58 +666,6 @@ class OptionStore {
     if (defLogLevel) {
       this.finalOptions.logLevel = defLogLevel;
       return this.finalOptions.logLevel;
-    }
-
-    return undefined;
-  }
-
-  get remoteExportEnabled() {
-    if (this.finalOptions.remoteExportEnabled) {
-      return this.finalOptions.remoteExportEnabled;
-    }
-
-    const cliRemoteExportEnabled = this.cliOptions.remoteExportEnabled;
-    if (!_.isUndefined(cliRemoteExportEnabled)) {
-      this.finalOptions.remoteExportEnabled = helpers.parseBool(cliRemoteExportEnabled);
-      return this.finalOptions.remoteExportEnabled;
-    }
-
-    const secRemoteExportEnabled = this.config.remoteExportEnabled;
-    if (!_.isUndefined(secRemoteExportEnabled)) {
-      this.finalOptions.remoteExportEnabled = helpers.parseBool(secRemoteExportEnabled);
-      return this.finalOptions.remoteExportEnabled;
-    }
-
-    const defRemoteExportEnabled = this.defaultOptions.remoteExportEnabled;
-    if (!_.isUndefined(defRemoteExportEnabled)) {
-      this.finalOptions.remoteExportEnabled = helpers.parseBool(defRemoteExportEnabled);
-      return this.finalOptions.remoteExportEnabled;
-    }
-
-    return undefined;
-  }
-
-  get exportUrl() {
-    if (this.finalOptions.exportUrl) {
-      return this.finalOptions.exportUrl;
-    }
-
-    const cliExportUrl = this.cliOptions.exportUrl;
-    if (cliExportUrl) {
-      this.finalOptions.exportUrl = cliExportUrl;
-      return this.finalOptions.exportUrl;
-    }
-
-    const secExportUrl = this.config.exportUrl;
-    if (secExportUrl) {
-      this.finalOptions.exportUrl = secExportUrl;
-      return this.finalOptions.exportUrl;
-    }
-
-    const defExportUrl = this.defaultOptions.exportUrl;
-    if (defExportUrl) {
-      this.finalOptions.exportUrl = defExportUrl;
-      return this.finalOptions.exportUrl;
     }
 
     return undefined;

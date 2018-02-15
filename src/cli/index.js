@@ -3,7 +3,6 @@
 const program = require('commander');
 const CLIEngine = require('./core/CLIEngine');
 const utils = require('./utils');
-const RemoteExporter = require('./exporter/RemoteExporter');
 const LocalExporter = require('./exporter/LocalExporter');
 const packageData = require('../../package.json');
 
@@ -31,8 +30,6 @@ program
   .option('-d, --log-dest <path>', 'Log destination. Also enables logging.')
   .option('-f, --log-file <file>', 'Log filename.')
   .option('-l, --log-level <level>', 'Log level. error: 0, warn: 1, info: 2, verbose: 3, debug: 4, silly: 5')
-  .option('-R, --remote-export-enabled <bool>', 'If enabled, the cli will use the export server api to export the images.')
-  .option('-u, --export-url <url>', 'Export url.')
   .option('-S, --host <string>', 'Host of fusionexport service')
   .option('-P, --port <integer>', 'Port of fusionexport service')
   .option('-p, --ftp-config <file>', 'FTP config for saving output files')
@@ -47,8 +44,4 @@ utils.configureLogger({
   logLevel: options.logLevel,
 });
 
-if (options.remoteExportEnabled) {
-  new RemoteExporter(options).render();
-} else {
-  new LocalExporter(options).render();
-}
+new LocalExporter(options).render();
