@@ -130,6 +130,12 @@ function parseDimension(val) {
   return parsedVal;
 }
 
+function parseQuality(val) {
+  if (typeof val !== 'string') return undefined;
+
+  return val.toLowerCase();
+}
+
 function parseBool(val) {
   switch (val) {
     case true:
@@ -234,6 +240,7 @@ function stringifyWithFunctions(object) {
 
 module.exports = {
   parseDimension,
+  parseQuality,
   parseBool,
   parseObject,
   resolvePath,

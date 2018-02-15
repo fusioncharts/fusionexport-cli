@@ -17,6 +17,7 @@ program
   .option('-F, --output-file-definition <file>', 'JSON or JS file that contains itereator for output filename template.')
   .option('-z, --output-as-zip <bool>', 'If enabled, multiple output files will be exported as zip')
   .option('-t, --type <ext>', 'Output file type.')
+  .option('-q, --quality <value>', 'Quality of the exported files. Provide either good, better or best.')
   .option('-W, --width <value>', 'Chart width in which it should be rendered.')
   .option('-H, --height <value>', 'Chart height in which it should be rendered.')
   .option('-b, --callbacks <file>', 'JS file containing codes to bind custom methods to events fired by FusionCharts library.')

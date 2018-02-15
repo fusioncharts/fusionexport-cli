@@ -47,6 +47,7 @@ class OptionStore {
       outputAsZip: this.outputAsZip,
       outputTo: this.outputTo,
       type: this.type,
+      quality: this.quality,
       width: this.finalOptions.width, // Exception, needs to be resolved
       height: this.finalOptions.height, // Exception, needs to be resolved
       callbacks: this.callbacks,
@@ -102,7 +103,8 @@ class OptionStore {
       return this.finalOptions.chartConfig;
     }
 
-    const secChartConfig = utils.parseChartConfig(this.config.chartConfig, false, this.configBasePath);
+    const secChartConfig =
+      utils.parseChartConfig(this.config.chartConfig, false, this.configBasePath);
     if (secChartConfig) {
       this.finalOptions.chartConfig = secChartConfig;
       return this.finalOptions.chartConfig;
@@ -128,7 +130,8 @@ class OptionStore {
       return this.finalOptions.chartConfigOptions;
     }
 
-    const secChartConfigOptions = helpers.parseObject(this.config.chartConfigOptions, false, this.configBasePath);
+    const secChartConfigOptions =
+      helpers.parseObject(this.config.chartConfigOptions, false, this.configBasePath);
     if (secChartConfigOptions) {
       this.finalOptions.chartConfigOptions = secChartConfigOptions;
       return this.finalOptions.chartConfigOptions;
@@ -211,13 +214,15 @@ class OptionStore {
       return this.finalOptions.outputFileDefinition;
     }
 
-    const secOutputFileDefinition = helpers.ifExists(this.config.outputFileDefinition, false, this.configBasePath);
+    const secOutputFileDefinition =
+      helpers.ifExists(this.config.outputFileDefinition, false, this.configBasePath);
     if (secOutputFileDefinition) {
       this.finalOptions.outputFileDefinition = secOutputFileDefinition;
       return this.finalOptions.outputFileDefinition;
     }
 
-    const defOutputFileDefinition = helpers.ifExists(this.defaultOptions.outputFileDefinition, true);
+    const defOutputFileDefinition =
+      helpers.ifExists(this.defaultOptions.outputFileDefinition, true);
     if (defOutputFileDefinition) {
       this.finalOptions.outputFileDefinition = defOutputFileDefinition;
       return this.finalOptions.outputFileDefinition;
@@ -298,6 +303,32 @@ class OptionStore {
     if (defType) {
       this.finalOptions.type = defType;
       return this.finalOptions.type;
+    }
+
+    return undefined;
+  }
+
+  get quality() {
+    if (this.finalOptions.quality) {
+      return this.finalOptions.quality;
+    }
+
+    const cliQuality = helpers.parseQuality(this.cliOptions.quality);
+    if (cliQuality) {
+      this.finalOptions.quality = cliQuality;
+      return this.finalOptions.quality;
+    }
+
+    const secQuality = helpers.parseQuality(this.config.quality);
+    if (secQuality) {
+      this.finalOptions.quality = secQuality;
+      return this.finalOptions.quality;
+    }
+
+    const defQuality = helpers.parseQuality(this.defaultOptions.quality, true);
+    if (defQuality) {
+      this.finalOptions.quality = defQuality;
+      return this.finalOptions.quality;
     }
 
     return undefined;
@@ -496,7 +527,8 @@ class OptionStore {
       return this.finalOptions.dashboardLogo;
     }
 
-    const secDashboardLogo = helpers.ifExists(this.config.dashboardLogo, false, this.configBasePath);
+    const secDashboardLogo =
+      helpers.ifExists(this.config.dashboardLogo, false, this.configBasePath);
     if (secDashboardLogo) {
       this.finalOptions.dashboardLogo = secDashboardLogo;
       return this.finalOptions.dashboardLogo;

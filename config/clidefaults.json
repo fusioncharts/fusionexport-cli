@@ -6,6 +6,7 @@
   "outputFile": "export--<%= number(1) %>.png",
   "outputAsZip": "false",
   "type": "png",
+  "quality": "better",
   "callbacks": "fusioncharts_export_callbacks.js",
   "template": "template.html",
   "resources": "resources.json",

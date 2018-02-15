@@ -111,6 +111,7 @@ class LocalExporter {
       dashboardHeading: this.options.dashboardHeading,
       dashboardSubheading: this.options.dashboardSubheading,
       type: this.options.type.substr(1),
+      quality: this.options.quality,
       outputFile: this.options.outputFile,
       exportAsZip: this.options.outputAsZip,
       outputFileDefinition: this.options.outputFileDefinition,
