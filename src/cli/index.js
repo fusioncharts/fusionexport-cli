@@ -21,7 +21,7 @@ program
   .option('-H, --height <value>', 'chart height in which it should be rendered')
   .option('-b, --callbacks <file>', 'js file containing codes to bind custom methods to events fired by FusionCharts library')
   .option('-T, --template <file>', 'html file for dashboard export')
-  .option('-r, --resources <file|json>', 'json file containing the resources which will be injected into the template, applicable only during remote export')
+  .option('-r, --resources <file|json>', 'json file mentioning the resources which will be required by the template')
   .option('-a, --async-capture <bool>', 'enable async capture')
   .option('-m, --async-capture-timeout <integer>', 'maximum time that system will wait for async-capture event to trigger')
   .option('-G, --dashboard-logo <file>', 'logo file for dashboard export')
