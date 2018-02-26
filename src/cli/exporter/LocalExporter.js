@@ -46,8 +46,7 @@ class LocalExporter {
 
     try {
       const exportConfig = LocalExporter.populateExportConfig(exportOptions);
-      const outputFileBag = await this.exportClient.export(exportConfig);
-      this.outputFileBag = outputFileBag.data;
+      this.outputFileBag = await this.exportClient.export(exportConfig);
     } catch (err) {
       log.error(err.toString());
       return;
