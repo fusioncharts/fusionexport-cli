@@ -1,5 +1,4 @@
 const _ = require('lodash');
-const fs = require('fs');
 const path = require('path');
 const mkdirp = require('mkdirp');
 const glob = require('glob');
@@ -96,11 +95,15 @@ function parseChartConfig(chartConfig, iE = false, configBasePath = '') {
   let fileList = [];
   let confList = [];
 
-  const ob = helpers.parseObject(chartConfig, iE, configBasePath);
+  let ob;
+  if (chartConfig.startsWith('[') || chartConfig.startsWith('{')) {
+    ob = helpers.parseObject(chartConfig, iE, configBasePath);
+  }
+
   if (typeof ob === 'object') {
     confList = makeArray(ob);
   } else {
-    const pattern = `{,${chartConfig.split(' ').join(',')}}`;
+    const pattern = `{,${chartConfig}}`;
     fileList = glob.sync(pattern, { cwd: configBasePath });
     fileList = fileList.map(file => path.resolve(configBasePath, file));
   }
@@ -123,7 +126,7 @@ function parseChartConfig(chartConfig, iE = false, configBasePath = '') {
 
     let group = path.dirname(removeCommonPath(file, commonPath));
     if (group === '.') group = '';
-    if (confs.length > 1) {
+    if (confs.length > 1 && fileList.length > 1) {
       group = path.join(group, path.parse(file).name);
     }
 

@@ -79,7 +79,7 @@ function isGlob(val) {
     return false;
   }
 
-  if (val.includes(' ')) {
+  if (val.includes(',')) {
     return true;
   }
 
@@ -88,6 +88,10 @@ function isGlob(val) {
 
 function parseObject(val, iE = false, basePath = '') {
   if (typeof val !== 'string') {
+    return val;
+  }
+
+  if (isGlob(val)) {
     return val;
   }
 
@@ -103,9 +107,7 @@ function parseObject(val, iE = false, basePath = '') {
     return tryParseJSON(val, iE);
   }
 
-  if (!isGlob(val)) {
-    ifExists(val, iE, basePath);
-  }
+  ifExists(val, iE, basePath);
 
   return val;
 }
