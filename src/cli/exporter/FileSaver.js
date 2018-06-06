@@ -4,8 +4,6 @@ const util = require('util');
 const mkdirp = require('mkdirp');
 const S3FS = require('s3fs');
 const Ftp = require('promise-ftp');
-const log = require('../log');
-const config = require('../config');
 const MessageBus = require('./MessageBus');
 
 class FileSaver {
@@ -41,7 +39,8 @@ class FileSaver {
       }));
 
       await this.mkdirp(path.dirname(outPath));
-      fs.createReadStream(file.tmpPath).pipe(fs.createWriteStream(outPath));
+      const fileDecoded = Buffer.from(file.fileContent, 'base64');
+      fs.writeFileSync(outPath, fileDecoded);
       this.messageBus.put(outPath);
     });
 
@@ -50,24 +49,19 @@ class FileSaver {
   }
 
   async saveToS3() {
-    const s3Config = config('s3');
-
-    const s3fs = new S3FS(s3Config.bucket, {
-      accessKeyId: s3Config.accessKey,
-      secretAccessKey: s3Config.secretAccessKey,
+    const s3fs = new S3FS(this.options.s3Config.bucket, {
+      accessKeyId: this.options.s3Config.accessKey,
+      secretAccessKey: this.options.s3Config.secretAccessKey,
     });
 
-    const outputFileDir = path.dirname(this.options.outputFile);
+    // const outputFileDir = path.dirname(this.options.outputFile);
 
     const promiseBag = this.options.outputFileBag.map(async (file) => {
-      const outPath = path.format({
-        dir: outputFileDir,
-        base: file.realName,
-      });
-
+      const outPath = file.realName;
       const dir = path.dirname(outPath);
       if (dir !== '.') await s3fs.mkdirp(dir);
-      await s3fs.writeFile(outPath, fs.readFileSync(file.tmpPath));
+      const fileDecoded = Buffer.from(file.fileContent, 'base64');
+      await s3fs.writeFile(outPath, fileDecoded);
       this.messageBus.put(`s3:${outPath}`);
     });
 
@@ -76,26 +70,22 @@ class FileSaver {
   }
 
   async saveToFTP() {
-    const ftpConfig = config('ftp');
     const ftp = new Ftp();
 
     await ftp.connect({
-      host: ftpConfig.host,
-      port: ftpConfig.port,
-      user: ftpConfig.user,
-      password: ftpConfig.password,
+      host: this.options.ftpConfig.host,
+      port: this.options.ftpConfig.port,
+      user: this.options.ftpConfig.user,
+      password: this.options.ftpConfig.password,
     });
 
-    const outputFileDir = path.dirname(this.options.outputFile);
+    // const outputFileDir = path.dirname(this.options.outputFile);
 
     const promiseBag = this.options.outputFileBag.map(async (file) => {
-      const outPath = path.format({
-        dir: outputFileDir,
-        base: file.realName,
-      });
-
+      const outPath = file.realName;
       await ftp.mkdir(path.dirname(outPath), true);
-      await ftp.put(file.tmpPath, outPath);
+      const fileDecoded = Buffer.from(file.fileContent, 'base64');
+      await ftp.put(fileDecoded, outPath);
       this.messageBus.put(`ftp:${outPath}`);
     });
 

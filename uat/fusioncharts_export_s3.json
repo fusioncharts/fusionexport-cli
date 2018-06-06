@@ -4,5 +4,10 @@
   "output-file-definition": "output_file_definition.js",
   "log-dest": "",
   "log-file": "test.log",
-  "log-level": "silly"
+  "log-level": "silly",
+  "s3-config": {
+    "bucket": "",
+    "accessKey": "",
+    "secretAccessKey": ""
+  }
 }

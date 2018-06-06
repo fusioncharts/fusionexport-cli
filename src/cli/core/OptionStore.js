@@ -47,6 +47,7 @@ class OptionStore {
       outputAsZip: this.outputAsZip,
       outputTo: this.outputTo,
       type: this.type,
+      quality: this.quality,
       width: this.finalOptions.width, // Exception, needs to be resolved
       height: this.finalOptions.height, // Exception, needs to be resolved
       callbacks: this.callbacks,
@@ -54,15 +55,16 @@ class OptionStore {
       resources: this.resources,
       asyncCapture: this.asyncCapture,
       asyncCaptureTimeout: this.asyncCaptureTimeout,
-      libraryPath: this.libraryPath,
       dashboardLogo: this.dashboardLogo,
       dashboardHeading: this.dashboardHeading,
       dashboardSubheading: this.dashboardSubheading,
       logDest: this.logDest,
       logFile: this.logFile,
       logLevel: this.logLevel,
-      remoteExportEnabled: this.remoteExportEnabled,
-      exportUrl: this.exportUrl,
+      host: this.host,
+      port: this.port,
+      ftpConfig: this.ftpConfig,
+      s3Config: this.s3Config,
     };
   }
 
@@ -99,7 +101,8 @@ class OptionStore {
       return this.finalOptions.chartConfig;
     }
 
-    const secChartConfig = utils.parseChartConfig(this.config.chartConfig, false, this.configBasePath);
+    const secChartConfig =
+      utils.parseChartConfig(this.config.chartConfig, false, this.configBasePath);
     if (secChartConfig) {
       this.finalOptions.chartConfig = secChartConfig;
       return this.finalOptions.chartConfig;
@@ -125,7 +128,8 @@ class OptionStore {
       return this.finalOptions.chartConfigOptions;
     }
 
-    const secChartConfigOptions = helpers.parseObject(this.config.chartConfigOptions, false, this.configBasePath);
+    const secChartConfigOptions =
+      helpers.parseObject(this.config.chartConfigOptions, false, this.configBasePath);
     if (secChartConfigOptions) {
       this.finalOptions.chartConfigOptions = secChartConfigOptions;
       return this.finalOptions.chartConfigOptions;
@@ -202,19 +206,21 @@ class OptionStore {
       return this.finalOptions.outputFileDefinition;
     }
 
-    const cliOutputFileDefinition = helpers.parseObject(this.cliOptions.outputFileDefinition);
+    const cliOutputFileDefinition = helpers.ifExists(this.cliOptions.outputFileDefinition);
     if (cliOutputFileDefinition) {
       this.finalOptions.outputFileDefinition = cliOutputFileDefinition;
       return this.finalOptions.outputFileDefinition;
     }
 
-    const secOutputFileDefinition = helpers.parseObject(this.config.outputFileDefinition, false, this.configBasePath);
+    const secOutputFileDefinition =
+      helpers.ifExists(this.config.outputFileDefinition, false, this.configBasePath);
     if (secOutputFileDefinition) {
       this.finalOptions.outputFileDefinition = secOutputFileDefinition;
       return this.finalOptions.outputFileDefinition;
     }
 
-    const defOutputFileDefinition = helpers.parseObject(this.defaultOptions.outputFileDefinition, true);
+    const defOutputFileDefinition =
+      helpers.ifExists(this.defaultOptions.outputFileDefinition, true);
     if (defOutputFileDefinition) {
       this.finalOptions.outputFileDefinition = defOutputFileDefinition;
       return this.finalOptions.outputFileDefinition;
@@ -295,6 +301,32 @@ class OptionStore {
     if (defType) {
       this.finalOptions.type = defType;
       return this.finalOptions.type;
+    }
+
+    return undefined;
+  }
+
+  get quality() {
+    if (this.finalOptions.quality) {
+      return this.finalOptions.quality;
+    }
+
+    const cliQuality = helpers.parseQuality(this.cliOptions.quality);
+    if (cliQuality) {
+      this.finalOptions.quality = cliQuality;
+      return this.finalOptions.quality;
+    }
+
+    const secQuality = helpers.parseQuality(this.config.quality);
+    if (secQuality) {
+      this.finalOptions.quality = secQuality;
+      return this.finalOptions.quality;
+    }
+
+    const defQuality = helpers.parseQuality(this.defaultOptions.quality, true);
+    if (defQuality) {
+      this.finalOptions.quality = defQuality;
+      return this.finalOptions.quality;
     }
 
     return undefined;
@@ -409,19 +441,19 @@ class OptionStore {
       return this.finalOptions.resources;
     }
 
-    const cliResources = helpers.parseObject(this.cliOptions.resources);
+    const cliResources = utils.parseResources(this.cliOptions.resources);
     if (cliResources) {
       this.finalOptions.resources = cliResources;
       return this.finalOptions.resources;
     }
 
-    const secResources = helpers.parseObject(this.config.resources, false, this.configBasePath);
+    const secResources = utils.parseResources(this.config.resources, false, this.configBasePath);
     if (secResources) {
       this.finalOptions.resources = secResources;
       return this.finalOptions.resources;
     }
 
-    const defResources = helpers.parseObject(this.defaultOptions.resources, true);
+    const defResources = utils.parseResources(this.defaultOptions.resources, true);
     if (defResources) {
       this.finalOptions.resources = defResources;
       return this.finalOptions.resources;
@@ -482,32 +514,6 @@ class OptionStore {
     return undefined;
   }
 
-  get libraryPath() {
-    if (this.finalOptions.libraryPath) {
-      return this.finalOptions.libraryPath;
-    }
-
-    const cliLibraryPath = this.cliOptions.libraryPath;
-    if (cliLibraryPath) {
-      this.finalOptions.libraryPath = cliLibraryPath;
-      return this.finalOptions.libraryPath;
-    }
-
-    const secLibraryPath = this.config.libraryPath;
-    if (secLibraryPath) {
-      this.finalOptions.libraryPath = secLibraryPath;
-      return this.finalOptions.libraryPath;
-    }
-
-    const defLibraryPath = this.defaultOptions.libraryPath;
-    if (defLibraryPath) {
-      this.finalOptions.libraryPath = defLibraryPath;
-      return this.finalOptions.libraryPath;
-    }
-
-    return undefined;
-  }
-
   get dashboardLogo() {
     if (this.finalOptions.dashboardLogo) {
       return this.finalOptions.dashboardLogo;
@@ -519,7 +525,8 @@ class OptionStore {
       return this.finalOptions.dashboardLogo;
     }
 
-    const secDashboardLogo = helpers.ifExists(this.config.dashboardLogo, false, this.configBasePath);
+    const secDashboardLogo =
+      helpers.ifExists(this.config.dashboardLogo, false, this.configBasePath);
     if (secDashboardLogo) {
       this.finalOptions.dashboardLogo = secDashboardLogo;
       return this.finalOptions.dashboardLogo;
@@ -664,53 +671,105 @@ class OptionStore {
     return undefined;
   }
 
-  get remoteExportEnabled() {
-    if (this.finalOptions.remoteExportEnabled) {
-      return this.finalOptions.remoteExportEnabled;
+  get host() {
+    if (this.finalOptions.host) {
+      return this.finalOptions.host;
     }
 
-    const cliRemoteExportEnabled = this.cliOptions.remoteExportEnabled;
-    if (!_.isUndefined(cliRemoteExportEnabled)) {
-      this.finalOptions.remoteExportEnabled = helpers.parseBool(cliRemoteExportEnabled);
-      return this.finalOptions.remoteExportEnabled;
+    const cliHost = this.cliOptions.host;
+    if (cliHost) {
+      this.finalOptions.host = cliHost;
+      return this.finalOptions.host;
     }
 
-    const secRemoteExportEnabled = this.config.remoteExportEnabled;
-    if (!_.isUndefined(secRemoteExportEnabled)) {
-      this.finalOptions.remoteExportEnabled = helpers.parseBool(secRemoteExportEnabled);
-      return this.finalOptions.remoteExportEnabled;
+    const secHost = this.config.host;
+    if (secHost) {
+      this.finalOptions.host = secHost;
+      return this.finalOptions.host;
     }
 
-    const defRemoteExportEnabled = this.defaultOptions.remoteExportEnabled;
-    if (!_.isUndefined(defRemoteExportEnabled)) {
-      this.finalOptions.remoteExportEnabled = helpers.parseBool(defRemoteExportEnabled);
-      return this.finalOptions.remoteExportEnabled;
+    const defHost = this.defaultOptions.host;
+    if (defHost) {
+      this.finalOptions.host = defHost;
+      return this.finalOptions.host;
     }
 
     return undefined;
   }
 
-  get exportUrl() {
-    if (this.finalOptions.exportUrl) {
-      return this.finalOptions.exportUrl;
+  get port() {
+    if (this.finalOptions.port) {
+      return this.finalOptions.port;
     }
 
-    const cliExportUrl = this.cliOptions.exportUrl;
-    if (cliExportUrl) {
-      this.finalOptions.exportUrl = cliExportUrl;
-      return this.finalOptions.exportUrl;
+    const cliPort = parseInt(this.cliOptions.port, 10);
+    if (cliPort) {
+      this.finalOptions.port = cliPort;
+      return this.finalOptions.port;
     }
 
-    const secExportUrl = this.config.exportUrl;
-    if (secExportUrl) {
-      this.finalOptions.exportUrl = secExportUrl;
-      return this.finalOptions.exportUrl;
+    const secPort = parseInt(this.config.port, 10);
+    if (secPort) {
+      this.finalOptions.port = secPort;
+      return this.finalOptions.port;
     }
 
-    const defExportUrl = this.defaultOptions.exportUrl;
-    if (defExportUrl) {
-      this.finalOptions.exportUrl = defExportUrl;
-      return this.finalOptions.exportUrl;
+    const defPort = parseInt(this.defaultOptions.port, 10);
+    if (defPort) {
+      this.finalOptions.port = defPort;
+      return this.finalOptions.port;
+    }
+
+    return undefined;
+  }
+
+  get ftpConfig() {
+    if (this.finalOptions.ftpConfig) {
+      return this.finalOptions.ftpConfig;
+    }
+
+    const cliFtpConfig = helpers.parseObject(this.cliOptions.ftpConfig);
+    if (cliFtpConfig) {
+      this.finalOptions.ftpConfig = cliFtpConfig;
+      return this.finalOptions.ftpConfig;
+    }
+
+    const secFtpConfig = helpers.parseObject(this.config.ftpConfig, false, this.configBasePath);
+    if (secFtpConfig) {
+      this.finalOptions.ftpConfig = secFtpConfig;
+      return this.finalOptions.ftpConfig;
+    }
+
+    const defFtpConfig = helpers.parseObject(this.defaultOptions.ftpConfig, true);
+    if (defFtpConfig) {
+      this.finalOptions.ftpConfig = defFtpConfig;
+      return this.finalOptions.ftpConfig;
+    }
+
+    return undefined;
+  }
+
+  get s3Config() {
+    if (this.finalOptions.s3Config) {
+      return this.finalOptions.s3Config;
+    }
+
+    const cliS3Config = helpers.parseObject(this.cliOptions.s3Config);
+    if (cliS3Config) {
+      this.finalOptions.s3Config = cliS3Config;
+      return this.finalOptions.s3Config;
+    }
+
+    const secS3Config = helpers.parseObject(this.config.s3Config, false, this.configBasePath);
+    if (secS3Config) {
+      this.finalOptions.s3Config = secS3Config;
+      return this.finalOptions.s3Config;
+    }
+
+    const defS3Config = helpers.parseObject(this.defaultOptions.s3Config, true);
+    if (defS3Config) {
+      this.finalOptions.s3Config = defS3Config;
+      return this.finalOptions.s3Config;
     }
 
     return undefined;

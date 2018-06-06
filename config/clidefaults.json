@@ -6,6 +6,7 @@
   "outputFile": "export--<%= number(1) %>.png",
   "outputAsZip": "false",
   "type": "png",
+  "quality": "better",
   "callbacks": "fusioncharts_export_callbacks.js",
   "template": "template.html",
   "resources": "resources.json",
@@ -15,5 +16,7 @@
   "logFile": "fusioncharts_export.log",
   "logLevel": 2,
   "remoteExportEnabled": false,
-  "exportUrl": "http://export.api3.fusioncharts.com"
+  "exportUrl": "http://export.api3.fusioncharts.com",
+  "host": "0.0.0.0",
+  "port": 1337
 }

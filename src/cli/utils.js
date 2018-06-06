@@ -1,5 +1,4 @@
 const _ = require('lodash');
-const fs = require('fs');
 const path = require('path');
 const mkdirp = require('mkdirp');
 const glob = require('glob');
@@ -31,7 +30,7 @@ function findCommonPath(paths) {
   const l = p1.length;
   let i = 0;
   while (i < l && p1[i] === p2[i]) i += 1;
-  return path.join(path.sep, ...p1.slice(0, i));
+  return [...p1.slice(0, i)].join(path.sep);
 }
 
 function removeCommonPath(base, ref) {
@@ -61,10 +60,11 @@ function resolveOutputFile(val, basePath) {
   if (val.startsWith('s3:') || val.startsWith('ftp:')) return val;
 
   let isDir = false;
-  if ((val.length > 1 &&
-    val.slice(-1) === path.sep) ||
+  if (
+    (val.length > 1 && val.slice(-1) === path.sep) ||
     val.slice(-1) === '.' ||
-    val.slice(-1) === '') {
+    val.slice(-1) === ''
+  ) {
     isDir = true;
   }
 
@@ -95,11 +95,15 @@ function parseChartConfig(chartConfig, iE = false, configBasePath = '') {
   let fileList = [];
   let confList = [];
 
-  const ob = helpers.parseObject(chartConfig, iE, configBasePath);
+  let ob;
+  if (chartConfig.startsWith('[') || chartConfig.startsWith('{')) {
+    ob = helpers.parseObject(chartConfig, iE, configBasePath);
+  }
+
   if (typeof ob === 'object') {
     confList = makeArray(ob);
   } else {
-    const pattern = `{,${chartConfig.split(' ').join(',')}}`;
+    const pattern = `{,${chartConfig}}`;
     fileList = glob.sync(pattern, { cwd: configBasePath });
     fileList = fileList.map(file => path.resolve(configBasePath, file));
   }
@@ -122,7 +126,7 @@ function parseChartConfig(chartConfig, iE = false, configBasePath = '') {
 
     let group = path.dirname(removeCommonPath(file, commonPath));
     if (group === '.') group = '';
-    if (confs.length > 1) {
+    if (confs.length > 1 && fileList.length > 1) {
       group = path.join(group, path.parse(file).name);
     }
 
@@ -147,6 +151,27 @@ function parseChartConfig(chartConfig, iE = false, configBasePath = '') {
   }
 
   return confList;
+}
+
+function parseResources(resources, iE = false, configBasePath = '') {
+  const res = helpers.parseObject(resources, iE, configBasePath);
+  if (!res) return res;
+
+  if (
+    typeof resource === 'string' &&
+    (resources.endsWith('.json') || resources.endsWith('.js'))
+  ) {
+    res.resolvePath = path.resolve(path.dirname(resources));
+    return res;
+  }
+
+  if (typeof res === 'object' && configBasePath) {
+    res.resolvePath = path.resolve(configBasePath);
+    return res;
+  }
+
+  res.resolvedPath = process.cwd();
+  return res;
 }
 
 function sanitizeConfig(options) {
@@ -174,6 +199,8 @@ function sanitizeConfig(options) {
   config = helpers.renameProperty(config, 'remote-export-enabled', 'remoteExportEnabled');
   config = helpers.renameProperty(config, 'export-url', 'exportUrl');
   config = helpers.renameProperty(config, 'export-log-url', 'exportLogUrl');
+  config = helpers.renameProperty(config, 'ftp-config', 'ftpConfig');
+  config = helpers.renameProperty(config, 's3-config', 's3Config');
 
   return config;
 }
@@ -234,10 +261,9 @@ function sanitizeOutputFile(options) {
     outputFile = options.outputFile;
   }
 
-  const splitParts = outputFile.split(':');
-  if (splitParts.length > 1) {
-    // eslint-disable-next-line prefer-destructuring
-    outputFile = splitParts[1];
+  if (outputFile.startsWith('s3:') || outputFile.startsWith('ftp:')) {
+    const splitParts = outputFile.split(':');
+    outputFile = splitParts.slice(1).join(':');
   }
 
   return outputFile;
@@ -266,8 +292,11 @@ function configureLogger(options) {
 }
 
 module.exports = {
+  findCommonPath,
+  removeCommonPath,
   resolveOutputFile,
   parseChartConfig,
+  parseResources,
   sanitizeConfig,
   sanitizeChartConfig,
   sanitizeOutputFile,

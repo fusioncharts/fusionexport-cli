@@ -1,0 +1,4 @@
+{
+  "chart-config": "resources/charts/file_1.json,resources/charts/file_2.json,resources/charts/sub_1/*,resources/charts/sub_2/*",
+  "output-file": ""
+}

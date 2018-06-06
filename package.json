@@ -1,6 +1,6 @@
 {
   "name": "fusionexport-cli",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-rc",
   "description": "CLI for FusionExport. Enables exporting from FusionExport directly from command line.",
   "keywords": [
     "export",
@@ -8,9 +8,6 @@
     "fusioncharts",
     "fusionexport"
   ],
-  "scripts": {
-    "postinstall": "node postinstall.js"
-  },
   "bin": {
     "fe": "src/cli/index.js",
     "fusionexport": "src/cli/index.js"
@@ -31,7 +28,7 @@
     "app-root-path": "^2.0.1",
     "commander": "^2.11.0",
     "file-url": "^2.0.2",
-    "fusionexport-node-client": "^1.0.0-beta.1",
+    "fusionexport-node-client": "^1.0.0-rc",
     "glob": "^7.1.2",
     "jsdom": "^11.3.0",
     "lodash": "^4.17.4",
