@@ -1,13 +1,10 @@
 const path = require('path');
 const fs = require('fs');
 const tmp = require('tmp');
-const ProgressBar = require('progress');
 const { ExportConfig, ExportManager } = require('fusionexport-node-client'); // eslint-disable-line
 const FileSaver = require('./FileSaver');
-const config = require('../config');
 const log = require('../log');
 const utils = require('../utils');
-const { calculateTotalUnits } = require('../helpers');
 
 class LocalExporter {
   constructor(options) {
@@ -17,36 +14,16 @@ class LocalExporter {
       port: this.options.port,
     });
     this.exportClient.clientName = 'CLI';
-    this.listenToStateChange();
-    this.listenForError();
-  }
-
-  createProgressBar(exportOptions) {
-    this.barOptions = config('progressbar');
-    let actualTotal = calculateTotalUnits(exportOptions);
-    if (exportOptions.asyncCapture) {
-      actualTotal += 1;
-    }
-
-    // eslint-disable-next-line no-console
-    console.log();
-
-    this.progressBar = new ProgressBar(this.barOptions.bar, {
-      total: actualTotal,
-      width: this.barOptions.width,
-      complete: this.barOptions.complete,
-      incomplete: this.barOptions.incomplete,
-    });
   }
 
   async render() {
     const exportOptions = this.buildExportOptions();
 
-    this.createProgressBar(exportOptions);
-
     try {
       const exportConfig = LocalExporter.populateExportConfig(exportOptions);
-      this.outputFileBag = await this.exportClient.export(exportConfig);
+      const tmpDir = tmp.dirSync().name;
+      const outputFiles = await this.exportClient.export(exportConfig, tmpDir, true);
+      this.populateOutputFileBag(outputFiles, tmpDir);
     } catch (err) {
       log.error(err.toString());
       return;
@@ -101,6 +78,20 @@ class LocalExporter {
     return exportConfig;
   }
 
+  populateOutputFileBag(outputFiles, tmpDir = '') {
+    const base64Encode =
+      file => fs.readFileSync(file).toString('base64');
+
+    this.outputFileBag = [];
+    outputFiles.forEach((file) => {
+      const realName = utils.removeCommonPath(file, tmpDir);
+      this.outputFileBag.push({
+        fileContent: base64Encode(file),
+        realName,
+      });
+    });
+  }
+
   buildExportOptions() {
     const exportOptions = {
       libraryDirectoryPath: this.options.libraryPath && path.resolve(this.options.libraryPath),
@@ -136,35 +127,6 @@ class LocalExporter {
 
 
     return exportOptions;
-  }
-
-  listenToStateChange() {
-    this.exportClient.on('exportStateChange', (meta) => {
-      if (meta.weight) {
-        if (meta.customMsg) {
-          this.progressBar.tick({
-            customMsg: meta.customMsg,
-          });
-        } else {
-          this.progressBar.tick();
-        }
-      }
-      if (meta.error) {
-        this.progressBar.interrupt(meta.error);
-        process.exit(1);
-      }
-      if (this.progressBar.complete) {
-        // eslint-disable-next-line no-console
-        console.log('\n');
-      }
-    });
-  }
-
-  listenForError() {
-    this.exportClient.on('error', (msg) => {
-      log.error(msg);
-      process.exit(-1);
-    });
   }
 }
 
