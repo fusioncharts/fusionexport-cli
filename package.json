@@ -1,6 +1,6 @@
 {
   "name": "fusionexport-cli",
-  "version": "1.0.0-rc",
+  "version": "1.0.0",
   "description": "CLI for FusionExport. Enables exporting from FusionExport directly from command line.",
   "keywords": [
     "export",
