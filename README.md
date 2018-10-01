@@ -67,22 +67,25 @@ Option | Alias | Default |Type | Description
 --output-file-definition | -F | | file | JS or JSON file that contains methods and arrays to be used for naming the output files.
 --output-as-zip | -z | | bool | Exports the output files either as individual files or as a zip.
 --type | -t | png | ext | Specifies the output file type. This will override any extension provided in the output-file option.
+--quality | -q | better | value | Quality of the exported files - good, better, best
 --width | -W | 600 | value | Specifies the chart width.
 --height | -H | 400 | value | Specifies the chart height.
 --callbacks | -b | fusioncharts_export_callbacks.js | file | JS file that provides an option for binding custom methods to events fired by the FusionCharts library.
 --template | -T | template.html | file | JS file that provides an option for binding custom methods to events fired by the FusionCharts library.
 --resources | -r | resources.json | file, json | JSON file that contains all the resources that will be injected into the template while rendering charts.
---library-path | -L | | path | JSON file that contains all the resources that will be injected into the template while rendering charts.
+--async-capture | -a | false | bool | Enable async-capture.
+--async-capture-timeout | -m | 6000 | integer | Maximum time that system will wait for async-capture event to trigger.
 --dashboard-logo | -G | | file | Logo path (only for dashboard export)
 --dashboard-heading | -D | | string | Heading of the exported dashboard.
 --dashboard-subheading | -B | | string | Subheading of the exported dashboard.
---async-capture | -a | false | bool | Enable async-capture.
---async-capture-timeout | -m | 6000 | integer | Maximum time that system will wait for async-capture event to trigger.
 --log-dest | -d | | path | Enables logging and sets the log destination.
 --log-file | -f | fusioncharts_export.log | file | Log file.
 --log-level | -l | 2 | level | Log level. <br><br> 0: error, 1: warn, 2: info, 3: verbose, 4: debug, 5: silly
---remote-export-enabled | -R | false | bool | If enabled, the CLI will use the export server API to export the images. <br><br> By default this option is set to false in which case it won’t export using export server.
---export-url | -u | export.api3.fusioncharts.com | url | Export server url.
+--host | -S | 0.0.0.0 | string | Host of fusionexport service
+--port | -P | 1337 | integer | Port of fusionexport service
+--ftp-config | -p | | file | Ftp config for saving output files
+--s3-config | -s | | file | Amazon S3 config for saving output files
+
 
 ## API Reference
 
